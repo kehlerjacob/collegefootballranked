@@ -5,13 +5,15 @@ export function Header() {
     <header className="sticky top-0 z-50 glass-card border-b border-border">
       <div className="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
         {/* Logo / brand */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <span className="text-xl" role="img" aria-label="football">
-            🏈
-          </span>
-          <span className="font-bold text-base tracking-tight text-foreground group-hover:text-accent transition-colors">
-            CFB <span className="text-accent">Ranked</span>
-          </span>
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="flex flex-col items-start leading-none">
+            <span className="text-xl font-black tracking-[0.08em] uppercase text-foreground group-hover:text-accent transition-colors duration-200" style={{ fontFamily: "var(--font-geist-sans), 'Impact', 'Arial Black', sans-serif", letterSpacing: "0.12em" }}>
+              CFR
+            </span>
+            <span className="text-[8px] font-semibold uppercase tracking-[0.18em] text-muted group-hover:text-accent/70 transition-colors duration-200 mt-[-1px]">
+              College Football Ranked
+            </span>
+          </div>
         </Link>
 
         {/* Nav actions */}
