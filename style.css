@@ -672,6 +672,19 @@ ol {
   cursor: pointer;
 }
 
+.hero-carousel-card.is-prev::after,
+.hero-carousel-card.is-next::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  cursor: pointer;
+  background: transparent;
+}
+
 .hero-carousel-card.is-prev:hover {
   opacity: 0.72;
   filter: blur(1.5px);
@@ -692,6 +705,17 @@ ol {
   opacity: 0.72;
   filter: blur(1.5px);
   transform: translate(0%, -50%) scale(0.88) rotateY(-7deg);
+}
+
+/* Side & Hidden card body pointer events */
+.hero-carousel-card.is-prev .carousel-card-body,
+.hero-carousel-card.is-next .carousel-card-body,
+.hero-carousel-card.is-hidden .carousel-card-body {
+  pointer-events: none;
+}
+
+.hero-carousel-card.is-active .carousel-card-body {
+  pointer-events: auto;
 }
 
 /* Hidden Cards (further away) */

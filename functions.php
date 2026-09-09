@@ -94,7 +94,7 @@ function flowtrus_scripts()
         'flowtrus-main',
         get_template_directory_uri() . '/assets/js/main.js',
         array(),
-        '1.0.2',
+        filemtime(get_template_directory() . '/assets/js/main.js'),
         true
     );
 

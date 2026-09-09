@@ -121,6 +121,124 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
         </div>
     </div>
 </section>
+
+<script>
+(function() {
+    function initCarousel() {
+        var carousel = document.getElementById('heroFormCarousel');
+        if (!carousel || carousel.dataset.initialized === 'true') return;
+        carousel.dataset.initialized = 'true';
+
+        var cards = Array.from(carousel.querySelectorAll('.hero-carousel-card'));
+        var dots = Array.from(carousel.querySelectorAll('.carousel-dot-btn'));
+        var prevBtn = carousel.querySelector('.carousel-prev-btn');
+        var nextBtn = carousel.querySelector('.carousel-next-btn');
+
+        if (!cards.length) return;
+
+        var currentIndex = 0;
+        var total = cards.length;
+
+        function update(targetIndex) {
+            currentIndex = ((targetIndex % total) + total) % total;
+
+            cards.forEach(function(card, idx) {
+                card.classList.remove('is-active', 'is-prev', 'is-next', 'is-hidden');
+
+                if (total === 1) {
+                    card.classList.add('is-active');
+                    return;
+                }
+
+                var diff = idx - currentIndex;
+                if (diff > total / 2) diff -= total;
+                if (diff < -total / 2) diff += total;
+
+                if (diff === 0) {
+                    card.classList.add('is-active');
+                } else if (diff === -1 || (total === 3 && (diff === 2 || diff === -1))) {
+                    card.classList.add('is-prev');
+                } else if (diff === 1 || (total === 3 && (diff === -2 || diff === 1))) {
+                    card.classList.add('is-next');
+                } else {
+                    card.classList.add('is-hidden');
+                }
+            });
+
+            dots.forEach(function(dot, idx) {
+                if (idx === currentIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        // Side card clicks
+        cards.forEach(function(card) {
+            card.addEventListener('click', function(e) {
+                if (!this.classList.contains('is-active')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var target = parseInt(this.getAttribute('data-slide-index'), 10);
+                    if (!isNaN(target)) update(target);
+                }
+            });
+        });
+
+        // Dot clicks
+        dots.forEach(function(dot) {
+            dot.addEventListener('click', function(e) {
+                e.preventDefault();
+                var target = parseInt(this.getAttribute('data-slide-index'), 10);
+                if (!isNaN(target)) update(target);
+            });
+        });
+
+        // Prev & Next clicks
+        if (prevBtn) {
+            prevBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                update(currentIndex - 1);
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                update(currentIndex + 1);
+            });
+        }
+
+        // Touch Swipe
+        var stage = carousel.querySelector('.hero-carousel-stage');
+        if (stage) {
+            var startX = 0;
+            stage.addEventListener('touchstart', function(e) {
+                startX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            stage.addEventListener('touchend', function(e) {
+                var endX = e.changedTouches[0].screenX;
+                var diff = startX - endX;
+                if (Math.abs(diff) > 40) {
+                    if (diff > 0) update(currentIndex + 1);
+                    else update(currentIndex - 1);
+                }
+            }, { passive: true });
+        }
+
+        update(0);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCarousel);
+    } else {
+        initCarousel();
+    }
+})();
+</script>
 <?php else : ?>
 <section class="hero">
     <div class="container hero-content" style="text-align: center; max-width: 960px; margin: 0 auto;">
