@@ -51,6 +51,14 @@ export default function BallotPage() {
   const [quickFillLoading, setQuickFillLoading] = useState<string | null>(null);
   const quickFillRef = useRef<HTMLDivElement | null>(null);
 
+  // Reorder swap animation state
+  const [swappingState, setSwappingState] = useState<{
+    activeIndex: number;
+    targetIndex: number;
+    direction: "up" | "down";
+  } | null>(null);
+  const [justSwapped, setJustSwapped] = useState<number[]>([]);
+
   const [existingBallotId, setExistingBallotId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -209,25 +217,51 @@ export default function BallotPage() {
   };
 
   const handleMoveUp = (index: number) => {
-    if (index === 0) return;
-    setBallotRanks((prev) => {
-      const next = [...prev];
-      const temp = next[index];
-      next[index] = next[index - 1];
-      next[index - 1] = temp;
-      return next;
+    if (index === 0 || swappingState !== null) return;
+
+    // Trigger sliding animation: index moves UP (-100%), index - 1 moves DOWN (+100%)
+    setSwappingState({
+      activeIndex: index,
+      targetIndex: index - 1,
+      direction: "up",
     });
+
+    setTimeout(() => {
+      setBallotRanks((prev) => {
+        const next = [...prev];
+        const temp = next[index];
+        next[index] = next[index - 1];
+        next[index - 1] = temp;
+        return next;
+      });
+      setSwappingState(null);
+      setJustSwapped([index, index - 1]);
+      setTimeout(() => setJustSwapped([]), 450);
+    }, 280);
   };
 
   const handleMoveDown = (index: number) => {
-    if (index === 24) return;
-    setBallotRanks((prev) => {
-      const next = [...prev];
-      const temp = next[index];
-      next[index] = next[index + 1];
-      next[index + 1] = temp;
-      return next;
+    if (index === 24 || swappingState !== null) return;
+
+    // Trigger sliding animation: index moves DOWN (+100%), index + 1 moves UP (-100%)
+    setSwappingState({
+      activeIndex: index,
+      targetIndex: index + 1,
+      direction: "down",
     });
+
+    setTimeout(() => {
+      setBallotRanks((prev) => {
+        const next = [...prev];
+        const temp = next[index];
+        next[index] = next[index + 1];
+        next[index + 1] = temp;
+        return next;
+      });
+      setSwappingState(null);
+      setJustSwapped([index, index + 1]);
+      setTimeout(() => setJustSwapped([]), 450);
+    }, 280);
   };
 
   // Helper to apply 25 team ranks cleanly with notification
@@ -766,21 +800,51 @@ export default function BallotPage() {
                 const rankNum = index + 1;
                 const isEditing = editingSlotIndex === index;
 
+                const isActiveSwap = swappingState?.activeIndex === index;
+                const isTargetSwap = swappingState?.targetIndex === index;
+                const isJustSwapped = justSwapped.includes(index);
+
+                let transformStyle = "";
+                let extraClasses = "";
+
+                if (isActiveSwap) {
+                  const yShift =
+                    swappingState.direction === "up" ? "-100%" : "100%";
+                  transformStyle = `translateY(${yShift}) scale(1.02)`;
+                  extraClasses =
+                    "z-30 relative shadow-[0_12px_28px_-4px_rgba(201,168,76,0.35),0_8px_10px_-6px_rgba(0,0,0,0.5)] border-accent/80 bg-surface-elevated ring-1 ring-accent/60 rounded-xl";
+                } else if (isTargetSwap) {
+                  const yShift =
+                    swappingState.direction === "up" ? "100%" : "-100%";
+                  transformStyle = `translateY(${yShift}) scale(0.98)`;
+                  extraClasses = "z-10 relative opacity-70 bg-surface/40";
+                } else if (isEditing) {
+                  extraClasses =
+                    "bg-surface-hover/90 ring-1 ring-accent/60 z-30 rounded-lg shadow-lg";
+                } else if (isJustSwapped) {
+                  extraClasses =
+                    "ring-1 ring-accent/50 bg-accent/10 transition-colors duration-500 rounded-lg";
+                } else if (team) {
+                  extraClasses = "hover:bg-surface-hover/60";
+                } else {
+                  extraClasses = "bg-background/40 hover:bg-surface-hover/30";
+                }
+
                 return (
                   <div
                     key={index}
-                    className={`relative text-xs transition-colors ${
-                      isEditing
-                        ? "bg-surface-hover/90 ring-1 ring-accent/60 z-30 rounded-lg shadow-lg"
-                        : team
-                        ? "hover:bg-surface-hover/60"
-                        : "bg-background/40 hover:bg-surface-hover/30"
-                    }`}
+                    style={{
+                      transform: transformStyle || undefined,
+                      transition: swappingState
+                        ? "transform 280ms cubic-bezier(0.34, 1.35, 0.64, 1), opacity 280ms ease, box-shadow 280ms ease"
+                        : "background-color 200ms ease, border-color 200ms ease",
+                    }}
+                    className={`relative text-xs ${extraClasses}`}
                   >
                     {/* Main Row Content */}
                     <div
                       onClick={() => {
-                        if (!isEditing) {
+                        if (!isEditing && !swappingState) {
                           setEditingSlotIndex(index);
                           setSlotSearchQuery("");
                         }
@@ -883,8 +947,8 @@ export default function BallotPage() {
                           <button
                             type="button"
                             onClick={() => handleMoveUp(index)}
-                            disabled={index === 0}
-                            className="p-1 text-muted hover:text-foreground disabled:opacity-20"
+                            disabled={index === 0 || swappingState !== null}
+                            className="p-1 text-muted hover:text-accent hover:bg-accent/10 rounded active:scale-75 transition-all disabled:opacity-20 disabled:pointer-events-none"
                             title="Move Up"
                           >
                             ▲
@@ -892,8 +956,8 @@ export default function BallotPage() {
                           <button
                             type="button"
                             onClick={() => handleMoveDown(index)}
-                            disabled={index === 24}
-                            className="p-1 text-muted hover:text-foreground disabled:opacity-20"
+                            disabled={index === 24 || swappingState !== null}
+                            className="p-1 text-muted hover:text-accent hover:bg-accent/10 rounded active:scale-75 transition-all disabled:opacity-20 disabled:pointer-events-none"
                             title="Move Down"
                           >
                             ▼
@@ -901,7 +965,8 @@ export default function BallotPage() {
                           <button
                             type="button"
                             onClick={() => handleRemoveRank(index)}
-                            className="p-1 text-muted hover:text-danger ml-0.5"
+                            disabled={swappingState !== null}
+                            className="p-1 text-muted hover:text-danger hover:bg-danger/10 rounded active:scale-75 transition-all ml-0.5 disabled:opacity-20"
                             title="Remove Team"
                           >
                             ✕
