@@ -1,0 +1,1006 @@
+/**
+ * Flowtrus Modal Styles - Enhanced Professional Version
+ * Styling for the embeddable form modal system
+ */
+
+:root {
+    --flowtrus-primary: #1a4d7c;
+    --flowtrus-primary-dark: #153d63;
+    --flowtrus-accent: #6bc47d;
+    --flowtrus-accent-dark: #5ab36c;
+}
+
+/* Overlay */
+.flowtrus-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 20px;
+}
+
+.flowtrus-overlay.active {
+    opacity: 1;
+}
+
+/* Modal Container - Adaptive Height */
+.flowtrus-modal {
+    background: white;
+    border-radius: 20px;
+    max-width: 600px;
+    width: 100%;
+    height: auto;
+    max-height: 95vh;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+    position: relative;
+    animation: flowtrusSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Inline Container - Responsive */
+.flowtrus-inline-wrapper {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    /* Matched to modal content padding */
+    width: 100%;
+    max-width: 100%;
+    /* Allow it to fill parent */
+    border: 1px solid #e2e8f0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+@keyframes flowtrusSlideIn {
+    from {
+        transform: translateY(-50px) scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Success Animation */
+.flowtrus-success {
+    text-align: center;
+    padding: 10px 0;
+    animation: flowtrusFadeIn 0.5s ease;
+}
+
+.flowtrus-success-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--flowtrus-accent);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin: 0 auto 15px;
+    box-shadow: 0 0 0 8px rgba(107, 196, 125, 0.2);
+    animation: flowtrusPulse 2s infinite;
+}
+
+@keyframes flowtrusPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(107, 196, 125, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 15px rgba(107, 196, 125, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(107, 196, 125, 0);
+    }
+}
+
+.flowtrus-success h3 {
+    color: var(--flowtrus-primary);
+    font-size: 22px;
+    margin: 0 0 8px 0;
+}
+
+.flowtrus-success p {
+    color: #666;
+    font-size: 15px;
+    margin: 0 0 20px 0;
+}
+
+/* Close Button */
+.flowtrus-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.05);
+    border: none;
+    font-size: 28px;
+    color: #666;
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+}
+
+/* Recipient Card - Simplified */
+.flowtrus-recipient-card {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 15px 0;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid #e2e8f0;
+}
+
+.flowtrus-avatar {
+    width: 42px;
+    height: 42px;
+    background: var(--flowtrus-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.flowtrus-recipient-info {
+    flex: 1;
+}
+
+.flowtrus-recipient-info p {
+    margin: 0;
+    font-size: 13px;
+    color: #64748b;
+    line-height: 1.4;
+}
+
+.flowtrus-recipient-name {
+    display: block;
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+/* Security Badge */
+.flowtrus-security-badge {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: #f9fafb;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid #e5e7eb;
+}
+
+.flowtrus-close:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    transform: rotate(90deg);
+}
+
+/* Content - Compact Padding */
+.flowtrus-content-wrapper {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Header - Compact */
+.flowtrus-header {
+    margin-bottom: 15px;
+    flex-shrink: 0;
+}
+
+.flowtrus-header h2 {
+    color: var(--flowtrus-primary);
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 5px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.flowtrus-header h2::before {
+    content: '🔒';
+    font-size: 24px;
+    animation: flowtrusLockPulse 2s ease-in-out infinite;
+}
+
+@keyframes flowtrusLockPulse {
+
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+.flowtrus-header p {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Progress Bar - Compact */
+.flowtrus-progress {
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+
+.flowtrus-progress-bar {
+    background: #f0f0f0;
+    height: 8px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.flowtrus-progress-fill {
+    background: linear-gradient(90deg, var(--flowtrus-primary), var(--flowtrus-accent));
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.flowtrus-progress-text {
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--flowtrus-primary);
+    margin-top: 8px;
+}
+
+/* Form Step Container */
+.flowtrus-step {
+    display: block;
+}
+
+.flowtrus-step h3 {
+    color: #333;
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    flex-shrink: 0;
+    animation: flowtrusFadeInUp 0.4s ease;
+}
+
+@keyframes flowtrusFadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Fields Container - Flexible */
+.flowtrus-fields {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 5px;
+    margin-right: -5px;
+    margin-bottom: 15px;
+    /* Remove fixed max-height to allow fitting if space permits */
+    min-height: 0;
+    /* Important for flexbox scrolling */
+}
+
+/* Custom Scrollbar */
+.flowtrus-fields::-webkit-scrollbar {
+    width: 6px;
+}
+
+.flowtrus-fields::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.flowtrus-fields::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+.flowtrus-fields::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+.flowtrus-field {
+    margin-bottom: 12px;
+    animation: flowtrusFadeInUp 0.4s ease;
+    animation-fill-mode: both;
+}
+
+.flowtrus-field:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.flowtrus-field:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.flowtrus-field:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.flowtrus-field:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+.flowtrus-field label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+    font-size: 13px;
+}
+
+/* Inputs - Compact */
+.flowtrus-input,
+.flowtrus-select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: inherit;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: white;
+    box-sizing: border-box;
+    /* IMPORTANT for Responsiveness */
+}
+
+.flowtrus-input:focus,
+.flowtrus-select:focus {
+    outline: none;
+    border-color: var(--flowtrus-primary);
+    box-shadow: 0 0 0 4px rgba(26, 77, 124, 0.1);
+    transform: translateY(-1px);
+}
+
+.flowtrus-input.error,
+.flowtrus-select.error {
+    border-color: #ef4444;
+    animation: flowtrusShake 0.5s ease;
+}
+
+@keyframes flowtrusShake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-8px);
+    }
+
+    75% {
+        transform: translateX(8px);
+    }
+}
+
+/* Radio and Checkbox with Hover Effects */
+.flowtrus-radio,
+.flowtrus-checkbox {
+    display: flex;
+    align-items: center;
+    padding: 10px 14px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: white;
+}
+
+.flowtrus-radio:hover,
+.flowtrus-checkbox:hover {
+    border-color: var(--flowtrus-primary);
+    background: #f9fafb;
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(26, 77, 124, 0.1);
+}
+
+.flowtrus-radio input:checked+span,
+.flowtrus-checkbox input:checked+span {
+    color: var(--flowtrus-primary);
+    font-weight: 600;
+}
+
+.flowtrus-radio input,
+.flowtrus-checkbox input {
+    margin-right: 12px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--flowtrus-primary);
+}
+
+.flowtrus-radio span,
+.flowtrus-checkbox span {
+    font-size: 16px;
+    color: #333;
+    transition: all 0.2s ease;
+}
+
+/* Error Messages */
+.flowtrus-error {
+    color: #ef4444;
+    font-size: 13px;
+    margin-top: 6px;
+    min-height: 18px;
+    font-weight: 500;
+    animation: flowtrusFadeIn 0.3s ease;
+}
+
+@keyframes flowtrusFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Action Buttons - Contained */
+.flowtrus-actions {
+    margin-top: auto;
+    /* Push to bottom */
+    padding-top: 20px;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    background: white;
+    /* Ensure background covers content */
+    position: relative;
+    z-index: 10;
+}
+
+.flowtrus-btn {
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+    font-family: inherit;
+    position: relative;
+    overflow: hidden;
+}
+
+.flowtrus-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.flowtrus-btn:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+.flowtrus-btn-primary {
+    background: linear-gradient(135deg, var(--flowtrus-primary), var(--flowtrus-primary-dark));
+    color: white;
+    border-color: var(--flowtrus-primary);
+    flex: 1;
+}
+
+.flowtrus-btn-primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, var(--flowtrus-primary-dark), var(--flowtrus-primary));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(26, 77, 124, 0.4);
+}
+
+.flowtrus-btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.flowtrus-btn-secondary {
+    background: white;
+    color: var(--flowtrus-primary);
+    border-color: #e5e7eb;
+}
+
+.flowtrus-btn-secondary:hover {
+    background: #f9fafb;
+    border-color: var(--flowtrus-primary);
+    transform: translateY(-1px);
+}
+
+/* Success Message with Celebration Animation */
+.flowtrus-success {
+    text-align: center;
+    padding: 60px 30px;
+    animation: flowtrusFadeInUp 0.6s ease;
+}
+
+/* Animated Checkmark Wrapper */
+.flowtrus-success-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 25px;
+    position: relative;
+}
+
+.flowtrus-checkmark {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 2;
+    stroke: var(--flowtrus-accent);
+    stroke-miterlimit: 10;
+    box-shadow: inset 0px 0px 0px var(--flowtrus-accent);
+    animation: flowtrusFill .4s ease-in-out .4s forwards, flowtrusScale .3s ease-in-out .9s both;
+}
+
+.flowtrus-checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: var(--flowtrus-accent);
+    fill: none;
+    animation: flowtrusStroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.flowtrus-checkmark-check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    stroke: #fff;
+    /* White checkmark to be visible on green fill */
+    animation: flowtrusStroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes flowtrusStroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes flowtrusScale {
+
+    0%,
+    100% {
+        transform: none;
+    }
+
+    50% {
+        transform: scale3d(1.1, 1.1, 1);
+    }
+}
+
+@keyframes flowtrusFill {
+    100% {
+        box-shadow: inset 0px 0px 0px 50px var(--flowtrus-accent);
+    }
+
+    /* Turns solid green if desired, remove if want outline only */
+}
+
+/* Typography Refinement */
+.flowtrus-success h3 {
+    color: var(--flowtrus-primary);
+    font-size: 32px;
+    /* Larger */
+    margin: 0 0 10px 0;
+    font-weight: 800;
+    /* Bolder */
+    letter-spacing: -0.5px;
+}
+
+.flowtrus-success p {
+    color: #64748b;
+    font-size: 18px;
+    margin: 0 0 40px 0;
+    line-height: 1.5;
+}
+
+/* Simple Recipient Section */
+.flowtrus-recipient-simple {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.flowtrus-avatar-simple {
+    width: 44px;
+    height: 44px;
+    background: #e2e8f0;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.flowtrus-recipient-text {
+    text-align: left;
+    font-size: 15px;
+    color: #334155;
+}
+
+/* Wide Button */
+.flowtrus-btn-wide {
+    width: 100%;
+    max-width: 200px;
+    padding: 16px 20px;
+    font-size: 16px;
+    border-radius: 100px;
+    /* Pill shape */
+}
+
+/* Footer Security */
+.flowtrus-security-footer {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+/* =========================================
+   Service Area Map Field Styles
+   ========================================= */
+
+/* Segmented Control */
+.flowtrus-segmented-control {
+    background: #f1f5f9;
+    border-radius: 8px;
+    padding: 4px;
+    display: flex;
+    gap: 4px;
+    margin-bottom: 20px;
+}
+
+.flowtrus-segmented-control button {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.flowtrus-segmented-control button.active {
+    background: white;
+    color: var(--flowtrus-primary);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-weight: 600;
+}
+
+.flowtrus-segmented-control button:hover:not(.active) {
+    color: var(--flowtrus-primary);
+}
+
+/* Map Sub Controls */
+.flowtrus-map-sub-controls {
+    margin-bottom: 15px;
+    animation: flowtrusFadeIn 0.3s ease;
+}
+
+/* Input Group */
+.flowtrus-input-group {
+    display: flex;
+    align-items: center;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    background: white;
+    padding-right: 6px;
+    transition: all 0.2s ease;
+    margin-bottom: 15px;
+}
+
+.flowtrus-input-group:focus-within {
+    border-color: var(--flowtrus-primary);
+    box-shadow: 0 0 0 4px rgba(26, 77, 124, 0.1);
+}
+
+.flowtrus-input-group input {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 10px 14px;
+    flex: 1;
+    background: transparent;
+}
+
+.flowtrus-input-group button {
+    background: var(--flowtrus-secondary, #2d9b9b);
+    /* Fallback or var */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.flowtrus-input-group button:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+/* --- Icon Cards --- */
+
+.flowtrus-icon-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.flowtrus-icon-card {
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    background: white;
+    padding: 15px 10px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: #475569;
+}
+
+.flowtrus-icon-card:hover {
+    border-color: #cbd5e1;
+    background: #f8fafc;
+}
+
+.flowtrus-icon-card.selected {
+    border-color: var(--flowtrus-primary, #1a4d7c);
+    background: #eff6ff;
+    color: var(--flowtrus-primary, #1a4d7c);
+    box-shadow: 0 0 0 1px var(--flowtrus-primary, #1a4d7c);
+}
+
+.flowtrus-icon-card i {
+    width: 24px;
+    height: 24px;
+    stroke-width: 1.5;
+}
+
+.flowtrus-icon-card span {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* --- Icon Counter --- */
+.flowtrus-counter-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 150px;
+}
+
+.flowtrus-counter-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #cbd5e1;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #475569;
+    transition: all 0.2s;
+    padding: 0;
+}
+
+.flowtrus-counter-btn:hover {
+    border-color: var(--flowtrus-primary);
+    color: var(--flowtrus-primary);
+    background: #f8fafc;
+}
+
+.flowtrus-counter-input {
+    width: 50px;
+    text-align: center;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+    pointer-events: none;
+    /* Read only via buttons */
+}
+
+/* --- State List Picker --- */
+.flowtrus-state-search {
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.flowtrus-state-list {
+    max-height: 250px;
+    overflow-y: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #f8fafc;
+}
+
+.flowtrus-state-item {
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #f1f5f9;
+    transition: all 0.2s;
+    background: white;
+}
+
+.flowtrus-state-item:last-child {
+    border-bottom: none;
+}
+
+.flowtrus-state-item:hover {
+    background: #f1f5f9;
+}
+
+.flowtrus-state-item.selected {
+    background: #eff6ff;
+    color: var(--flowtrus-primary);
+    font-weight: 600;
+}
+
+/* SVG Badge Styles */
+.flowtrus-state-icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+}
+
+.bg-circle {
+    transition: fill 0.2s ease;
+}
+
+.state-text {
+    transition: fill 0.2s ease;
+}
+
+.flowtrus-state-item:hover .bg-circle {
+    fill: #e2e8f0;
+}
+
+.flowtrus-state-item.selected .bg-circle {
+    fill: var(--flowtrus-primary);
+}
+
+.flowtrus-state-item.selected .state-text {
+    fill: white;
+}
+
+.check-icon {
+    transition: opacity 0.2s ease;
+    color: var(--flowtrus-primary);
+}
+
+.flowtrus-state-item.selected .check-icon {
+    opacity: 1 !important;
+}
+
+.flowtrus-state-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.flowtrus-state-list::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .flowtrus-modal {
+        height: 95vh;
+        max-height: 95vh;
+    }
+
+    .flowtrus-inline-wrapper {
+        padding: 20px 15px;
+        /* Smaller padding on mobile inline */
+    }
+
+    .flowtrus-content {
+        padding: 30px 20px;
+    }
+
+    .flowtrus-header h2 {
+        font-size: 24px;
+    }
+
+    .flowtrus-step h3 {
+        font-size: 20px;
+    }
+
+    .flowtrus-actions {
+        flex-direction: column-reverse;
+    }
+
+    .flowtrus-btn {
+        width: 100%;
+    }
+
+    .flowtrus-progress-steps {
+        gap: 8px;
+    }
+
+    .flowtrus-step-indicator {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+}
