@@ -1,8 +1,26 @@
-export function StatsBar() {
+interface StatsBarProps {
+  totalVotes: number;
+  totalBallots: number;
+  status: string;
+}
+
+export function StatsBar({
+  totalVotes,
+  totalBallots,
+  status,
+}: StatsBarProps) {
   const stats = [
-    { label: "Total Votes", value: "4,218" },
-    { label: "Ballots", value: "312" },
-    { label: "Last Updated", value: "2h ago" },
+    { label: "Total Points", value: totalVotes.toLocaleString() },
+    { label: "Ballots Submitted", value: totalBallots.toLocaleString() },
+    {
+      label: "Poll Status",
+      value:
+        status === "PUBLISHED"
+          ? "Official"
+          : status === "OPEN"
+          ? "Voting Open"
+          : status,
+    },
   ];
 
   return (
@@ -12,10 +30,10 @@ export function StatsBar() {
           key={stat.label}
           className="glass-card rounded-xl px-3 py-2.5 text-center"
         >
-          <p className="text-base font-bold text-foreground tabular-nums">
+          <p className="text-base font-bold text-foreground tabular-nums truncate">
             {stat.value}
           </p>
-          <p className="text-[10px] text-muted uppercase tracking-wider mt-0.5">
+          <p className="text-[10px] text-muted uppercase tracking-wider mt-0.5 truncate">
             {stat.label}
           </p>
         </div>

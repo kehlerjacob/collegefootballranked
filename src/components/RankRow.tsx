@@ -1,4 +1,5 @@
 import type { TeamData } from "./RankingsTable";
+import { TeamLogo } from "./TeamLogo";
 
 function RankBadge({ rank }: { rank: number }) {
   const colors: Record<number, string> = {
@@ -74,6 +75,8 @@ function TrendIndicator({
 
 export function RankRow({ team, index }: { team: TeamData; index: number }) {
   const stagger = Math.min(index + 1, 10);
+  const initials =
+    team.shortName || team.name.slice(0, 3).toUpperCase();
 
   return (
     <div
@@ -85,15 +88,26 @@ export function RankRow({ team, index }: { team: TeamData; index: number }) {
       </div>
 
       {/* Team name + trend */}
-      <div className="flex items-center gap-2 min-w-0">
-        {/* Team logo placeholder */}
-        <div className="w-7 h-7 rounded-full bg-border/60 shrink-0 flex items-center justify-center text-[10px] font-bold text-muted">
-          {team.name.slice(0, 2).toUpperCase()}
-        </div>
+      <div className="flex items-center gap-3 min-w-0">
+        {/* Team logo badge */}
+        <TeamLogo
+          logoUrl={team.logoUrl}
+          name={team.name}
+          shortName={team.shortName}
+          primaryColor={team.primaryColor}
+          size={36}
+        />
         <div className="min-w-0">
-          <p className="text-sm font-semibold truncate group-hover:text-accent transition-colors duration-150">
-            {team.name}
-          </p>
+          <div className="flex items-center gap-1.5">
+            <p className="text-sm font-semibold truncate group-hover:text-accent transition-colors duration-150">
+              {team.name}
+            </p>
+            {team.firstPlaceVotes && team.firstPlaceVotes > 0 ? (
+              <span className="text-[10px] font-bold text-rank-gold">
+                ({team.firstPlaceVotes})
+              </span>
+            ) : null}
+          </div>
           <div className="flex items-center gap-1.5 sm:hidden">
             <span className="text-[10px] text-muted">{team.conference}</span>
             <TrendIndicator trend={team.trend} value={team.trendValue} />

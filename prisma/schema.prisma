@@ -1,0 +1,103 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  username     String    @unique
+  passwordHash String
+  role         String    @default("USER") // USER, ADMIN
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  ballots      Ballot[]
+}
+
+model Season {
+  id        String   @id @default(cuid())
+  year      Int      @unique
+  isCurrent Boolean  @default(false)
+  weeks     Week[]
+  createdAt DateTime @default(now())
+}
+
+model Week {
+  id               String             @id @default(cuid())
+  seasonId         String
+  season           Season             @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+  weekNumber       Int
+  title            String             // e.g. "Week 1", "Week 2", "Preseason"
+  status           String             @default("UPCOMING") // UPCOMING, OPEN, VOTING_CLOSED, PUBLISHED
+  votingDeadline   DateTime?
+  ballots          Ballot[]
+  consensusRanks   ConsensusRanking[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  @@unique([seasonId, weekNumber])
+}
+
+model Team {
+  id             String             @id @default(cuid())
+  name           String             @unique // e.g. "Georgia", "Ohio State"
+  shortName      String             // e.g. "UGA", "OSU"
+  mascot         String?            // e.g. "Bulldogs", "Buckeyes"
+  conference     String             // e.g. "SEC", "Big Ten", "ACC", "Big 12", "Ind."
+  record         String             @default("0-0")
+  logoUrl        String?
+  primaryColor   String?
+  ballotItems    BallotItem[]
+  consensusRanks ConsensusRanking[]
+  createdAt      DateTime           @default(now())
+}
+
+model Ballot {
+  id          String       @id @default(cuid())
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  weekId      String
+  week        Week         @relation(fields: [weekId], references: [id], onDelete: Cascade)
+  isOfficial  Boolean      @default(true)
+  items       BallotItem[]
+  submittedAt DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@unique([userId, weekId]) // Strictly 1 ballot per user per week
+}
+
+model BallotItem {
+  id        String   @id @default(cuid())
+  ballotId  String
+  ballot    Ballot   @relation(fields: [ballotId], references: [id], onDelete: Cascade)
+  teamId    String
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  rank      Int      // 1 through 25
+  createdAt DateTime @default(now())
+
+  @@unique([ballotId, rank])   // Each rank 1..25 only once per ballot
+  @@unique([ballotId, teamId]) // Each team only once per ballot
+}
+
+model ConsensusRanking {
+  id              String   @id @default(cuid())
+  weekId          String
+  week            Week     @relation(fields: [weekId], references: [id], onDelete: Cascade)
+  teamId          String
+  team            Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  rank            Int      // 1 through 25 (or higher for receiving votes)
+  points          Int      // Total AP points
+  firstPlaceVotes Int      @default(0)
+  previousRank    Int?     // Rank from previous published week
+  trend           String   @default("same") // "up", "down", "same", "new"
+  trendValue      Int?     // Number of spots moved (+2, -3, etc.)
+  totalBallots    Int      @default(0) // Total ballots submitted for this week
+  createdAt       DateTime @default(now())
+
+  @@unique([weekId, teamId])
+  @@unique([weekId, rank])
+}
