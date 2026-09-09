@@ -494,7 +494,7 @@ ol {
 .hero {
   background: linear-gradient(135deg, #091726 0%, #133353 50%, #0d2238 100%);
   color: var(--color-white);
-  padding: var(--spacing-10) 0 var(--spacing-14) 0;
+  padding: var(--spacing-14) 0 var(--spacing-14) 0;
   position: relative;
   overflow: hidden;
 }
@@ -511,11 +511,11 @@ ol {
 }
 
 .hero.hero-compact {
-  padding: var(--spacing-8) 0 var(--spacing-10) 0;
+  padding: var(--spacing-10) 0 var(--spacing-10) 0;
 }
 
 .hero.hero-mini {
-  padding: var(--spacing-6) 0 var(--spacing-8) 0;
+  padding: var(--spacing-8) 0 var(--spacing-8) 0;
 }
 
 .hero-content {
@@ -551,8 +551,8 @@ ol {
    =================================== */
 
 .hero.hero-with-showcase {
-  padding-top: var(--spacing-8);
-  padding-bottom: var(--spacing-10);
+  padding-top: 56px;
+  padding-bottom: 48px;
 }
 
 .hero-grid {
