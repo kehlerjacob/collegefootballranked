@@ -235,91 +235,253 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
 </section>
 <?php endif; ?>
 
-<!-- Core Platform Benefits Section -->
-<section class="section benefits-section" id="benefits">
+<!-- Analytics Showcase Section -->
+<section class="section">
     <div class="container">
         <div class="text-center mb-12">
-            <span class="benefits-badge">CORE PLATFORM BENEFITS</span>
-            <h2 class="benefits-title">Engineered to Maximize Every Conversion Opportunity</h2>
-            <p class="benefits-subtitle">Every pixel, field transition, and telemetry checkpoint is purpose-built to turn high-intent traffic into qualified booked revenue.</p>
+            <h2>Powerful Data Analysis at Your Fingertips</h2>
+            <p class="text-gray">Understand exactly how users interact with your forms and optimize for maximum
+                conversions</p>
         </div>
 
-        <div class="benefits-grid">
-            <!-- Benefit 1 -->
-            <div class="benefit-card">
-                <div class="benefit-icon-box">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
-                    </svg>
+        <div class="grid grid-2" style="align-items: center; gap: var(--spacing-12);">
+            <!-- Heatmap Feature -->
+            <div>
+                <div class="analytics-demo">
+                    <h3 style="margin-bottom: var(--spacing-6);">🔍 Field Friction Analysis</h3>
+                    <div class="field-friction-card"
+                        style="background: white; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-lg); overflow: hidden; border: 1px solid var(--color-gray-200);">
+                        <div
+                            style="background: var(--color-gray-50); padding: var(--spacing-3) var(--spacing-4); border-bottom: 1px solid var(--color-gray-200); display: flex; justify-content: space-between; align-items: center;">
+                            <span
+                                style="font-size: var(--font-size-xs); font-weight: 700; color: var(--color-gray-500); text-transform: uppercase;">Field
+                                Name</span>
+                            <span
+                                style="font-size: var(--font-size-xs); font-weight: 700; color: var(--color-gray-500); text-transform: uppercase;">Avg.
+                                Time</span>
+                        </div>
+
+                        <!-- Friction Item 1: Good -->
+                        <div
+                            style="padding: var(--spacing-4); border-bottom: 1px solid var(--color-gray-100); display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center;">
+                                <div
+                                    style="width: 8px; height: 8px; background: var(--color-success); border-radius: 50%; margin-right: var(--spacing-3);">
+                                </div>
+                                <span style="font-weight: 500; font-size: var(--font-size-sm);">Full Name</span>
+                            </div>
+                            <div style="text-align: right;">
+                                <span style="font-weight: 600; color: var(--color-gray-700);">2.4s</span>
+                                <div
+                                    style="width: 60px; height: 4px; background: var(--color-gray-200); border-radius: 2px; margin-top: 4px; overflow: hidden;">
+                                    <div style="width: 20%; height: 100%; background: var(--color-success);"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Friction Item 2: Warning -->
+                        <div
+                            style="padding: var(--spacing-4); border-bottom: 1px solid var(--color-gray-100); display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center;">
+                                <div
+                                    style="width: 8px; height: 8px; background: var(--color-success); border-radius: 50%; margin-right: var(--spacing-3);">
+                                </div>
+                                <span style="font-weight: 500; font-size: var(--font-size-sm);">Email Address</span>
+                            </div>
+                            <div style="text-align: right;">
+                                <span style="font-weight: 600; color: var(--color-gray-700);">3.1s</span>
+                                <div
+                                    style="width: 60px; height: 4px; background: var(--color-gray-200); border-radius: 2px; margin-top: 4px; overflow: hidden;">
+                                    <div style="width: 30%; height: 100%; background: var(--color-success);"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Friction Item 3: High Friction -->
+                        <div
+                            style="padding: var(--spacing-4); background: rgba(239, 68, 68, 0.05); border-left: 3px solid var(--color-error); display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center;">
+                                <div
+                                    style="width: 8px; height: 8px; background: var(--color-error); border-radius: 50%; margin-right: var(--spacing-3);">
+                                </div>
+                                <div>
+                                    <span
+                                        style="font-weight: 600; font-size: var(--font-size-sm); color: var(--color-gray-900);">Project
+                                        Budget</span>
+                                    <span
+                                        style="display: block; font-size: 10px; color: var(--color-error); font-weight: 600; margin-top: 2px;">⚠️
+                                        HIGH FRICTION DETECTED</span>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <span style="font-weight: 700; color: var(--color-error);">14.2s</span>
+                                <div
+                                    style="width: 60px; height: 4px; background: var(--color-gray-200); border-radius: 2px; margin-top: 4px; overflow: hidden;">
+                                    <div style="width: 85%; height: 100%; background: var(--color-error);"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <h3 class="benefit-card-title">Zero Drop-Off Lead Capture</h3>
-                <p class="benefit-card-desc">Eliminate cognitive fatigue with dynamic multi-step pacing, intuitive field transitions, and distraction-free responsive form layouts.</p>
-                <div class="benefit-pill">+38% Avg Lift</div>
             </div>
 
-            <!-- Benefit 2 -->
-            <div class="benefit-card">
-                <div class="benefit-icon-box">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                    </svg>
+            <div>
+                <h3>Identify Bottlenecks instantly</h3>
+                <p>Don't guess why users are leaving. Flowtrus tracks interaction data for every single field:</p>
+                <ul style="margin-top: var(--spacing-4);">
+                    <li><strong>Time-on-Field:</strong> See which questions take too long to answer.</li>
+                    <li><strong>Refill Rate:</strong> Identify fields where users make mistakes and correct them.</li>
+                    <li><strong>Hesitation:</strong> Track pauses before typing.</li>
+                    <li><strong>Drop-off Attribution:</strong> Know exactly which field caused abandonment.</li>
+                </ul>
+                <a href="https://app.flowtrus.com" target="_blank" class="btn btn-primary mt-6">View Analytics Demo</a>
+            </div>
+        </div>
+
+        <div class="grid grid-2" style="align-items: center; gap: var(--spacing-12); margin-top: var(--spacing-16);">
+            <div>
+                <h3>Form Completion Analysis</h3>
+                <p>Track user progress through every step of your forms with detailed completion analytics:</p>
+                <ul style="margin-top: var(--spacing-4);">
+                    <li><strong>Step-by-Step Tracking:</strong> Monitor completion rates for each form step</li>
+                    <li><strong>Drop-off Points:</strong> Identify exactly where users abandon forms</li>
+                    <li><strong>Time Analysis:</strong> See how long users spend on each field</li>
+                    <li><strong>Conversion Funnels:</strong> Visualize the entire user journey</li>
+                </ul>
+                <div class="mt-6">
+                    <div class="stat-item" style="display: inline-block; margin-right: var(--spacing-4);">
+                        <span class="stat-value" style="font-size: var(--font-size-3xl);">68%</span>
+                        <span class="stat-label">Avg. Completion Rate</span>
+                    </div>
+                    <div class="stat-item" style="display: inline-block;">
+                        <span class="stat-value" style="font-size: var(--font-size-3xl);">3:42</span>
+                        <span class="stat-label">Avg. Completion Time</span>
+                    </div>
                 </div>
-                <h3 class="benefit-card-title">Real-Time Telemetry & Funnels</h3>
-                <p class="benefit-card-desc">Track every keystroke, hesitation time, and step exit. Identify exactly where users drop off and deploy targeted UX optimizations.</p>
-                <div class="benefit-pill">Sub-Field Telemetry</div>
             </div>
 
-            <!-- Benefit 3 -->
-            <div class="benefit-card">
-                <div class="benefit-icon-box">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-                    </svg>
+            <!-- Step Tracker Visualization -->
+            <div>
+                <div class="card">
+                    <h4 style="text-align: center; margin-bottom: var(--spacing-6);">Multi-Step Form Progress</h4>
+                    <div class="step-tracker">
+                        <div class="step completed">
+                            <div class="step-circle">1</div>
+                            <span
+                                style="font-size: var(--font-size-sm); display: block; margin-top: var(--spacing-2);">Basic
+                                Info</span>
+                            <p
+                                style="font-size: var(--font-size-xs); color: var(--color-accent); margin-top: var(--spacing-1);">
+                                95% complete</p>
+                        </div>
+                        <div class="step completed">
+                            <div class="step-circle">2</div>
+                            <span
+                                style="font-size: var(--font-size-sm); display: block; margin-top: var(--spacing-2);">Details</span>
+                            <p
+                                style="font-size: var(--font-size-xs); color: var(--color-accent); margin-top: var(--spacing-1);">
+                                87% complete</p>
+                        </div>
+                        <div class="step active">
+                            <div class="step-circle">3</div>
+                            <span
+                                style="font-size: var(--font-size-sm); display: block; margin-top: var(--spacing-2);">Preferences</span>
+                            <p
+                                style="font-size: var(--font-size-xs); color: var(--color-secondary); margin-top: var(--spacing-1);">
+                                62% complete</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-circle">4</div>
+                            <span
+                                style="font-size: var(--font-size-sm); display: block; margin-top: var(--spacing-2);">Submit</span>
+                            <p
+                                style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin-top: var(--spacing-1);">
+                                45% complete</p>
+                        </div>
+                    </div>
+                    <p class="text-gray mt-6" style="text-align: center; font-size: var(--font-size-sm);">
+                        💡 <strong>Insight:</strong> Step 3 shows 25% drop-off - consider simplifying options
+                    </p>
                 </div>
-                <h3 class="benefit-card-title">Sub-100ms Instant Embed SDK</h3>
-                <p class="benefit-card-desc">Lightweight Shadow DOM architecture loads asynchronously with zero CSS collisions on WordPress, Webflow, Shopify, or custom stacks.</p>
-                <div class="benefit-pill">&lt;100ms Load Time</div>
+            </div>
+        </div>
+
+        <div
+            style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-8); margin-top: var(--spacing-12); align-items: center;">
+            <div style="order: 2;">
+                <span
+                    style="color: var(--color-warning); font-weight: 600; letter-spacing: 1px; font-size: 12px; text-transform: uppercase;">Stop
+                    Losing Leads</span>
+                <h3 style="margin-top: 10px; margin-bottom: 20px;">Abandoned Form Recapture</h3>
+                <p class="text-gray" style="margin-bottom: 20px;">Most users leave before clicking submit. Flowtrus
+                    captures their data in real-time as they type.</p>
+                <ul style="list-style: none; padding: 0; margin-bottom: 30px;">
+                    <li style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                        <span style="color: var(--color-success);">✓</span> Capture name & email instantly
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                        <span style="color: var(--color-success);">✓</span> Automated follow-up sequences
+                    </li>
+                    <li style="display: flex; align-items: center; gap: 10px;">
+                        <span style="color: var(--color-success);">✓</span> Recover up to 40% of lost leads
+                    </li>
+                </ul>
             </div>
 
-            <!-- Benefit 4 -->
-            <div class="benefit-card">
-                <div class="benefit-icon-box">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"/>
-                        <polyline points="12 6 12 12 16 14"/>
-                    </svg>
-                </div>
-                <h3 class="benefit-card-title">Smart Logic & Address Auto-Fill</h3>
-                <p class="benefit-card-desc">Dynamic conditional branching, automatic phone formatting, and Google-powered address suggestions reduce input errors by up to 85%.</p>
-                <div class="benefit-pill">Smart Validation</div>
-            </div>
+            <div style="order: 1;">
+                <!-- Recovery Visual Card -->
+                <div class="card recovery-card" style="border-left: 4px solid #f59e0b; padding: 0; overflow: hidden;">
+                    <div
+                        style="background: #fffbeb; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #fcd34d;">
+                        <h4
+                            style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 16px; color: #92400e;">
+                            <span class="pulse-warning"
+                                style="width: 10px; height: 10px; background: #f59e0b; border-radius: 50%; display: inline-block;"></span>
+                            Lead Opportunity #842
+                        </h4>
+                        <span
+                            style="background: white; color: #b45309; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; border: 1px solid #fcd34d;">ABANDONED
+                            2m AGO</span>
+                    </div>
 
-            <!-- Benefit 5 -->
-            <div class="benefit-card">
-                <div class="benefit-icon-box">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                    </svg>
-                </div>
-                <h3 class="benefit-card-title">Bank-Grade Privacy & Security</h3>
-                <p class="benefit-card-desc">End-to-end 256-bit encryption with zero third-party tracking leakage. Built from the ground up for strict GDPR, CCPA, and enterprise standards.</p>
-                <div class="benefit-pill">Enterprise Secure</div>
-            </div>
+                    <div style="padding: 25px;">
+                        <!-- Status Timeline -->
+                        <div style="display: flex; gap: 15px; margin-bottom: 20px; font-size: 13px;">
+                            <div style="opacity: 0.5;">Step 1: Contact</div>
+                            <div style="color: #f59e0b; font-weight: 700;">Step 2: Details (Drop-off)</div>
+                            <div style="opacity: 0.3;">Step 3: Submit</div>
+                        </div>
 
-            <!-- Benefit 6 -->
-            <div class="benefit-card">
-                <div class="benefit-icon-box">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="16 3 21 3 21 8"/>
-                        <line x1="4" y1="20" x2="21" y2="3"/>
-                        <polyline points="21 16 21 21 16 21"/>
-                        <line x1="15" y1="15" x2="21" y2="21"/>
-                        <line x1="4" y1="4" x2="9" y2="9"/>
-                    </svg>
+                        <!-- Partial Data -->
+                        <div class="partial-data-list"
+                            style="background: #f8fafc; border-radius: 8px; padding: 15px; border: 1px solid #e2e8f0; margin-bottom: 20px;">
+                            <div
+                                style="display: flex; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px;">
+                                <span style="color: #64748b;">Name Input:</span>
+                                <span
+                                    style="font-weight: 600; color: var(--color-success); display: flex; align-items: center; gap: 5px;">Sarah
+                                    Jenkins <span
+                                        style="font-size: 10px; background: #dcfce7; color: #166534; padding: 2px 6px; border-radius: 4px;">SAVED</span></span>
+                            </div>
+                            <div
+                                style="display: flex; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px;">
+                                <span style="color: #64748b;">Email Input:</span>
+                                <span
+                                    style="font-weight: 600; color: var(--color-success); display: flex; align-items: center; gap: 5px;">sarah.j@gm...
+                                    <span
+                                        style="font-size: 10px; background: #dcfce7; color: #166534; padding: 2px 6px; border-radius: 4px;">SAVED</span></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: #64748b;">Phone Input:</span>
+                                <span style="font-style: italic; color: #94a3b8;">(Not entered)</span>
+                            </div>
+                        </div>
+
+                        <div class="btn btn-primary btn-full-width"
+                            style="text-align: center; background: #f59e0b; border: none; width: 100%;">Recover this
+                            Lead (1-Click)</div>
+                    </div>
                 </div>
-                <h3 class="benefit-card-title">Automated CRM & Webhook Sync</h3>
-                <p class="benefit-card-desc">Instantly route high-intent leads to HubSpot, Salesforce, GoHighLevel, Zapier, or custom endpoints with real-time webhook delivery.</p>
-                <div class="benefit-pill">Instant Pipeline Sync</div>
             </div>
         </div>
     </div>
@@ -607,257 +769,7 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
     </div>
 </section>
 
-<!-- Analytics Showcase Section -->
-<section class="section">
-    <div class="container">
-        <div class="text-center mb-12">
-            <h2>Powerful Data Analysis at Your Fingertips</h2>
-            <p class="text-gray">Understand exactly how users interact with your forms and optimize for maximum
-                conversions</p>
-        </div>
 
-        <div class="grid grid-2" style="align-items: center; gap: var(--spacing-12);">
-            <!-- Heatmap Feature -->
-            <div>
-                <div class="analytics-demo">
-                    <h3 style="margin-bottom: var(--spacing-6);">🔍 Field Friction Analysis</h3>
-                    <div class="field-friction-card"
-                        style="background: white; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-lg); overflow: hidden; border: 1px solid var(--color-gray-200);">
-                        <div
-                            style="background: var(--color-gray-50); padding: var(--spacing-3) var(--spacing-4); border-bottom: 1px solid var(--color-gray-200); display: flex; justify-content: space-between; align-items: center;">
-                            <span
-                                style="font-size: var(--font-size-xs); font-weight: 700; color: var(--color-gray-500); text-transform: uppercase;">Field
-                                Name</span>
-                            <span
-                                style="font-size: var(--font-size-xs); font-weight: 700; color: var(--color-gray-500); text-transform: uppercase;">Avg.
-                                Time</span>
-                        </div>
-
-                        <!-- Friction Item 1: Good -->
-                        <div
-                            style="padding: var(--spacing-4); border-bottom: 1px solid var(--color-gray-100); display: flex; align-items: center; justify-content: space-between;">
-                            <div style="display: flex; align-items: center;">
-                                <div
-                                    style="width: 8px; height: 8px; background: var(--color-success); border-radius: 50%; margin-right: var(--spacing-3);">
-                                </div>
-                                <span style="font-weight: 500; font-size: var(--font-size-sm);">Full Name</span>
-                            </div>
-                            <div style="text-align: right;">
-                                <span style="font-weight: 600; color: var(--color-gray-700);">2.4s</span>
-                                <div
-                                    style="width: 60px; height: 4px; background: var(--color-gray-200); border-radius: 2px; margin-top: 4px; overflow: hidden;">
-                                    <div style="width: 20%; height: 100%; background: var(--color-success);"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Friction Item 2: Warning -->
-                        <div
-                            style="padding: var(--spacing-4); border-bottom: 1px solid var(--color-gray-100); display: flex; align-items: center; justify-content: space-between;">
-                            <div style="display: flex; align-items: center;">
-                                <div
-                                    style="width: 8px; height: 8px; background: var(--color-success); border-radius: 50%; margin-right: var(--spacing-3);">
-                                </div>
-                                <span style="font-weight: 500; font-size: var(--font-size-sm);">Email Address</span>
-                            </div>
-                            <div style="text-align: right;">
-                                <span style="font-weight: 600; color: var(--color-gray-700);">3.1s</span>
-                                <div
-                                    style="width: 60px; height: 4px; background: var(--color-gray-200); border-radius: 2px; margin-top: 4px; overflow: hidden;">
-                                    <div style="width: 30%; height: 100%; background: var(--color-success);"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Friction Item 3: High Friction -->
-                        <div
-                            style="padding: var(--spacing-4); background: rgba(239, 68, 68, 0.05); border-left: 3px solid var(--color-error); display: flex; align-items: center; justify-content: space-between;">
-                            <div style="display: flex; align-items: center;">
-                                <div
-                                    style="width: 8px; height: 8px; background: var(--color-error); border-radius: 50%; margin-right: var(--spacing-3);">
-                                </div>
-                                <div>
-                                    <span
-                                        style="font-weight: 600; font-size: var(--font-size-sm); color: var(--color-gray-900);">Project
-                                        Budget</span>
-                                    <span
-                                        style="display: block; font-size: 10px; color: var(--color-error); font-weight: 600; margin-top: 2px;">⚠️
-                                        HIGH FRICTION DETECTED</span>
-                                </div>
-                            </div>
-                            <div style="text-align: right;">
-                                <span style="font-weight: 700; color: var(--color-error);">14.2s</span>
-                                <div
-                                    style="width: 60px; height: 4px; background: var(--color-gray-200); border-radius: 2px; margin-top: 4px; overflow: hidden;">
-                                    <div style="width: 85%; height: 100%; background: var(--color-error);"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <h3>Identify Bottlenecks instantly</h3>
-                <p>Don't guess why users are leaving. Flowtrus tracks interaction data for every single field:</p>
-                <ul style="margin-top: var(--spacing-4);">
-                    <li><strong>Time-on-Field:</strong> See which questions take too long to answer.</li>
-                    <li><strong>Refill Rate:</strong> Identify fields where users make mistakes and correct them.</li>
-                    <li><strong>Hesitation:</strong> Track pauses before typing.</li>
-                    <li><strong>Drop-off Attribution:</strong> Know exactly which field caused abandonment.</li>
-                </ul>
-                <a href="https://app.flowtrus.com" target="_blank" class="btn btn-primary mt-6">View Analytics Demo</a>
-            </div>
-        </div>
-
-        <div class="grid grid-2" style="align-items: center; gap: var(--spacing-12); margin-top: var(--spacing-16);">
-            <div>
-                <h3>Form Completion Analysis</h3>
-                <p>Track user progress through every step of your forms with detailed completion analytics:</p>
-                <ul style="margin-top: var(--spacing-4);">
-                    <li><strong>Step-by-Step Tracking:</strong> Monitor completion rates for each form step</li>
-                    <li><strong>Drop-off Points:</strong> Identify exactly where users abandon forms</li>
-                    <li><strong>Time Analysis:</strong> See how long users spend on each field</li>
-                    <li><strong>Conversion Funnels:</strong> Visualize the entire user journey</li>
-                </ul>
-                <div class="mt-6">
-                    <div class="stat-item" style="display: inline-block; margin-right: var(--spacing-4);">
-                        <span class="stat-value" style="font-size: var(--font-size-3xl);">68%</span>
-                        <span class="stat-label">Avg. Completion Rate</span>
-                    </div>
-                    <div class="stat-item" style="display: inline-block;">
-                        <span class="stat-value" style="font-size: var(--font-size-3xl);">3:42</span>
-                        <span class="stat-label">Avg. Completion Time</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Step Tracker Visualization -->
-            <div>
-                <div class="card">
-                    <h4 style="text-align: center; margin-bottom: var(--spacing-6);">Multi-Step Form Progress</h4>
-                    <div class="step-tracker">
-                        <div class="step completed">
-                            <div class="step-circle">1</div>
-                            <span
-                                style="font-size: var(--font-size-sm); display: block; margin-top: var(--spacing-2);">Basic
-                                Info</span>
-                            <p
-                                style="font-size: var(--font-size-xs); color: var(--color-accent); margin-top: var(--spacing-1);">
-                                95% complete</p>
-                        </div>
-                        <div class="step completed">
-                            <div class="step-circle">2</div>
-                            <span
-                                style="font-size: var(--font-size-sm); display: block; margin-top: var(--spacing-2);">Details</span>
-                            <p
-                                style="font-size: var(--font-size-xs); color: var(--color-accent); margin-top: var(--spacing-1);">
-                                87% complete</p>
-                        </div>
-                        <div class="step active">
-                            <div class="step-circle">3</div>
-                            <span
-                                style="font-size: var(--font-size-sm); display: block; margin-top: var(--spacing-2);">Preferences</span>
-                            <p
-                                style="font-size: var(--font-size-xs); color: var(--color-secondary); margin-top: var(--spacing-1);">
-                                62% complete</p>
-                        </div>
-                        <div class="step">
-                            <div class="step-circle">4</div>
-                            <span
-                                style="font-size: var(--font-size-sm); display: block; margin-top: var(--spacing-2);">Submit</span>
-                            <p
-                                style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin-top: var(--spacing-1);">
-                                45% complete</p>
-                        </div>
-                    </div>
-                    <p class="text-gray mt-6" style="text-align: center; font-size: var(--font-size-sm);">
-                        💡 <strong>Insight:</strong> Step 3 shows 25% drop-off - consider simplifying options
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div
-            style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-8); margin-top: var(--spacing-12); align-items: center;">
-            <div style="order: 2;">
-                <span
-                    style="color: var(--color-warning); font-weight: 600; letter-spacing: 1px; font-size: 12px; text-transform: uppercase;">Stop
-                    Losing Leads</span>
-                <h3 style="margin-top: 10px; margin-bottom: 20px;">Abandoned Form Recapture</h3>
-                <p class="text-gray" style="margin-bottom: 20px;">Most users leave before clicking submit. Flowtrus
-                    captures their data in real-time as they type.</p>
-                <ul style="list-style: none; padding: 0; margin-bottom: 30px;">
-                    <li style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: var(--color-success);">✓</span> Capture name & email instantly
-                    </li>
-                    <li style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
-                        <span style="color: var(--color-success);">✓</span> Automated follow-up sequences
-                    </li>
-                    <li style="display: flex; align-items: center; gap: 10px;">
-                        <span style="color: var(--color-success);">✓</span> Recover up to 40% of lost leads
-                    </li>
-                </ul>
-            </div>
-
-            <div style="order: 1;">
-                <!-- Recovery Visual Card -->
-                <div class="card recovery-card" style="border-left: 4px solid #f59e0b; padding: 0; overflow: hidden;">
-                    <div
-                        style="background: #fffbeb; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #fcd34d;">
-                        <h4
-                            style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 16px; color: #92400e;">
-                            <span class="pulse-warning"
-                                style="width: 10px; height: 10px; background: #f59e0b; border-radius: 50%; display: inline-block;"></span>
-                            Lead Opportunity #842
-                        </h4>
-                        <span
-                            style="background: white; color: #b45309; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; border: 1px solid #fcd34d;">ABANDONED
-                            2m AGO</span>
-                    </div>
-
-                    <div style="padding: 25px;">
-                        <!-- Status Timeline -->
-                        <div style="display: flex; gap: 15px; margin-bottom: 20px; font-size: 13px;">
-                            <div style="opacity: 0.5;">Step 1: Contact</div>
-                            <div style="color: #f59e0b; font-weight: 700;">Step 2: Details (Drop-off)</div>
-                            <div style="opacity: 0.3;">Step 3: Submit</div>
-                        </div>
-
-                        <!-- Partial Data -->
-                        <div class="partial-data-list"
-                            style="background: #f8fafc; border-radius: 8px; padding: 15px; border: 1px solid #e2e8f0; margin-bottom: 20px;">
-                            <div
-                                style="display: flex; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px;">
-                                <span style="color: #64748b;">Name Input:</span>
-                                <span
-                                    style="font-weight: 600; color: var(--color-success); display: flex; align-items: center; gap: 5px;">Sarah
-                                    Jenkins <span
-                                        style="font-size: 10px; background: #dcfce7; color: #166534; padding: 2px 6px; border-radius: 4px;">SAVED</span></span>
-                            </div>
-                            <div
-                                style="display: flex; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px;">
-                                <span style="color: #64748b;">Email Input:</span>
-                                <span
-                                    style="font-weight: 600; color: var(--color-success); display: flex; align-items: center; gap: 5px;">sarah.j@gm...
-                                    <span
-                                        style="font-size: 10px; background: #dcfce7; color: #166534; padding: 2px 6px; border-radius: 4px;">SAVED</span></span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between;">
-                                <span style="color: #64748b;">Phone Input:</span>
-                                <span style="font-style: italic; color: #94a3b8;">(Not entered)</span>
-                            </div>
-                        </div>
-
-                        <div class="btn btn-primary btn-full-width"
-                            style="text-align: center; background: #f59e0b; border: none; width: 100%;">Recover this
-                            Lead (1-Click)</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 
 
