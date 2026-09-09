@@ -235,69 +235,91 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
 </section>
 <?php endif; ?>
 
-<!-- Features Section -->
-<section class="section" style="background: linear-gradient(180deg, #f9fafb 0%, #ffffff 100%);">
+<!-- Core Platform Benefits Section -->
+<section class="section benefits-section" id="benefits">
     <div class="container">
         <div class="text-center mb-12">
-            <span
-                style="display: inline-block; background: linear-gradient(135deg, var(--color-secondary), var(--color-accent)); color: white; padding: var(--spacing-2) var(--spacing-4); border-radius: var(--border-radius-lg); font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); margin-bottom: var(--spacing-4);">🚀
-                POWERFUL FEATURES</span>
-            <h2 style="font-size: var(--font-size-5xl); margin-bottom: var(--spacing-4);">Everything You Need to
-                Maximize Conversions</h2>
-            <p class="text-gray" style="font-size: var(--font-size-lg); max-width: 700px; margin: 0 auto;">Powerful
-                features designed for modern businesses that value data.</p>
+            <span class="benefits-badge">CORE PLATFORM BENEFITS</span>
+            <h2 class="benefits-title">Engineered to Maximize Every Conversion Opportunity</h2>
+            <p class="benefits-subtitle">Every pixel, field transition, and telemetry checkpoint is purpose-built to turn high-intent traffic into qualified booked revenue.</p>
         </div>
 
-        <div class="feature-grid">
-            <div class="card"
-                style="border-top: 4px solid var(--color-secondary); background: linear-gradient(135deg, rgba(45, 155, 155, 0.05), rgba(255, 255, 255, 1));">
-                <div class="feature-icon"
-                    style="background: linear-gradient(135deg, var(--color-secondary), var(--color-accent));">📊</div>
-                <h3 style="color: var(--color-secondary);">Real-Time Analytics</h3>
-                <p>Track every interaction with heatmaps and step-by-step analysis. Understand exactly where prospects
-                    drop off and optimize accordingly.</p>
+        <div class="benefits-grid">
+            <!-- Benefit 1 -->
+            <div class="benefit-card">
+                <div class="benefit-icon-box">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+                    </svg>
+                </div>
+                <h3 class="benefit-card-title">Zero Drop-Off Lead Capture</h3>
+                <p class="benefit-card-desc">Eliminate cognitive fatigue with dynamic multi-step pacing, intuitive field transitions, and distraction-free responsive form layouts.</p>
+                <div class="benefit-pill">+38% Avg Lift</div>
             </div>
 
-            <div class="card"
-                style="border-top: 4px solid var(--color-primary); background: linear-gradient(135deg, rgba(26, 77, 124, 0.05), rgba(255, 255, 255, 1));">
-                <div class="feature-icon"
-                    style="background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));">🔒</div>
-                <h3 style="color: var(--color-primary);">Enterprise Security</h3>
-                <p>Bank-level encryption and compliance with industry standards. Your customer data is protected at
-                    every step.</p>
+            <!-- Benefit 2 -->
+            <div class="benefit-card">
+                <div class="benefit-icon-box">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                    </svg>
+                </div>
+                <h3 class="benefit-card-title">Real-Time Telemetry & Funnels</h3>
+                <p class="benefit-card-desc">Track every keystroke, hesitation time, and step exit. Identify exactly where users drop off and deploy targeted UX optimizations.</p>
+                <div class="benefit-pill">Sub-Field Telemetry</div>
             </div>
 
-            <div class="card"
-                style="border-top: 4px solid var(--color-accent); background: linear-gradient(135deg, rgba(107, 196, 125, 0.05), rgba(255, 255, 255, 1));">
-                <div class="feature-icon"
-                    style="background: linear-gradient(135deg, var(--color-accent), var(--color-secondary));">⚡</div>
-                <h3 style="color: var(--color-accent-dark);">Easy Integration</h3>
-                <p>Add forms to your site in minutes with simple shortcodes or CSS triggers. No complex setup required.
-                </p>
+            <!-- Benefit 3 -->
+            <div class="benefit-card">
+                <div class="benefit-icon-box">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                    </svg>
+                </div>
+                <h3 class="benefit-card-title">Sub-100ms Instant Embed SDK</h3>
+                <p class="benefit-card-desc">Lightweight Shadow DOM architecture loads asynchronously with zero CSS collisions on WordPress, Webflow, Shopify, or custom stacks.</p>
+                <div class="benefit-pill">&lt;100ms Load Time</div>
             </div>
 
-            <div class="card"
-                style="border-top: 4px solid var(--color-accent); background: linear-gradient(135deg, rgba(107, 196, 125, 0.05), rgba(255, 255, 255, 1));">
-                <div class="feature-icon"
-                    style="background: linear-gradient(135deg, var(--color-accent), var(--color-primary));">🎯</div>
-                <h3 style="color: var(--color-accent-dark);">Industry-Specific</h3>
-                <p>Pre-built forms optimized for modern businesses with fields and flows that convert.</p>
+            <!-- Benefit 4 -->
+            <div class="benefit-card">
+                <div class="benefit-icon-box">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                </div>
+                <h3 class="benefit-card-title">Smart Logic & Address Auto-Fill</h3>
+                <p class="benefit-card-desc">Dynamic conditional branching, automatic phone formatting, and Google-powered address suggestions reduce input errors by up to 85%.</p>
+                <div class="benefit-pill">Smart Validation</div>
             </div>
 
-            <div class="card"
-                style="border-top: 4px solid var(--color-secondary); background: linear-gradient(135deg, rgba(45, 155, 155, 0.05), rgba(255, 255, 255, 1));">
-                <div class="feature-icon"
-                    style="background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));">📈</div>
-                <h3 style="color: var(--color-secondary);">Conversion Optimization</h3>
-                <p>AI-powered suggestions to improve form performance based on real user behavior data.</p>
+            <!-- Benefit 5 -->
+            <div class="benefit-card">
+                <div class="benefit-icon-box">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                </div>
+                <h3 class="benefit-card-title">Bank-Grade Privacy & Security</h3>
+                <p class="benefit-card-desc">End-to-end 256-bit encryption with zero third-party tracking leakage. Built from the ground up for strict GDPR, CCPA, and enterprise standards.</p>
+                <div class="benefit-pill">Enterprise Secure</div>
             </div>
 
-            <div class="card"
-                style="border-top: 4px solid var(--color-primary); background: linear-gradient(135deg, rgba(26, 77, 124, 0.05), rgba(255, 255, 255, 1));">
-                <div class="feature-icon"
-                    style="background: linear-gradient(135deg, var(--color-primary), var(--color-accent));">🔄</div>
-                <h3 style="color: var(--color-primary);">Seamless CRM Sync</h3>
-                <p>Automatically send collected data to your existing sales tools and CRM systems.</p>
+            <!-- Benefit 6 -->
+            <div class="benefit-card">
+                <div class="benefit-icon-box">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="16 3 21 3 21 8"/>
+                        <line x1="4" y1="20" x2="21" y2="3"/>
+                        <polyline points="21 16 21 21 16 21"/>
+                        <line x1="15" y1="15" x2="21" y2="21"/>
+                        <line x1="4" y1="4" x2="9" y2="9"/>
+                    </svg>
+                </div>
+                <h3 class="benefit-card-title">Automated CRM & Webhook Sync</h3>
+                <p class="benefit-card-desc">Instantly route high-intent leads to HubSpot, Salesforce, GoHighLevel, Zapier, or custom endpoints with real-time webhook delivery.</p>
+                <div class="benefit-pill">Instant Pipeline Sync</div>
             </div>
         </div>
     </div>
