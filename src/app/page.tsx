@@ -26,12 +26,12 @@ export default function Home() {
         if (res.ok) {
           const data = await res.json();
           setWeeks(data.weeks || []);
-          // Default to latest published week or Week 2
-          const latestPublished = [...(data.weeks || [])]
-            .reverse()
-            .find((w: WeekItem) => w.status === "PUBLISHED" || w.status === "OPEN");
-          if (latestPublished) {
-            setSelectedWeekNumber(latestPublished.weekNumber);
+          // Default to Week 1 (concluded AP poll) or latest published
+          const week1 = data.weeks?.find((w: WeekItem) => w.weekNumber === 1);
+          if (week1) {
+            setSelectedWeekNumber(1);
+          } else if (data.weeks?.length > 0) {
+            setSelectedWeekNumber(data.weeks[0].weekNumber);
           }
         }
       } catch (e) {
@@ -41,9 +41,9 @@ export default function Home() {
     loadWeeks();
   }, []);
 
-  // Load rankings for selected week
+  // Load rankings for selected week (including Week 0)
   useEffect(() => {
-    if (!selectedWeekNumber) return;
+    if (selectedWeekNumber === undefined || selectedWeekNumber === null) return;
 
     async function loadRankings() {
       setIsLoading(true);
