@@ -78,7 +78,7 @@ export default function RegisterPage() {
                   setFormData({ ...formData, email: e.target.value })
                 }
                 placeholder="you@example.com"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-border text-foreground text-sm placeholder:text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-border text-foreground text-base sm:text-sm placeholder:text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
               />
             </div>
 
@@ -94,7 +94,7 @@ export default function RegisterPage() {
                   setFormData({ ...formData, username: e.target.value })
                 }
                 placeholder="sec_fanatic"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-border text-foreground text-sm placeholder:text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-border text-foreground text-base sm:text-sm placeholder:text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
               />
             </div>
 
@@ -111,7 +111,7 @@ export default function RegisterPage() {
                   setFormData({ ...formData, password: e.target.value })
                 }
                 placeholder="At least 6 characters"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-border text-foreground text-sm placeholder:text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-border text-foreground text-base sm:text-sm placeholder:text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
               />
             </div>
 

@@ -526,7 +526,7 @@ export default function BallotPage() {
                                 }
                               }}
                               placeholder="Type team name (e.g. Georgia, OSU, Miami)..."
-                              className="w-full bg-background border border-accent/50 rounded-lg px-2.5 py-1 text-xs text-foreground placeholder:text-muted focus:outline-none"
+                              className="w-full bg-background border border-accent/50 rounded-lg px-2.5 py-1 text-base sm:text-xs text-foreground placeholder:text-muted focus:outline-none"
                             />
                             <button
                               type="button"
@@ -701,7 +701,7 @@ export default function BallotPage() {
                 placeholder="Filter directory..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-surface border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
+                className="w-full px-3 py-2 rounded-xl bg-surface border border-border text-foreground text-base sm:text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
               />
 
               {/* Conference Pills Filter */}
