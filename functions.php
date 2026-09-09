@@ -352,18 +352,23 @@ function flowtrus_form_shortcode($atts)
         'type' => 'default',
         'key' => '',
         'client_id' => '',
-        'class' => ''
+        'class' => '',
+        'style' => '',
+        'container_style' => ''
     ), $atts);
 
     $form_id = !empty($atts['id']) ? esc_attr($atts['id']) : (!empty($atts['key']) ? esc_attr($atts['key']) : '');
     $client_attr = !empty($atts['client_id']) ? ' data-client-id="' . esc_attr($atts['client_id']) . '"' : '';
     $extra_class = !empty($atts['class']) ? ' ' . esc_attr($atts['class']) : '';
+    
+    $container_style = !empty($atts['style']) ? esc_attr($atts['style']) : (!empty($atts['container_style']) ? esc_attr($atts['container_style']) : '');
+    $style_attr = !empty($container_style) ? ' data-container-style="' . $container_style . '"' : '';
 
     if (!empty($form_id)) {
-        return '<div class="flowtrus-form-embed flowtrus-inline-wrapper' . $extra_class . '" data-form-id="' . $form_id . '"' . $client_attr . '></div>';
+        return '<div class="flowtrus-form-embed flowtrus-inline-wrapper' . $extra_class . '" data-form-id="' . $form_id . '"' . $client_attr . $style_attr . '></div>';
     }
 
-    return '<div class="flowtrus-form-embed flowtrus-inline-wrapper' . $extra_class . '"' . $client_attr . '></div>';
+    return '<div class="flowtrus-form-embed flowtrus-inline-wrapper' . $extra_class . '"' . $client_attr . $style_attr . '></div>';
 }
 add_shortcode('flowtrus_form', 'flowtrus_form_shortcode');
 add_shortcode('flowtrus-form', 'flowtrus_form_shortcode');
