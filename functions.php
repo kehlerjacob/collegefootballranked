@@ -469,6 +469,60 @@ function flowtrus_customize_register($wp_customize)
         'section' => 'flowtrus_custom_scripts',
         'type' => 'textarea',
     ));
+
+    // Hero Form Showcase Section
+    $wp_customize->add_section('flowtrus_hero_showcase_section', array(
+        'title' => __('Hero Form Showcase Slider', 'flowtrus'),
+        'description' => __('Configure live interactive form shortcodes to display in a tabbed slider in the homepage hero section.', 'flowtrus'),
+        'priority' => 36,
+    ));
+
+    // Enable Showcase
+    $wp_customize->add_setting('flowtrus_hero_showcase_enable', array(
+        'default' => '1',
+        'type' => 'option',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'refresh',
+    ));
+
+    $wp_customize->add_control('flowtrus_hero_showcase_enable', array(
+        'label' => __('Enable Hero Form Slider', 'flowtrus'),
+        'description' => __('Displays an interactive form showcase slider to the right of the hero text on the homepage.', 'flowtrus'),
+        'section' => 'flowtrus_hero_showcase_section',
+        'type' => 'checkbox',
+    ));
+
+    // Showcase Badge
+    $wp_customize->add_setting('flowtrus_hero_showcase_badge', array(
+        'default' => '✨ Live Interactive Form Demo',
+        'type' => 'option',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'refresh',
+    ));
+
+    $wp_customize->add_control('flowtrus_hero_showcase_badge', array(
+        'label' => __('Showcase Card Top Badge', 'flowtrus'),
+        'section' => 'flowtrus_hero_showcase_section',
+        'type' => 'text',
+    ));
+
+    // Showcase Slides Raw
+    $wp_customize->add_setting('flowtrus_hero_slides_raw', array(
+        'default' => '',
+        'type' => 'option',
+        'capability' => 'edit_theme_options',
+        'sanitize_callback' => 'flowtrus_sanitize_raw_code',
+        'transport' => 'refresh',
+    ));
+
+    $wp_customize->add_control('flowtrus_hero_slides_raw', array(
+        'label' => __('Form Slides (One per line: Title | Shortcode | Tag)', 'flowtrus'),
+        'description' => __('Format: Title | [flowtrus_form id="..."] | Tag' . "\n" . 'Example:' . "\n" . 'Home Services | [flowtrus_form id="LhOxsSHbmRt0t6SfAeOi"] | 3-Step Flow' . "\n" . 'Roofing Quote | [flowtrus_form id="service-booking"] | Instant Booking'),
+        'section' => 'flowtrus_hero_showcase_section',
+        'type' => 'textarea',
+    ));
 }
 add_action('customize_register', 'flowtrus_customize_register');
 
@@ -484,12 +538,93 @@ function flowtrus_sanitize_raw_code($content)
 }
 
 /**
+ * Helper function to retrieve Hero Form Showcase Slides
+ */
+function flowtrus_get_hero_slides()
+{
+    $raw_slides = get_option('flowtrus_hero_slides_raw', '');
+    $slides = array();
+
+    if (!empty($raw_slides)) {
+        $lines = explode("\n", str_replace("\r", "", $raw_slides));
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if (empty($line) || strpos($line, '#') === 0) continue;
+            
+            $parts = array_map('trim', explode('|', $line));
+            $title = !empty($parts[0]) ? $parts[0] : 'Example Form';
+            $shortcode_or_id = !empty($parts[1]) ? $parts[1] : '';
+            $badge = !empty($parts[2]) ? $parts[2] : '';
+
+            if (!empty($shortcode_or_id)) {
+                if (strpos($shortcode_or_id, '[') === false) {
+                    $shortcode = '[flowtrus_form id="' . esc_attr($shortcode_or_id) . '"]';
+                } else {
+                    $shortcode = $shortcode_or_id;
+                }
+
+                $slides[] = array(
+                    'title' => $title,
+                    'shortcode' => $shortcode,
+                    'badge' => $badge
+                );
+            }
+        }
+    }
+
+    // Check individual slide settings if raw is empty
+    if (empty($slides)) {
+        for ($i = 1; $i <= 5; $i++) {
+            $title = get_option("flowtrus_hero_slide_{$i}_title", '');
+            $code = get_option("flowtrus_hero_slide_{$i}_code", '');
+            $badge = get_option("flowtrus_hero_slide_{$i}_badge", '');
+
+            if (!empty($code)) {
+                if (strpos($code, '[') === false) {
+                    $shortcode = '[flowtrus_form id="' . esc_attr($code) . '"]';
+                } else {
+                    $shortcode = $code;
+                }
+                $slides[] = array(
+                    'title' => !empty($title) ? $title : "Form {$i}",
+                    'shortcode' => $shortcode,
+                    'badge' => $badge
+                );
+            }
+        }
+    }
+
+    // Default fallback examples if nothing is configured
+    if (empty($slides)) {
+        $slides = array(
+            array(
+                'title' => 'Home Services',
+                'shortcode' => '[flowtrus_form id="LhOxsSHbmRt0t6SfAeOi"]',
+                'badge' => '3-Step Flow'
+            ),
+            array(
+                'title' => 'HVAC & Roofing',
+                'shortcode' => '[flowtrus_form id="service-booking"]',
+                'badge' => 'Instant Booking'
+            ),
+            array(
+                'title' => 'Project Intake',
+                'shortcode' => '[flowtrus_form id="lead-capture"]',
+                'badge' => 'B2B Lead Gen'
+            )
+        );
+    }
+
+    return $slides;
+}
+
+/**
  * Register Flowtrus Admin Settings Page under Settings > Flowtrus Scripts
  */
 function flowtrus_register_admin_settings()
 {
     add_options_page(
-        __('Flowtrus Custom Scripts', 'flowtrus'),
+        __('Flowtrus Custom Scripts & Hero Forms', 'flowtrus'),
         __('Flowtrus Scripts', 'flowtrus'),
         'manage_options',
         'flowtrus-scripts',
@@ -509,6 +644,27 @@ add_action('admin_init', function () {
         'sanitize_callback' => 'flowtrus_sanitize_raw_code',
         'default' => '',
     ));
+    register_setting('flowtrus_scripts_group', 'flowtrus_hero_showcase_enable', array(
+        'type' => 'string',
+        'sanitize_callback' => 'sanitize_text_field',
+        'default' => '1',
+    ));
+    register_setting('flowtrus_scripts_group', 'flowtrus_hero_showcase_badge', array(
+        'type' => 'string',
+        'sanitize_callback' => 'sanitize_text_field',
+        'default' => '✨ Live Interactive Form Demo',
+    ));
+    register_setting('flowtrus_scripts_group', 'flowtrus_hero_slides_raw', array(
+        'type' => 'string',
+        'sanitize_callback' => 'flowtrus_sanitize_raw_code',
+        'default' => '',
+    ));
+
+    for ($i = 1; $i <= 5; $i++) {
+        register_setting('flowtrus_scripts_group', "flowtrus_hero_slide_{$i}_title", array('type' => 'string', 'sanitize_callback' => 'sanitize_text_field', 'default' => ''));
+        register_setting('flowtrus_scripts_group', "flowtrus_hero_slide_{$i}_code", array('type' => 'string', 'sanitize_callback' => 'flowtrus_sanitize_raw_code', 'default' => ''));
+        register_setting('flowtrus_scripts_group', "flowtrus_hero_slide_{$i}_badge", array('type' => 'string', 'sanitize_callback' => 'sanitize_text_field', 'default' => ''));
+    }
 });
 
 /**
@@ -519,39 +675,137 @@ function flowtrus_render_admin_settings_page()
     if (!current_user_can('manage_options')) {
         return;
     }
+    $showcase_enabled = get_option('flowtrus_hero_showcase_enable', '1');
+    $showcase_badge = get_option('flowtrus_hero_showcase_badge', '✨ Live Interactive Form Demo');
+    $slides_raw = get_option('flowtrus_hero_slides_raw', '');
     ?>
-    <div class="wrap">
+    <div class="wrap" style="max-width: 1000px;">
         <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
-        <p>Add custom tracking scripts, Flowtrus embed scripts, or third-party tags to your website.</p>
+        <p style="font-size: 14px; color: #475569;">Configure your Flowtrus tracking scripts and hero section interactive form showcase slider.</p>
         
         <form method="post" action="options.php">
             <?php
             settings_fields('flowtrus_scripts_group');
             do_settings_sections('flowtrus_scripts_group');
             ?>
+
+            <!-- SECTION 1: HERO FORM SHOWCASE SLIDER -->
+            <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 24px; margin-top: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                    <span style="font-size: 20px;">🎠</span>
+                    <h2 style="margin: 0; font-size: 18px; color: #0f172a;">Hero Form Showcase Slider</h2>
+                </div>
+                <p style="color: #64748b; font-size: 13px; margin-top: 0; margin-bottom: 20px;">
+                    Display live interactive form shortcodes in a tabbed slider alongside your hero headline on the homepage.
+                </p>
+
+                <table class="form-table" role="presentation" style="margin-top: 0;">
+                    <tr>
+                        <th scope="row" style="width: 220px;">
+                            <label for="flowtrus_hero_showcase_enable"><strong>Enable Hero Showcase</strong></label>
+                        </th>
+                        <td>
+                            <label style="display: inline-flex; align-items: center; gap: 8px; font-weight: 600; cursor: pointer;">
+                                <input type="checkbox" name="flowtrus_hero_showcase_enable" id="flowtrus_hero_showcase_enable" value="1" <?php checked('1', $showcase_enabled); ?> />
+                                Enable 2-column interactive form slider in homepage hero
+                            </label>
+                            <p class="description">When unchecked, the homepage hero will revert to the standard centered text layout.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="flowtrus_hero_showcase_badge"><strong>Showcase Top Badge</strong></label>
+                        </th>
+                        <td>
+                            <input type="text" name="flowtrus_hero_showcase_badge" id="flowtrus_hero_showcase_badge" value="<?php echo esc_attr($showcase_badge); ?>" class="regular-text" placeholder="✨ Live Interactive Form Demo" />
+                            <p class="description">Label displayed at the top header of the form showcase frame.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="flowtrus_hero_slides_raw"><strong>Showcase Form Slides</strong><br><span style="font-size: 11px; font-weight: normal; color: #64748b;">(Quick Multi-Line Format)</span></label>
+                        </th>
+                        <td>
+                            <textarea name="flowtrus_hero_slides_raw" id="flowtrus_hero_slides_raw" rows="6" class="large-text code" style="font-family: monospace; font-size: 13px;" placeholder="Home Services | [flowtrus_form id=&quot;LhOxsSHbmRt0t6SfAeOi&quot;] | 3-Step Flow&#10;HVAC &amp; Roofing | [flowtrus_form id=&quot;service-booking&quot;] | Instant Booking&#10;Project Intake | [flowtrus_form id=&quot;lead-capture&quot;] | B2B Lead Gen"><?php echo esc_textarea($slides_raw); ?></textarea>
+                            <p class="description">
+                                Enter one slide per line in format: <code>Tab Title | Shortcode or Form ID | Optional Category Tag</code><br>
+                                <em>Leave blank to use the individual slide fields below or default examples.</em>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+
+                <h3 style="font-size: 14px; text-transform: uppercase; color: #475569; letter-spacing: 0.5px; margin: 20px 0 10px 0; border-top: 1px solid #e2e8f0; padding-top: 15px;">
+                    Or Configure Individual Form Slides:
+                </h3>
+
+                <table class="widefat striped" style="margin-top: 10px; border-radius: 6px; overflow: hidden;">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px; font-weight: 700;">Slide</th>
+                            <th style="font-weight: 700;">Tab Label / Title</th>
+                            <th style="font-weight: 700;">Form Shortcode or Form ID</th>
+                            <th style="font-weight: 700;">Category Badge (e.g. 3-Step Flow)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php for ($i = 1; $i <= 4; $i++): 
+                            $t = get_option("flowtrus_hero_slide_{$i}_title", '');
+                            $c = get_option("flowtrus_hero_slide_{$i}_code", '');
+                            $b = get_option("flowtrus_hero_slide_{$i}_badge", '');
+                        ?>
+                        <tr>
+                            <td style="font-weight: 700; vertical-align: middle;">#<?php echo $i; ?></td>
+                            <td>
+                                <input type="text" name="flowtrus_hero_slide_<?php echo $i; ?>_title" value="<?php echo esc_attr($t); ?>" placeholder="e.g. Home Services" style="width: 100%;" />
+                            </td>
+                            <td>
+                                <input type="text" name="flowtrus_hero_slide_<?php echo $i; ?>_code" value="<?php echo esc_attr($c); ?>" placeholder="[flowtrus_form id=&quot;...&quot;] or Form ID" style="width: 100%; font-family: monospace;" />
+                            </td>
+                            <td>
+                                <input type="text" name="flowtrus_hero_slide_<?php echo $i; ?>_badge" value="<?php echo esc_attr($b); ?>" placeholder="e.g. Instant Quote" style="width: 100%;" />
+                            </td>
+                        </tr>
+                        <?php endfor; ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- SECTION 2: TRACKING SCRIPTS -->
+            <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 24px; margin-top: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                    <span style="font-size: 20px;">⚡</span>
+                    <h2 style="margin: 0; font-size: 18px; color: #0f172a;">Global Tracking & Embed Scripts</h2>
+                </div>
+                <p style="color: #64748b; font-size: 13px; margin-top: 0; margin-bottom: 20px;">
+                    Paste your Flowtrus SDK script tag or third-party tags to load across all pages.
+                </p>
+
+                <table class="form-table" role="presentation" style="margin-top: 0;">
+                    <tr>
+                        <th scope="row" style="width: 220px;">
+                            <label for="flowtrus_head_scripts"><strong>Header Scripts (<code>&lt;head&gt;</code>)</strong></label>
+                        </th>
+                        <td>
+                            <textarea name="flowtrus_head_scripts" id="flowtrus_head_scripts" rows="8" class="large-text code" style="font-family: monospace; font-size: 13px;" placeholder="&lt;script src=&quot;https://app.flowtrus.com/...&quot; data-client-id=&quot;acme&quot;&gt;&lt;/script&gt;"><?php echo esc_textarea(get_option('flowtrus_head_scripts', get_theme_mod('flowtrus_head_scripts', ''))); ?></textarea>
+                            <p class="description">Paste your Flowtrus tracking or form script snippet here. It will be output inside the <code>&lt;head&gt;</code> tag on every page.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="flowtrus_footer_scripts"><strong>Footer Scripts (before <code>&lt;/body&gt;</code>)</strong></label>
+                        </th>
+                        <td>
+                            <textarea name="flowtrus_footer_scripts" id="flowtrus_footer_scripts" rows="6" class="large-text code" style="font-family: monospace; font-size: 13px;" placeholder="&lt;!-- Optional footer scripts --&gt;"><?php echo esc_textarea(get_option('flowtrus_footer_scripts', get_theme_mod('flowtrus_footer_scripts', ''))); ?></textarea>
+                            <p class="description">Scripts entered here will be output right before the closing <code>&lt;/body&gt;</code> tag on every page.</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
             
-            <table class="form-table" role="presentation">
-                <tr>
-                    <th scope="row">
-                        <label for="flowtrus_head_scripts"><strong>Header Scripts (<code>&lt;head&gt;</code>)</strong></label>
-                    </th>
-                    <td>
-                        <textarea name="flowtrus_head_scripts" id="flowtrus_head_scripts" rows="10" class="large-text code" style="font-family: monospace; font-size: 13px;" placeholder="&lt;script src=&quot;https://app.flowtrus.com/...&quot;&gt;&lt;/script&gt;"><?php echo esc_textarea(get_option('flowtrus_head_scripts', get_theme_mod('flowtrus_head_scripts', ''))); ?></textarea>
-                        <p class="description">Paste your Flowtrus tracking or form script snippet here. It will be output inside the <code>&lt;head&gt;</code> tag on every page.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">
-                        <label for="flowtrus_footer_scripts"><strong>Footer Scripts (before <code>&lt;/body&gt;</code>)</strong></label>
-                    </th>
-                    <td>
-                        <textarea name="flowtrus_footer_scripts" id="flowtrus_footer_scripts" rows="8" class="large-text code" style="font-family: monospace; font-size: 13px;" placeholder="&lt;!-- Optional footer scripts --&gt;"><?php echo esc_textarea(get_option('flowtrus_footer_scripts', get_theme_mod('flowtrus_footer_scripts', ''))); ?></textarea>
-                        <p class="description">Scripts entered here will be output right before the closing <code>&lt;/body&gt;</code> tag on every page.</p>
-                    </td>
-                </tr>
-            </table>
-            
-            <?php submit_button('Save Changes'); ?>
+            <div style="margin-top: 24px;">
+                <?php submit_button('Save All Settings', 'primary', 'submit', false, array('style' => 'font-size: 15px; padding: 6px 24px; height: auto;')); ?>
+            </div>
         </form>
     </div>
     <?php

@@ -158,17 +158,124 @@
         });
     }
 
+    // Hero Form Showcase Slider
+    function initHeroFormSlider() {
+        const showcase = document.getElementById('heroFormShowcase');
+        if (!showcase) return;
+
+        const tabs = showcase.querySelectorAll('.hero-form-tab');
+        const slides = showcase.querySelectorAll('.hero-form-slide');
+        const dots = showcase.querySelectorAll('.showcase-dot');
+        const prevBtn = showcase.querySelector('.showcase-arrow-prev');
+        const nextBtn = showcase.querySelector('.showcase-arrow-next');
+
+        if (!slides.length) return;
+
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+
+        function goToSlide(index) {
+            currentIndex = (index + totalSlides) % totalSlides;
+
+            // Update slides
+            slides.forEach((slide, idx) => {
+                if (idx === currentIndex) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+
+            // Update tabs
+            tabs.forEach((tab, idx) => {
+                if (idx === currentIndex) {
+                    tab.classList.add('active');
+                    tab.setAttribute('aria-selected', 'true');
+                    // Scroll active tab into view horizontally if needed
+                    tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                } else {
+                    tab.classList.remove('active');
+                    tab.setAttribute('aria-selected', 'false');
+                }
+            });
+
+            // Update dots
+            dots.forEach((dot, idx) => {
+                if (idx === currentIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        // Tab clicks
+        tabs.forEach((tab) => {
+            tab.addEventListener('click', function () {
+                const targetIndex = parseInt(this.getAttribute('data-slide-index'), 10);
+                if (!isNaN(targetIndex)) {
+                    goToSlide(targetIndex);
+                }
+            });
+        });
+
+        // Dot clicks
+        dots.forEach((dot) => {
+            dot.addEventListener('click', function () {
+                const targetIndex = parseInt(this.getAttribute('data-slide-index'), 10);
+                if (!isNaN(targetIndex)) {
+                    goToSlide(targetIndex);
+                }
+            });
+        });
+
+        // Arrow navigation
+        if (prevBtn) {
+            prevBtn.addEventListener('click', function () {
+                goToSlide(currentIndex - 1);
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', function () {
+                goToSlide(currentIndex + 1);
+            });
+        }
+
+        // Touch swipe support for mobile
+        const slidesContainer = showcase.querySelector('.hero-form-slides');
+        if (slidesContainer) {
+            let startX = 0;
+            let endX = 0;
+
+            slidesContainer.addEventListener('touchstart', function (e) {
+                startX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            slidesContainer.addEventListener('touchend', function (e) {
+                endX = e.changedTouches[0].screenX;
+                const diff = startX - endX;
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0) {
+                        goToSlide(currentIndex + 1); // Swiped left -> next
+                    } else {
+                        goToSlide(currentIndex - 1); // Swiped right -> prev
+                    }
+                }
+            }, { passive: true });
+        }
+    }
+
     // Initialize all functions when DOM is ready
     document.addEventListener('DOMContentLoaded', function () {
         initMobileMenu();
         initSmoothScroll();
-        initSmoothScroll();
         // initFormTriggers(); // Handled by SDK
-        initScrollAnimations();
         initScrollAnimations();
         initActiveMenuItems();
         initFormValidation();
         initAnalyticsDemoAnimations();
+        initHeroFormSlider();
     });
 
     // Handle window resize

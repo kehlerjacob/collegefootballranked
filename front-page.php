@@ -9,6 +9,121 @@ get_header();
 ?>
 
 <!-- Hero Section -->
+<?php
+$showcase_enabled = get_option('flowtrus_hero_showcase_enable', '1');
+$hero_slides = function_exists('flowtrus_get_hero_slides') ? flowtrus_get_hero_slides() : array();
+$showcase_badge = get_option('flowtrus_hero_showcase_badge', '✨ Live Interactive Form Demo');
+if (empty($showcase_badge)) {
+    $showcase_badge = '✨ Live Interactive Form Demo';
+}
+
+if ($showcase_enabled === '1' && !empty($hero_slides)) :
+?>
+<section class="hero hero-with-showcase">
+    <div class="container hero-grid">
+        <!-- Left Column: Hero Text Content -->
+        <div class="hero-text-col">
+            <div style="margin-bottom: 20px;">
+                <span class="mission-badge" style="margin-bottom: 0;">
+                    <span>🎯</span> OUR MISSION & PROPRIETARY ENGINE
+                </span>
+            </div>
+            <h1 class="hero-title">
+                Engineering the Highest-Converting Booking Forms on the Internet
+            </h1>
+            <p class="hero-description">
+                Most online booking forms are silent conversion killers—bleeding up to 70% of potential customers due to cognitive friction and clunky layouts. Our mission is to eliminate that friction completely. Through our proprietary data collection and continuous telemetry analysis, we turn everyday booking forms into predictable, high-yield revenue engines for our partners.
+            </p>
+            <div class="hero-cta">
+                <a href="<?php echo esc_url(home_url('/demo')); ?>" class="btn btn-accent btn-lg" style="font-weight: 700;">See Live Demo</a>
+                <a href="#" class="btn btn-secondary btn-lg flowtrus-trigger" data-form-id="LhOxsSHbmRt0t6SfAeOi" style="font-weight: 700; background-color: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.3); color: white;">Get Started</a>
+            </div>
+
+            <!-- Value Highlights -->
+            <div class="hero-highlights">
+                <div class="hero-highlight-item">
+                    <span class="highlight-icon">⚡</span>
+                    <span>Sub-100ms Instant Load</span>
+                </div>
+                <div class="hero-highlight-item">
+                    <span class="highlight-icon">🔒</span>
+                    <span>Zero Data Leakage</span>
+                </div>
+                <div class="hero-highlight-item">
+                    <span class="highlight-icon">📈</span>
+                    <span>+38% Avg Conversion Lift</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Interactive Form Showcase Slider -->
+        <div class="hero-showcase-col">
+            <div class="hero-form-showcase" id="heroFormShowcase">
+                <!-- Showcase Header Bar -->
+                <div class="showcase-header">
+                    <div class="showcase-badge-pill">
+                        <span class="pulse-dot"></span>
+                        <span class="badge-text"><?php echo esc_html($showcase_badge); ?></span>
+                    </div>
+                    <div class="showcase-nav-arrows">
+                        <button type="button" class="showcase-arrow showcase-arrow-prev" aria-label="Previous form example">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                        </button>
+                        <button type="button" class="showcase-arrow showcase-arrow-next" aria-label="Next form example">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Showcase Tab Selector Pills -->
+                <?php if (count($hero_slides) > 1) : ?>
+                <div class="hero-form-tabs" role="tablist">
+                    <?php foreach ($hero_slides as $index => $slide) : ?>
+                        <button type="button" 
+                                role="tab" 
+                                class="hero-form-tab <?php echo $index === 0 ? 'active' : ''; ?>" 
+                                data-slide-index="<?php echo $index; ?>"
+                                aria-selected="<?php echo $index === 0 ? 'true' : 'false'; ?>">
+                            <span class="tab-title"><?php echo esc_html($slide['title']); ?></span>
+                            <?php if (!empty($slide['badge'])) : ?>
+                                <span class="tab-badge"><?php echo esc_html($slide['badge']); ?></span>
+                            <?php endif; ?>
+                        </button>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
+
+                <!-- Showcase Form Slides -->
+                <div class="hero-form-slides">
+                    <?php foreach ($hero_slides as $index => $slide) : ?>
+                        <div class="hero-form-slide <?php echo $index === 0 ? 'active' : ''; ?>" 
+                             data-slide-index="<?php echo $index; ?>" 
+                             role="tabpanel">
+                            <div class="hero-form-slide-inner">
+                                <?php echo do_shortcode($slide['shortcode']); ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
+                <!-- Showcase Footer -->
+                <div class="showcase-footer">
+                    <div class="showcase-indicator-dots">
+                        <?php foreach ($hero_slides as $index => $slide) : ?>
+                            <button type="button" 
+                                    class="showcase-dot <?php echo $index === 0 ? 'active' : ''; ?>" 
+                                    data-slide-index="<?php echo $index; ?>" 
+                                    aria-label="Go to slide <?php echo $index + 1; ?>">
+                            </button>
+                        <?php endforeach; ?>
+                    </div>
+                    <span class="showcase-helper-hint">💡 Live preview: test typing or selecting options</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<?php else : ?>
 <section class="hero">
     <div class="container hero-content" style="text-align: center; max-width: 960px; margin: 0 auto;">
         <div style="margin-bottom: 24px;">
@@ -28,6 +143,7 @@ get_header();
         </div>
     </div>
 </section>
+<?php endif; ?>
 
 <!-- Features Section -->
 <section class="section" style="background: linear-gradient(180deg, #f9fafb 0%, #ffffff 100%);">
