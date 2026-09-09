@@ -56,68 +56,66 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
             </div>
         </div>
 
-        <!-- Right Column: Interactive Form Showcase Slider -->
+        <!-- Right Column: 3D Coverflow Form Showcase Carousel -->
         <div class="hero-showcase-col">
-            <div class="hero-form-showcase" id="heroFormShowcase">
-                <!-- Showcase Header Bar -->
-                <div class="showcase-header">
-                    <div class="showcase-badge-pill">
-                        <span class="pulse-dot"></span>
-                        <span class="badge-text"><?php echo esc_html($showcase_badge); ?></span>
-                    </div>
-                    <div class="showcase-nav-arrows">
-                        <button type="button" class="showcase-arrow showcase-arrow-prev" aria-label="Previous form example">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-                        </button>
-                        <button type="button" class="showcase-arrow showcase-arrow-next" aria-label="Next form example">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Showcase Tab Selector Pills -->
-                <?php if (count($hero_slides) > 1) : ?>
-                <div class="hero-form-tabs" role="tablist">
+            <div class="hero-carousel-container" id="heroFormCarousel">
+                <!-- 3D Carousel Stage -->
+                <div class="hero-carousel-stage">
                     <?php foreach ($hero_slides as $index => $slide) : ?>
-                        <button type="button" 
-                                role="tab" 
-                                class="hero-form-tab <?php echo $index === 0 ? 'active' : ''; ?>" 
-                                data-slide-index="<?php echo $index; ?>"
-                                aria-selected="<?php echo $index === 0 ? 'true' : 'false'; ?>">
-                            <span class="tab-title"><?php echo esc_html($slide['title']); ?></span>
-                            <?php if (!empty($slide['badge'])) : ?>
-                                <span class="tab-badge"><?php echo esc_html($slide['badge']); ?></span>
-                            <?php endif; ?>
-                        </button>
-                    <?php endforeach; ?>
-                </div>
-                <?php endif; ?>
+                        <div class="hero-carousel-card <?php echo $index === 0 ? 'is-active' : ($index === 1 ? 'is-next' : ($index === count($hero_slides) - 1 ? 'is-prev' : 'is-hidden')); ?>" 
+                             data-slide-index="<?php echo $index; ?>"
+                             role="group"
+                             aria-label="<?php echo esc_attr($slide['title']); ?>">
+                            
+                            <!-- Card Header Bar -->
+                            <div class="carousel-card-header">
+                                <div class="card-title-wrap">
+                                    <span class="card-indicator-dot"></span>
+                                    <span class="card-title"><?php echo esc_html($slide['title']); ?></span>
+                                </div>
+                                <?php if (!empty($slide['badge'])) : ?>
+                                    <span class="card-badge"><?php echo esc_html($slide['badge']); ?></span>
+                                <?php endif; ?>
+                            </div>
 
-                <!-- Showcase Form Slides -->
-                <div class="hero-form-slides">
-                    <?php foreach ($hero_slides as $index => $slide) : ?>
-                        <div class="hero-form-slide <?php echo $index === 0 ? 'active' : ''; ?>" 
-                             data-slide-index="<?php echo $index; ?>" 
-                             role="tabpanel">
-                            <div class="hero-form-slide-inner">
+                            <!-- Embedded Live Form -->
+                            <div class="carousel-card-body">
                                 <?php echo do_shortcode($slide['shortcode']); ?>
                             </div>
                         </div>
                     <?php endforeach; ?>
                 </div>
 
-                <!-- Showcase Footer -->
-                <div class="showcase-footer">
-                    <div class="showcase-indicator-dots">
+                <!-- Navigation Controls Below Carousel -->
+                <div class="hero-carousel-controls">
+                    <button type="button" class="carousel-nav-btn carousel-prev-btn" aria-label="Previous form example">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </button>
+
+                    <!-- Indicators / Dots -->
+                    <div class="carousel-dots-nav">
                         <?php foreach ($hero_slides as $index => $slide) : ?>
                             <button type="button" 
-                                    class="showcase-dot <?php echo $index === 0 ? 'active' : ''; ?>" 
+                                    class="carousel-dot-btn <?php echo $index === 0 ? 'active' : ''; ?>" 
                                     data-slide-index="<?php echo $index; ?>" 
-                                    aria-label="Go to slide <?php echo $index + 1; ?>">
+                                    aria-label="Go to <?php echo esc_attr($slide['title']); ?>"
+                                    title="<?php echo esc_attr($slide['title']); ?>">
                             </button>
                         <?php endforeach; ?>
                     </div>
-                    <span class="showcase-helper-hint">💡 Live preview: test typing or selecting options</span>
+
+                    <button type="button" class="carousel-nav-btn carousel-next-btn" aria-label="Next form example">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Helper caption -->
+                <div class="carousel-hint">
+                    <span>💡 Click side forms or arrows to switch real-world examples</span>
                 </div>
             </div>
         </div>

@@ -158,112 +158,140 @@
         });
     }
 
-    // Hero Form Showcase Slider
-    function initHeroFormSlider() {
-        const showcase = document.getElementById('heroFormShowcase');
-        if (!showcase) return;
+    // Hero Form 3D Coverflow Carousel
+    function initHeroFormCarousel() {
+        const carousel = document.getElementById('heroFormCarousel');
+        if (!carousel) return;
 
-        const tabs = showcase.querySelectorAll('.hero-form-tab');
-        const slides = showcase.querySelectorAll('.hero-form-slide');
-        const dots = showcase.querySelectorAll('.showcase-dot');
-        const prevBtn = showcase.querySelector('.showcase-arrow-prev');
-        const nextBtn = showcase.querySelector('.showcase-arrow-next');
+        const cards = carousel.querySelectorAll('.hero-carousel-card');
+        const dots = carousel.querySelectorAll('.carousel-dot-btn');
+        const prevBtn = carousel.querySelector('.carousel-prev-btn');
+        const nextBtn = carousel.querySelector('.carousel-next-btn');
 
-        if (!slides.length) return;
+        if (!cards.length) return;
 
         let currentIndex = 0;
-        const totalSlides = slides.length;
+        const totalCards = cards.length;
 
-        function goToSlide(index) {
-            currentIndex = (index + totalSlides) % totalSlides;
+        function updateCarousel(targetIndex) {
+            currentIndex = (targetIndex + totalCards) % totalCards;
 
-            // Update slides
-            slides.forEach((slide, idx) => {
-                if (idx === currentIndex) {
-                    slide.classList.add('active');
+            cards.forEach((card, idx) => {
+                card.classList.remove('is-active', 'is-prev', 'is-next', 'is-hidden');
+
+                if (totalCards === 1) {
+                    card.classList.add('is-active');
+                    return;
+                }
+
+                let diff = idx - currentIndex;
+                
+                // Adjust for circular wrap
+                if (diff > totalCards / 2) {
+                    diff -= totalCards;
+                } else if (diff < -totalCards / 2) {
+                    diff += totalCards;
+                }
+
+                // Handle special case for 2 items
+                if (totalCards === 2) {
+                    if (idx === currentIndex) {
+                        card.classList.add('is-active');
+                    } else {
+                        card.classList.add('is-next');
+                    }
+                    return;
+                }
+
+                if (diff === 0) {
+                    card.classList.add('is-active');
+                } else if (diff === -1 || (totalCards === 3 && (diff === 2 || diff === -1))) {
+                    card.classList.add('is-prev');
+                } else if (diff === 1 || (totalCards === 3 && (diff === -2 || diff === 1))) {
+                    card.classList.add('is-next');
                 } else {
-                    slide.classList.remove('active');
+                    card.classList.add('is-hidden');
                 }
             });
 
-            // Update tabs
-            tabs.forEach((tab, idx) => {
-                if (idx === currentIndex) {
-                    tab.classList.add('active');
-                    tab.setAttribute('aria-selected', 'true');
-                    // Scroll active tab into view horizontally if needed
-                    tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                } else {
-                    tab.classList.remove('active');
-                    tab.setAttribute('aria-selected', 'false');
-                }
-            });
-
-            // Update dots
+            // Update dot indicators
             dots.forEach((dot, idx) => {
-                if (idx === currentIndex) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
+                dot.classList.toggle('active', idx === currentIndex);
             });
         }
 
-        // Tab clicks
-        tabs.forEach((tab) => {
-            tab.addEventListener('click', function () {
-                const targetIndex = parseInt(this.getAttribute('data-slide-index'), 10);
-                if (!isNaN(targetIndex)) {
-                    goToSlide(targetIndex);
+        // Click on side cards to bring them into center focus
+        cards.forEach((card) => {
+            card.addEventListener('click', function (e) {
+                // If the card is not active (i.e. is on side), navigate to it
+                if (!this.classList.contains('is-active')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const targetIndex = parseInt(this.getAttribute('data-slide-index'), 10);
+                    if (!isNaN(targetIndex)) {
+                        updateCarousel(targetIndex);
+                    }
                 }
             });
         });
 
-        // Dot clicks
+        // Click on dots
         dots.forEach((dot) => {
             dot.addEventListener('click', function () {
                 const targetIndex = parseInt(this.getAttribute('data-slide-index'), 10);
                 if (!isNaN(targetIndex)) {
-                    goToSlide(targetIndex);
+                    updateCarousel(targetIndex);
                 }
             });
         });
 
-        // Arrow navigation
+        // Prev & Next Arrow Buttons
         if (prevBtn) {
             prevBtn.addEventListener('click', function () {
-                goToSlide(currentIndex - 1);
+                updateCarousel(currentIndex - 1);
             });
         }
 
         if (nextBtn) {
             nextBtn.addEventListener('click', function () {
-                goToSlide(currentIndex + 1);
+                updateCarousel(currentIndex + 1);
             });
         }
 
-        // Touch swipe support for mobile
-        const slidesContainer = showcase.querySelector('.hero-form-slides');
-        if (slidesContainer) {
+        // Keyboard Arrow navigation when hovering carousel
+        carousel.addEventListener('keydown', function (e) {
+            if (e.key === 'ArrowLeft') {
+                updateCarousel(currentIndex - 1);
+            } else if (e.key === 'ArrowRight') {
+                updateCarousel(currentIndex + 1);
+            }
+        });
+
+        // Touch Swipe gestures for mobile
+        const stage = carousel.querySelector('.hero-carousel-stage');
+        if (stage) {
             let startX = 0;
             let endX = 0;
 
-            slidesContainer.addEventListener('touchstart', function (e) {
+            stage.addEventListener('touchstart', function (e) {
                 startX = e.changedTouches[0].screenX;
             }, { passive: true });
 
-            slidesContainer.addEventListener('touchend', function (e) {
+            stage.addEventListener('touchend', function (e) {
                 endX = e.changedTouches[0].screenX;
                 const diff = startX - endX;
-                if (Math.abs(diff) > 50) {
+                if (Math.abs(diff) > 40) {
                     if (diff > 0) {
-                        goToSlide(currentIndex + 1); // Swiped left -> next
+                        updateCarousel(currentIndex + 1); // Swiped left -> next
                     } else {
-                        goToSlide(currentIndex - 1); // Swiped right -> prev
+                        updateCarousel(currentIndex - 1); // Swiped right -> prev
                     }
                 }
             }, { passive: true });
         }
+
+        // Initial setup
+        updateCarousel(0);
     }
 
     // Initialize all functions when DOM is ready
@@ -275,7 +303,7 @@
         initActiveMenuItems();
         initFormValidation();
         initAnalyticsDemoAnimations();
-        initHeroFormSlider();
+        initHeroFormCarousel();
     });
 
     // Handle window resize
