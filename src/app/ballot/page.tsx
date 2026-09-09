@@ -46,11 +46,30 @@ export default function BallotPage() {
     Array(25).fill(null)
   );
 
+  // Quick fill dropdown & loading state
+  const [isQuickFillOpen, setIsQuickFillOpen] = useState(false);
+  const [quickFillLoading, setQuickFillLoading] = useState<string | null>(null);
+  const quickFillRef = useRef<HTMLDivElement | null>(null);
+
   const [existingBallotId, setExistingBallotId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+
+  // Close quick fill on click outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        quickFillRef.current &&
+        !quickFillRef.current.contains(event.target as Node)
+      ) {
+        setIsQuickFillOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Load weeks and teams
   useEffect(() => {
@@ -211,23 +230,159 @@ export default function BallotPage() {
     });
   };
 
-  const handleFillTop25Defaults = async () => {
+  // Helper to apply 25 team ranks cleanly with notification
+  const applyRankings = (
+    rankedList: {
+      name?: string;
+      shortName?: string;
+      teamName?: string;
+      teamId?: string | null;
+    }[],
+    sourceLabel: string
+  ) => {
+    const filled: (string | null)[] = Array(25).fill(null);
+    rankedList.slice(0, 25).forEach((r, idx) => {
+      if (r.teamId) {
+        filled[idx] = r.teamId;
+      } else {
+        const queryName = (r.name || r.teamName || "").toLowerCase().trim();
+        const queryShort = (r.shortName || "").toLowerCase().trim();
+        const match = teams.find(
+          (t) =>
+            t.name.toLowerCase().trim() === queryName ||
+            t.shortName.toLowerCase().trim() === queryShort ||
+            (queryName === "miami" && t.name.includes("Miami"))
+        );
+        if (match) filled[idx] = match.id;
+      }
+    });
+
+    setBallotRanks(filled);
+    setSuccessMsg(`⚡ Auto-filled Top 25 from ${sourceLabel}!`);
+    setTimeout(() => setSuccessMsg(""), 4000);
+  };
+
+  // 1. Auto-fill Community Consensus
+  const handleFillConsensus = async () => {
+    setIsQuickFillOpen(false);
+    setQuickFillLoading("consensus");
+    setErrorMsg("");
+    setSuccessMsg("");
+
     try {
-      const res = await fetch(`/api/rankings/2`);
-      if (res.ok) {
-        const data = await res.json();
-        if (data.rankings) {
-          const filled = data.rankings.map((r: { name: string }) => {
-            const match = teams.find((t) => t.name === r.name);
-            return match ? match.id : null;
-          });
-          while (filled.length < 25) filled.push(null);
-          setBallotRanks(filled.slice(0, 25));
-          setErrorMsg("");
-        }
+      const targetWeekNumber =
+        selectedWeek && selectedWeek.weekNumber > 0
+          ? selectedWeek.weekNumber - 1
+          : 1;
+
+      let res = await fetch(`/api/rankings/${targetWeekNumber}`);
+      if (!res.ok) {
+        // Fallback to Week 1
+        res = await fetch(`/api/rankings/1`);
+      }
+
+      if (!res.ok) {
+        setErrorMsg(`No consensus rankings found for Week ${targetWeekNumber}.`);
+        return;
+      }
+
+      const data = await res.json();
+      if (data.rankings && data.rankings.length > 0) {
+        applyRankings(
+          data.rankings,
+          `Week ${data.week?.weekNumber ?? targetWeekNumber} Community Consensus`
+        );
+      } else {
+        setErrorMsg(
+          `No community consensus data available for Week ${targetWeekNumber}.`
+        );
       }
     } catch (e) {
       console.error(e);
+      setErrorMsg("Failed to load community consensus rankings.");
+    } finally {
+      setQuickFillLoading(null);
+    }
+  };
+
+  // 2. Auto-fill User's Previous Poll Submission
+  const handleFillPreviousSubmission = async () => {
+    setIsQuickFillOpen(false);
+    setErrorMsg("");
+    setSuccessMsg("");
+
+    if (!user) {
+      setErrorMsg("Please sign in to auto-fill your previous week's ballot.");
+      return;
+    }
+
+    setQuickFillLoading("previous");
+
+    try {
+      const targetWeekNumber =
+        selectedWeek && selectedWeek.weekNumber > 0
+          ? selectedWeek.weekNumber - 1
+          : 1;
+
+      const res = await fetch(`/api/ballots?weekNumber=${targetWeekNumber}`);
+      if (!res.ok) {
+        setErrorMsg(`No previous ballot found for Week ${targetWeekNumber}.`);
+        return;
+      }
+
+      const data = await res.json();
+      if (data.ballot && data.ballot.items?.length > 0) {
+        const newRanks: (string | null)[] = Array(25).fill(null);
+        data.ballot.items.forEach(
+          (item: { rank: number; teamId: string }) => {
+            if (item.rank >= 1 && item.rank <= 25) {
+              newRanks[item.rank - 1] = item.teamId;
+            }
+          }
+        );
+        setBallotRanks(newRanks);
+        setSuccessMsg(
+          `🗳️ Loaded your submitted ballot from Week ${targetWeekNumber}!`
+        );
+        setTimeout(() => setSuccessMsg(""), 4000);
+      } else {
+        setErrorMsg(
+          `You have not submitted a ballot for Week ${targetWeekNumber}.`
+        );
+      }
+    } catch (e) {
+      console.error(e);
+      setErrorMsg("Failed to fetch your previous ballot submission.");
+    } finally {
+      setQuickFillLoading(null);
+    }
+  };
+
+  // 3. Auto-fill Most Recent AP Top 25 Poll
+  const handleFillAPPoll = async () => {
+    setIsQuickFillOpen(false);
+    setQuickFillLoading("ap");
+    setErrorMsg("");
+    setSuccessMsg("");
+
+    try {
+      const res = await fetch("/api/ap-poll");
+      if (!res.ok) {
+        setErrorMsg("Failed to fetch official AP Top 25 Poll.");
+        return;
+      }
+
+      const data = await res.json();
+      if (data.ranks && data.ranks.length > 0) {
+        applyRankings(data.ranks, data.source || "AP Top 25 Poll");
+      } else {
+        setErrorMsg("AP Top 25 Poll data is currently unavailable.");
+      }
+    } catch (e) {
+      console.error(e);
+      setErrorMsg("Failed to load AP Top 25 Poll.");
+    } finally {
+      setQuickFillLoading(null);
     }
   };
 
@@ -433,21 +588,138 @@ export default function BallotPage() {
                 </span>
               </div>
 
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={handleFillTop25Defaults}
-                  className="text-[11px] font-medium text-muted hover:text-accent transition-colors"
-                >
-                  ⚡ Auto-fill Consensus
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setBallotRanks(Array(25).fill(null))}
-                  className="text-[11px] font-medium text-muted hover:text-danger transition-colors"
-                >
-                  Clear All
-                </button>
+              <div className="relative" ref={quickFillRef}>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setIsQuickFillOpen(!isQuickFillOpen)}
+                    disabled={quickFillLoading !== null}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-surface border border-accent/40 text-accent hover:bg-accent/10 hover:border-accent transition-all shadow-sm active:scale-95 disabled:opacity-50"
+                  >
+                    {quickFillLoading ? (
+                      <span className="inline-block w-3 h-3 border-2 border-accent border-t-transparent rounded-full animate-spin"></span>
+                    ) : (
+                      <span>⚡</span>
+                    )}
+                    <span>Auto-fill</span>
+                    <svg
+                      className={`w-3 h-3 transition-transform duration-200 ${
+                        isQuickFillOpen ? "rotate-180" : ""
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setBallotRanks(Array(25).fill(null));
+                      setErrorMsg("");
+                      setSuccessMsg("");
+                    }}
+                    className="text-xs font-medium text-muted hover:text-danger px-1.5 py-1 transition-colors"
+                  >
+                    Clear
+                  </button>
+                </div>
+
+                {/* Dropdown Menu */}
+                {isQuickFillOpen && (
+                  <div className="absolute right-0 mt-2 w-72 rounded-2xl bg-surface border border-border/80 shadow-2xl p-1.5 z-50 animate-fade-in-up backdrop-blur-xl">
+                    <div className="px-3 py-2 border-b border-border/40">
+                      <p className="text-[11px] font-bold text-foreground uppercase tracking-wider">
+                        Auto-fill Options
+                      </p>
+                      <p className="text-[10px] text-muted">
+                        Select an option to automatically populate your 25 ballot slots
+                      </p>
+                    </div>
+
+                    <div className="py-1 space-y-1">
+                      {/* Option 1: Community Consensus */}
+                      <button
+                        type="button"
+                        onClick={handleFillConsensus}
+                        className="w-full text-left p-2 rounded-xl hover:bg-surface-elevated border border-transparent hover:border-border transition-all flex items-start gap-2.5 group"
+                      >
+                        <div className="w-7 h-7 rounded-lg bg-accent-dim text-accent flex items-center justify-center shrink-0 text-sm group-hover:scale-110 transition-transform">
+                          ⚡
+                        </div>
+                        <div>
+                          <div className="text-xs font-bold text-foreground group-hover:text-accent transition-colors flex items-center gap-1.5">
+                            Community Consensus
+                          </div>
+                          <p className="text-[10px] text-muted leading-tight mt-0.5">
+                            Auto-populate from previous week&apos;s community rankings
+                          </p>
+                        </div>
+                      </button>
+
+                      {/* Option 2: Previous Poll Submission */}
+                      <button
+                        type="button"
+                        onClick={handleFillPreviousSubmission}
+                        className="w-full text-left p-2 rounded-xl hover:bg-surface-elevated border border-transparent hover:border-border transition-all flex items-start gap-2.5 group"
+                      >
+                        <div className="w-7 h-7 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center shrink-0 text-sm group-hover:scale-110 transition-transform">
+                          🗳️
+                        </div>
+                        <div>
+                          <div className="text-xs font-bold text-foreground group-hover:text-purple-400 transition-colors flex items-center gap-1.5">
+                            Previous Poll Submission
+                          </div>
+                          <p className="text-[10px] text-muted leading-tight mt-0.5">
+                            Auto-fill your submitted ballot from last week
+                          </p>
+                        </div>
+                      </button>
+
+                      {/* Option 3: Most Recent AP Poll */}
+                      <button
+                        type="button"
+                        onClick={handleFillAPPoll}
+                        className="w-full text-left p-2 rounded-xl hover:bg-surface-elevated border border-transparent hover:border-border transition-all flex items-start gap-2.5 group"
+                      >
+                        <div className="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0 text-sm group-hover:scale-110 transition-transform">
+                          🏆
+                        </div>
+                        <div>
+                          <div className="text-xs font-bold text-foreground group-hover:text-amber-400 transition-colors flex items-center gap-1.5">
+                            Most Recent AP Poll
+                          </div>
+                          <p className="text-[10px] text-muted leading-tight mt-0.5">
+                            Auto-fill with the official ESPN AP Top 25 Poll
+                          </p>
+                        </div>
+                      </button>
+                    </div>
+
+                    <div className="pt-1 mt-1 border-t border-border/40">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setBallotRanks(Array(25).fill(null));
+                          setIsQuickFillOpen(false);
+                          setErrorMsg("");
+                          setSuccessMsg("");
+                        }}
+                        className="w-full text-left px-2.5 py-1.5 rounded-xl hover:bg-danger/10 text-muted hover:text-danger transition-colors flex items-center gap-2 text-xs font-medium"
+                      >
+                        <span>🗑️</span>
+                        <span>Clear all 25 slots</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
