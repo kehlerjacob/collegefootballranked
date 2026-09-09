@@ -23,11 +23,6 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
     <div class="container hero-grid">
         <!-- Left Column: Hero Text Content -->
         <div class="hero-text-col">
-            <div style="margin-bottom: 20px;">
-                <span class="mission-badge" style="margin-bottom: 0;">
-                    <span>🎯</span> OUR MISSION & PROPRIETARY ENGINE
-                </span>
-            </div>
             <h1 class="hero-title">
                 Engineering the Highest-Converting Booking Forms on the Internet
             </h1>
@@ -42,15 +37,15 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
             <!-- Value Highlights -->
             <div class="hero-highlights">
                 <div class="hero-highlight-item">
-                    <span class="highlight-icon">⚡</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
                     <span>Sub-100ms Instant Load</span>
                 </div>
                 <div class="hero-highlight-item">
-                    <span class="highlight-icon">🔒</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                     <span>Zero Data Leakage</span>
                 </div>
                 <div class="hero-highlight-item">
-                    <span class="highlight-icon">📈</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
                     <span>+38% Avg Conversion Lift</span>
                 </div>
             </div>
@@ -104,7 +99,7 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
 
                 <!-- Helper caption -->
                 <div class="carousel-hint">
-                    <span>💡 Click side forms or arrows to switch real-world examples</span>
+                    <span>Click side forms or arrows to switch real-world examples</span>
                 </div>
             </div>
         </div>
@@ -231,11 +226,6 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
 <?php else : ?>
 <section class="hero">
     <div class="container hero-content" style="text-align: center; max-width: 960px; margin: 0 auto;">
-        <div style="margin-bottom: 24px;">
-            <span class="mission-badge" style="margin-bottom: 0;">
-                <span>🎯</span> OUR MISSION & PROPRIETARY ENGINE
-            </span>
-        </div>
         <h1 style="font-size: clamp(34px, 4.5vw, 54px); font-weight: 800; line-height: 1.15; margin-bottom: 24px; letter-spacing: -0.5px;">
             Engineering the Highest-Converting Booking Forms on the Internet
         </h1>
