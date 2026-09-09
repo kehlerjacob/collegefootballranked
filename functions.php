@@ -418,56 +418,34 @@ function flowtrus_customize_register($wp_customize)
     // Head Scripts Setting (<head>)
     $wp_customize->add_setting('flowtrus_head_scripts', array(
         'default' => '',
+        'type' => 'option',
+        'capability' => 'edit_theme_options',
         'sanitize_callback' => 'flowtrus_sanitize_raw_code',
         'transport' => 'refresh',
     ));
 
-    if (class_exists('WP_Customize_Code_Editor_Control')) {
-        $wp_customize->add_control(new WP_Customize_Code_Editor_Control(
-            $wp_customize,
-            'flowtrus_head_scripts',
-            array(
-                'label' => __('Header Scripts (<head>)', 'flowtrus'),
-                'description' => __('Scripts and HTML entered here will be output directly in the <head> tag across the site (e.g. Flowtrus tracking snippet, Google Tag Manager).', 'flowtrus'),
-                'section' => 'flowtrus_custom_scripts',
-                'code_type' => 'text/html',
-            )
-        ));
-    } else {
-        $wp_customize->add_control('flowtrus_head_scripts', array(
-            'label' => __('Header Scripts (<head>)', 'flowtrus'),
-            'description' => __('Scripts and HTML entered here will be output directly in the <head> tag across the site.', 'flowtrus'),
-            'section' => 'flowtrus_custom_scripts',
-            'type' => 'textarea',
-        ));
-    }
+    $wp_customize->add_control('flowtrus_head_scripts', array(
+        'label' => __('Header Scripts (<head>)', 'flowtrus'),
+        'description' => __('Scripts and HTML entered here will be output directly in the <head> tag across the site.', 'flowtrus'),
+        'section' => 'flowtrus_custom_scripts',
+        'type' => 'textarea',
+    ));
 
     // Footer Scripts Setting (before </body>)
     $wp_customize->add_setting('flowtrus_footer_scripts', array(
         'default' => '',
+        'type' => 'option',
+        'capability' => 'edit_theme_options',
         'sanitize_callback' => 'flowtrus_sanitize_raw_code',
         'transport' => 'refresh',
     ));
 
-    if (class_exists('WP_Customize_Code_Editor_Control')) {
-        $wp_customize->add_control(new WP_Customize_Code_Editor_Control(
-            $wp_customize,
-            'flowtrus_footer_scripts',
-            array(
-                'label' => __('Footer Scripts (before </body>)', 'flowtrus'),
-                'description' => __('Scripts and HTML entered here will be output right before the closing </body> tag.', 'flowtrus'),
-                'section' => 'flowtrus_custom_scripts',
-                'code_type' => 'text/html',
-            )
-        ));
-    } else {
-        $wp_customize->add_control('flowtrus_footer_scripts', array(
-            'label' => __('Footer Scripts (before </body>)', 'flowtrus'),
-            'description' => __('Scripts and HTML entered here will be output right before the closing </body> tag.', 'flowtrus'),
-            'section' => 'flowtrus_custom_scripts',
-            'type' => 'textarea',
-        ));
-    }
+    $wp_customize->add_control('flowtrus_footer_scripts', array(
+        'label' => __('Footer Scripts (before </body>)', 'flowtrus'),
+        'description' => __('Scripts and HTML entered here will be output right before the closing </body> tag.', 'flowtrus'),
+        'section' => 'flowtrus_custom_scripts',
+        'type' => 'textarea',
+    ));
 }
 add_action('customize_register', 'flowtrus_customize_register');
 
@@ -483,11 +461,88 @@ function flowtrus_sanitize_raw_code($content)
 }
 
 /**
+ * Register Flowtrus Admin Settings Page under Settings > Flowtrus Scripts
+ */
+function flowtrus_register_admin_settings()
+{
+    add_options_page(
+        __('Flowtrus Custom Scripts', 'flowtrus'),
+        __('Flowtrus Scripts', 'flowtrus'),
+        'manage_options',
+        'flowtrus-scripts',
+        'flowtrus_render_admin_settings_page'
+    );
+}
+add_action('admin_menu', 'flowtrus_register_admin_settings');
+
+add_action('admin_init', function () {
+    register_setting('flowtrus_scripts_group', 'flowtrus_head_scripts', array(
+        'type' => 'string',
+        'sanitize_callback' => 'flowtrus_sanitize_raw_code',
+        'default' => '',
+    ));
+    register_setting('flowtrus_scripts_group', 'flowtrus_footer_scripts', array(
+        'type' => 'string',
+        'sanitize_callback' => 'flowtrus_sanitize_raw_code',
+        'default' => '',
+    ));
+});
+
+/**
+ * Render Admin Settings Page
+ */
+function flowtrus_render_admin_settings_page()
+{
+    if (!current_user_can('manage_options')) {
+        return;
+    }
+    ?>
+    <div class="wrap">
+        <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
+        <p>Add custom tracking scripts, Flowtrus embed scripts, or third-party tags to your website.</p>
+        
+        <form method="post" action="options.php">
+            <?php
+            settings_fields('flowtrus_scripts_group');
+            do_settings_sections('flowtrus_scripts_group');
+            ?>
+            
+            <table class="form-table" role="presentation">
+                <tr>
+                    <th scope="row">
+                        <label for="flowtrus_head_scripts"><strong>Header Scripts (<code>&lt;head&gt;</code>)</strong></label>
+                    </th>
+                    <td>
+                        <textarea name="flowtrus_head_scripts" id="flowtrus_head_scripts" rows="10" class="large-text code" style="font-family: monospace; font-size: 13px;" placeholder="&lt;script src=&quot;https://app.flowtrus.com/...&quot;&gt;&lt;/script&gt;"><?php echo esc_textarea(get_option('flowtrus_head_scripts', get_theme_mod('flowtrus_head_scripts', ''))); ?></textarea>
+                        <p class="description">Paste your Flowtrus tracking or form script snippet here. It will be output inside the <code>&lt;head&gt;</code> tag on every page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <label for="flowtrus_footer_scripts"><strong>Footer Scripts (before <code>&lt;/body&gt;</code>)</strong></label>
+                    </th>
+                    <td>
+                        <textarea name="flowtrus_footer_scripts" id="flowtrus_footer_scripts" rows="8" class="large-text code" style="font-family: monospace; font-size: 13px;" placeholder="&lt;!-- Optional footer scripts --&gt;"><?php echo esc_textarea(get_option('flowtrus_footer_scripts', get_theme_mod('flowtrus_footer_scripts', ''))); ?></textarea>
+                        <p class="description">Scripts entered here will be output right before the closing <code>&lt;/body&gt;</code> tag on every page.</p>
+                    </td>
+                </tr>
+            </table>
+            
+            <?php submit_button('Save Changes'); ?>
+        </form>
+    </div>
+    <?php
+}
+
+/**
  * Output Custom Head Scripts in <head>
  */
 function flowtrus_output_head_scripts()
 {
-    $head_scripts = get_theme_mod('flowtrus_head_scripts', '');
+    $head_scripts = get_option('flowtrus_head_scripts');
+    if (empty($head_scripts)) {
+        $head_scripts = get_theme_mod('flowtrus_head_scripts', '');
+    }
     if (!empty($head_scripts)) {
         echo "\n<!-- Flowtrus Custom Header Scripts -->\n";
         echo $head_scripts . "\n<!-- /Flowtrus Custom Header Scripts -->\n\n";
@@ -500,7 +555,10 @@ add_action('wp_head', 'flowtrus_output_head_scripts', 99);
  */
 function flowtrus_output_footer_scripts()
 {
-    $footer_scripts = get_theme_mod('flowtrus_footer_scripts', '');
+    $footer_scripts = get_option('flowtrus_footer_scripts');
+    if (empty($footer_scripts)) {
+        $footer_scripts = get_theme_mod('flowtrus_footer_scripts', '');
+    }
     if (!empty($footer_scripts)) {
         echo "\n<!-- Flowtrus Custom Footer Scripts -->\n";
         echo $footer_scripts . "\n<!-- /Flowtrus Custom Footer Scripts -->\n\n";
@@ -518,3 +576,4 @@ function flowtrus_get_cta_button()
 
     return '<a href="' . esc_url($cta_url) . '" class="btn btn-primary">' . esc_html($cta_text) . '</a>';
 }
+
