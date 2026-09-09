@@ -407,8 +407,106 @@ function flowtrus_customize_register($wp_customize)
         'section' => 'flowtrus_cta',
         'type' => 'url',
     ));
+
+    // Custom Scripts Section (Head & Footer)
+    $wp_customize->add_section('flowtrus_custom_scripts', array(
+        'title' => __('Custom Scripts & Integrations', 'flowtrus'),
+        'description' => __('Add Flowtrus form/tracking scripts, header code, or custom snippets.', 'flowtrus'),
+        'priority' => 35,
+    ));
+
+    // Head Scripts Setting (<head>)
+    $wp_customize->add_setting('flowtrus_head_scripts', array(
+        'default' => '',
+        'sanitize_callback' => 'flowtrus_sanitize_raw_code',
+        'transport' => 'refresh',
+    ));
+
+    if (class_exists('WP_Customize_Code_Editor_Control')) {
+        $wp_customize->add_control(new WP_Customize_Code_Editor_Control(
+            $wp_customize,
+            'flowtrus_head_scripts',
+            array(
+                'label' => __('Header Scripts (<head>)', 'flowtrus'),
+                'description' => __('Scripts and HTML entered here will be output directly in the <head> tag across the site (e.g. Flowtrus tracking snippet, Google Tag Manager).', 'flowtrus'),
+                'section' => 'flowtrus_custom_scripts',
+                'code_type' => 'text/html',
+            )
+        ));
+    } else {
+        $wp_customize->add_control('flowtrus_head_scripts', array(
+            'label' => __('Header Scripts (<head>)', 'flowtrus'),
+            'description' => __('Scripts and HTML entered here will be output directly in the <head> tag across the site.', 'flowtrus'),
+            'section' => 'flowtrus_custom_scripts',
+            'type' => 'textarea',
+        ));
+    }
+
+    // Footer Scripts Setting (before </body>)
+    $wp_customize->add_setting('flowtrus_footer_scripts', array(
+        'default' => '',
+        'sanitize_callback' => 'flowtrus_sanitize_raw_code',
+        'transport' => 'refresh',
+    ));
+
+    if (class_exists('WP_Customize_Code_Editor_Control')) {
+        $wp_customize->add_control(new WP_Customize_Code_Editor_Control(
+            $wp_customize,
+            'flowtrus_footer_scripts',
+            array(
+                'label' => __('Footer Scripts (before </body>)', 'flowtrus'),
+                'description' => __('Scripts and HTML entered here will be output right before the closing </body> tag.', 'flowtrus'),
+                'section' => 'flowtrus_custom_scripts',
+                'code_type' => 'text/html',
+            )
+        ));
+    } else {
+        $wp_customize->add_control('flowtrus_footer_scripts', array(
+            'label' => __('Footer Scripts (before </body>)', 'flowtrus'),
+            'description' => __('Scripts and HTML entered here will be output right before the closing </body> tag.', 'flowtrus'),
+            'section' => 'flowtrus_custom_scripts',
+            'type' => 'textarea',
+        ));
+    }
 }
 add_action('customize_register', 'flowtrus_customize_register');
+
+/**
+ * Sanitize callback for custom script fields
+ */
+function flowtrus_sanitize_raw_code($content)
+{
+    if (current_user_can('unfiltered_html')) {
+        return $content;
+    }
+    return wp_kses_post($content);
+}
+
+/**
+ * Output Custom Head Scripts in <head>
+ */
+function flowtrus_output_head_scripts()
+{
+    $head_scripts = get_theme_mod('flowtrus_head_scripts', '');
+    if (!empty($head_scripts)) {
+        echo "\n<!-- Flowtrus Custom Header Scripts -->\n";
+        echo $head_scripts . "\n<!-- /Flowtrus Custom Header Scripts -->\n\n";
+    }
+}
+add_action('wp_head', 'flowtrus_output_head_scripts', 99);
+
+/**
+ * Output Custom Footer Scripts before </body>
+ */
+function flowtrus_output_footer_scripts()
+{
+    $footer_scripts = get_theme_mod('flowtrus_footer_scripts', '');
+    if (!empty($footer_scripts)) {
+        echo "\n<!-- Flowtrus Custom Footer Scripts -->\n";
+        echo $footer_scripts . "\n<!-- /Flowtrus Custom Footer Scripts -->\n\n";
+    }
+}
+add_action('wp_footer', 'flowtrus_output_footer_scripts', 99);
 
 /**
  * Helper function to get CTA button
@@ -420,5 +518,3 @@ function flowtrus_get_cta_button()
 
     return '<a href="' . esc_url($cta_url) . '" class="btn btn-primary">' . esc_html($cta_text) . '</a>';
 }
-
-
