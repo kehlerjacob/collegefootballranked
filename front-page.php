@@ -96,11 +96,6 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
                         </svg>
                     </button>
                 </div>
-
-                <!-- Helper caption -->
-                <div class="carousel-hint">
-                    <span>Click side forms or arrows to switch real-world examples</span>
-                </div>
             </div>
         </div>
     </div>
