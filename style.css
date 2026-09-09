@@ -555,6 +555,8 @@ ol {
 
 .hero-text-col {
   text-align: left;
+  position: relative;
+  z-index: 8;
 }
 
 .hero-text-col .hero-title {
@@ -608,12 +610,13 @@ ol {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  z-index: 4;
 }
 
 .hero-carousel-container {
   position: relative;
   width: 100%;
-  max-width: 540px;
+  max-width: 580px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -623,7 +626,7 @@ ol {
 .hero-carousel-stage {
   position: relative;
   width: 100%;
-  height: 490px;
+  height: 520px;
   perspective: 1200px;
   display: flex;
   align-items: center;
@@ -635,21 +638,17 @@ ol {
   top: 50%;
   left: 50%;
   width: 100%;
-  max-width: 400px;
+  max-width: 480px;
   transform: translate(-50%, -50%);
   transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), 
               opacity 0.5s ease, 
-              filter 0.5s ease, 
-              box-shadow 0.5s ease,
-              border-color 0.5s ease;
-  border-radius: 18px;
-  background: linear-gradient(180deg, rgba(15, 30, 48, 0.94) 0%, rgba(9, 21, 35, 0.98) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 16px 18px;
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+              filter 0.5s ease;
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow: visible;
   user-select: none;
 }
 
@@ -661,51 +660,43 @@ ol {
   z-index: 10;
   pointer-events: auto;
   user-select: auto;
-  box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.65), 0 0 45px rgba(45, 155, 155, 0.22);
-  border-color: rgba(94, 234, 212, 0.4);
 }
 
-/* Card on Left (Previous) */
+/* Card on Left (Previous - overlaps under text) */
 .hero-carousel-card.is-prev {
-  transform: translate(-94%, -50%) scale(0.82) rotateY(12deg);
-  opacity: 0.42;
+  transform: translate(-104%, -50%) scale(0.86) rotateY(10deg);
+  opacity: 0.45;
   filter: blur(3.5px);
-  z-index: 4;
+  z-index: 3;
   pointer-events: auto;
   cursor: pointer;
-  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.5);
-  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .hero-carousel-card.is-prev:hover {
-  opacity: 0.7;
+  opacity: 0.72;
   filter: blur(1.5px);
-  transform: translate(-91%, -50%) scale(0.85) rotateY(8deg);
-  border-color: rgba(255, 255, 255, 0.22);
+  transform: translate(-100%, -50%) scale(0.88) rotateY(7deg);
 }
 
 /* Card on Right (Next) */
 .hero-carousel-card.is-next {
-  transform: translate(-6%, -50%) scale(0.82) rotateY(-12deg);
-  opacity: 0.42;
+  transform: translate(4%, -50%) scale(0.86) rotateY(-10deg);
+  opacity: 0.45;
   filter: blur(3.5px);
-  z-index: 4;
+  z-index: 3;
   pointer-events: auto;
   cursor: pointer;
-  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.5);
-  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .hero-carousel-card.is-next:hover {
-  opacity: 0.7;
+  opacity: 0.72;
   filter: blur(1.5px);
-  transform: translate(-9%, -50%) scale(0.85) rotateY(-8deg);
-  border-color: rgba(255, 255, 255, 0.22);
+  transform: translate(0%, -50%) scale(0.88) rotateY(-7deg);
 }
 
 /* Hidden Cards (further away) */
 .hero-carousel-card.is-hidden {
-  transform: translate(-50%, -50%) scale(0.6);
+  transform: translate(-50%, -50%) scale(0.65);
   opacity: 0;
   filter: blur(8px);
   z-index: 1;
@@ -718,15 +709,23 @@ ol {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 0;
+  border: none;
 }
 
-.card-title-wrap {
+.card-title-pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  background: rgba(9, 21, 35, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 5px 12px;
+  border-radius: 9999px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
 }
 
 .card-indicator-dot {
@@ -749,11 +748,14 @@ ol {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.4px;
-  background: rgba(45, 155, 155, 0.2);
-  border: 1px solid rgba(45, 155, 155, 0.35);
-  padding: 2px 7px;
-  border-radius: 4px;
+  background: rgba(45, 155, 155, 0.25);
+  border: 1px solid rgba(45, 155, 155, 0.45);
+  padding: 4px 10px;
+  border-radius: 9999px;
   color: #5eead4;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
 }
 
 .carousel-card-body {

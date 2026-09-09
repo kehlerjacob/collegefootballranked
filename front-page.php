@@ -69,7 +69,7 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
                             
                             <!-- Card Header Bar -->
                             <div class="carousel-card-header">
-                                <div class="card-title-wrap">
+                                <div class="card-title-pill">
                                     <span class="card-indicator-dot"></span>
                                     <span class="card-title"><?php echo esc_html($slide['title']); ?></span>
                                 </div>
