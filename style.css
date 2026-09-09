@@ -551,8 +551,8 @@ ol {
    =================================== */
 
 .hero.hero-with-showcase {
-  padding-top: 84px;
-  padding-bottom: 56px;
+  padding-top: 64px;
+  padding-bottom: 36px;
 }
 
 .hero-grid {
@@ -637,7 +637,7 @@ ol {
 .hero-carousel-stage {
   position: relative;
   width: 100%;
-  height: 530px;
+  height: 480px;
   perspective: 1200px;
   display: flex;
   align-items: center;
@@ -748,15 +748,15 @@ ol {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  margin-top: 28px;
+  gap: 14px;
+  margin-top: 12px;
   position: relative;
   z-index: 12;
 }
 
 .carousel-nav-btn {
-  width: 42px;
-  height: 42px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.18);
