@@ -32,7 +32,7 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
                 Engineering the Highest-Converting Booking Forms on the Internet
             </h1>
             <p class="hero-description">
-                Most online booking forms are silent conversion killers—bleeding up to 70% of potential customers due to cognitive friction and clunky layouts. Our mission is to eliminate that friction completely. Through our proprietary data collection and continuous telemetry analysis, we turn everyday booking forms into predictable, high-yield revenue engines for our partners.
+                Eliminate booking friction and stop losing up to 70% of potential leads. Flowtrus powers high-converting, telemetry-backed interactive forms designed for maximum revenue.
             </p>
             <div class="hero-cta">
                 <a href="<?php echo esc_url(home_url('/demo')); ?>" class="btn btn-accent btn-lg" style="font-weight: 700;">See Live Demo</a>
