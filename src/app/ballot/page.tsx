@@ -455,8 +455,8 @@ export default function BallotPage() {
               💡 Tip: Click or tap any row to type and search teams directly.
             </p>
 
-            {/* Ballot List with Inline Search Dropdowns */}
-            <div className="glass-card rounded-2xl overflow-visible divide-y divide-border/40">
+            {/* Ballot List with Inline Accordion Search Dropdowns */}
+            <div className="glass-card rounded-2xl overflow-hidden divide-y divide-border/40">
               {ballotRanks.map((teamId, index) => {
                 const team = teamById(teamId);
                 const rankNum = index + 1;
@@ -601,9 +601,9 @@ export default function BallotPage() {
                       )}
                     </div>
 
-                    {/* Floating Dropdown Search Results */}
+                    {/* Inline Expanded Dropdown Search Results (pushes subsequent positions down) */}
                     {isEditing && (
-                      <div className="absolute left-0 right-0 top-full mt-1.5 glass-card bg-surface/98 border border-border rounded-xl shadow-2xl z-50 max-h-60 overflow-y-auto divide-y divide-border/30 p-1">
+                      <div className="mt-2 mb-2 mx-2 p-1.5 glass-card bg-surface/95 border border-accent/40 rounded-xl max-h-64 overflow-y-auto divide-y divide-border/30 animate-fade-in-up">
                         {inlineSlotSearchResults.length > 0 ? (
                           inlineSlotSearchResults.map((t) => {
                             const alreadyRankedAt = ballotRanks.findIndex(
