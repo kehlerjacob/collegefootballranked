@@ -443,19 +443,50 @@ export default function BallotPage() {
     }
   };
 
-  // Filtered teams for right panel
-  const filteredPanelTeams = teams.filter((team) => {
-    const matchesSearch =
-      team.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      team.shortName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (team.mascot &&
-        team.mascot.toLowerCase().includes(searchTerm.toLowerCase()));
-    const matchesConf =
-      selectedConference === "ALL" || team.conference === selectedConference;
-    return matchesSearch && matchesConf;
-  });
+  // Record parsing helper
+  const parseRecord = (recordStr?: string | null) => {
+    if (!recordStr) return { wins: 0, losses: 0, ties: 0, total: 0, pct: 0 };
+    const parts = recordStr.split("-").map((n) => parseInt(n.trim(), 10) || 0);
+    const wins = parts[0] || 0;
+    const losses = parts[1] || 0;
+    const ties = parts[2] || 0;
+    const total = wins + losses + ties;
+    const pct = total > 0 ? (wins + 0.5 * ties) / total : 0;
+    return { wins, losses, ties, total, pct };
+  };
 
-  // Filtered teams for inline slot search dropdown
+  // Compare teams by Win Percentage -> More Wins -> Fewer Losses -> Alphabetical
+  const compareTeamsByWinPct = (a: Team, b: Team) => {
+    const recA = parseRecord(a.record);
+    const recB = parseRecord(b.record);
+
+    if (recB.pct !== recA.pct) {
+      return recB.pct - recA.pct;
+    }
+    if (recB.wins !== recA.wins) {
+      return recB.wins - recA.wins;
+    }
+    if (recA.losses !== recB.losses) {
+      return recA.losses - recB.losses;
+    }
+    return a.name.localeCompare(b.name);
+  };
+
+  // Filtered teams for right panel (sorted by win percentage)
+  const filteredPanelTeams = teams
+    .filter((team) => {
+      const matchesSearch =
+        team.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        team.shortName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (team.mascot &&
+          team.mascot.toLowerCase().includes(searchTerm.toLowerCase()));
+      const matchesConf =
+        selectedConference === "ALL" || team.conference === selectedConference;
+      return matchesSearch && matchesConf;
+    })
+    .sort(compareTeamsByWinPct);
+
+  // Filtered teams for inline slot search dropdown (sorted by win percentage)
   const inlineSlotSearchResults = teams
     .filter((team) => {
       const q = slotSearchQuery.toLowerCase().trim();
@@ -467,6 +498,7 @@ export default function BallotPage() {
         team.conference.toLowerCase().includes(q)
       );
     })
+    .sort(compareTeamsByWinPct)
     .slice(0, 8); // Top 8 matches for fast mobile dropdown
 
   const filledCount = ballotRanks.filter(Boolean).length;
@@ -822,12 +854,17 @@ export default function BallotPage() {
                               primaryColor={team.primaryColor}
                               size={28}
                             />
-                            <span className="font-semibold text-foreground truncate">
-                              {team.name}
-                            </span>
-                            <span className="text-[10px] text-muted shrink-0">
-                              ({team.conference})
-                            </span>
+                            <div className="flex items-center gap-2 min-w-0">
+                              <span className="font-semibold text-foreground truncate">
+                                {team.name}
+                              </span>
+                              <span className="px-1.5 py-0.5 rounded bg-surface border border-border text-[10px] font-bold text-accent shrink-0">
+                                {team.record}
+                              </span>
+                              <span className="text-[10px] text-muted shrink-0 hidden sm:inline">
+                                ({team.conference})
+                              </span>
+                            </div>
                           </div>
                         ) : (
                           /* Empty Slot Placeholder */
@@ -900,17 +937,22 @@ export default function BallotPage() {
                                     size={26}
                                   />
                                   <div className="min-w-0">
-                                    <p className="text-xs font-semibold text-foreground truncate">
-                                      {t.name}
-                                    </p>
+                                    <div className="flex items-center gap-1.5">
+                                      <p className="text-xs font-semibold text-foreground truncate">
+                                        {t.name}
+                                      </p>
+                                      <span className="text-[10px] font-bold text-accent shrink-0">
+                                        {t.record}
+                                      </span>
+                                    </div>
                                     <p className="text-[10px] text-muted">
-                                      {t.conference} · {t.record}
+                                      {t.conference}
                                     </p>
                                   </div>
                                 </div>
 
                                 {alreadyRankedAt !== -1 && (
-                                  <span className="text-[10px] font-semibold text-accent bg-accent/10 px-1.5 py-0.5 rounded">
+                                  <span className="text-[10px] font-semibold text-accent bg-accent/10 px-1.5 py-0.5 rounded shrink-0">
                                     Currently #{alreadyRankedAt + 1}
                                   </span>
                                 )}
@@ -962,9 +1004,14 @@ export default function BallotPage() {
 
           {/* Right Column: All Teams Reference Panel (5 cols) */}
           <div className="lg:col-span-5 flex flex-col gap-3">
-            <h2 className="text-base font-bold text-foreground">
-              Teams Directory
-            </h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-base font-bold text-foreground">
+                Teams Directory
+              </h2>
+              <span className="text-[10px] font-semibold text-muted bg-surface px-2 py-0.5 rounded-md border border-border">
+                Sorted by Win %
+              </span>
+            </div>
 
             {/* Search Input */}
             <div className="flex flex-col gap-2">
@@ -1020,12 +1067,17 @@ export default function BallotPage() {
                         primaryColor={team.primaryColor}
                         size={32}
                       />
-                      <div className="min-w-0">
-                        <p className="text-xs font-semibold text-foreground truncate">
-                          {team.name}
-                        </p>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-1.5">
+                          <p className="text-xs font-semibold text-foreground truncate">
+                            {team.name}
+                          </p>
+                          <span className="text-[10px] font-bold text-accent shrink-0">
+                            {team.record}
+                          </span>
+                        </div>
                         <p className="text-[10px] text-muted">
-                          {team.conference} · {team.record}
+                          {team.conference}
                         </p>
                       </div>
                     </div>
