@@ -67,17 +67,6 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
                              role="group"
                              aria-label="<?php echo esc_attr($slide['title']); ?>">
                             
-                            <!-- Card Header Bar -->
-                            <div class="carousel-card-header">
-                                <div class="card-title-pill">
-                                    <span class="card-indicator-dot"></span>
-                                    <span class="card-title"><?php echo esc_html($slide['title']); ?></span>
-                                </div>
-                                <?php if (!empty($slide['badge'])) : ?>
-                                    <span class="card-badge"><?php echo esc_html($slide['badge']); ?></span>
-                                <?php endif; ?>
-                            </div>
-
                             <!-- Embedded Live Form -->
                             <div class="carousel-card-body">
                                 <?php echo do_shortcode($slide['shortcode']); ?>

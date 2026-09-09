@@ -121,9 +121,8 @@ html {
   scroll-behavior: smooth;
 }
 
-html, body {
-  overflow-x: hidden;
-  max-width: 100vw;
+body {
+  overflow-x: clip;
   width: 100%;
   position: relative;
 }
@@ -137,7 +136,7 @@ img, svg, video, iframe {
   height: auto;
 }
 
-main, section, header, footer {
+main, section, footer {
   overflow-x: clip;
   max-width: 100vw;
 }
@@ -317,13 +316,27 @@ ol {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
-  z-index: 1000;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 99999;
   padding: 12px 0;
   border-bottom-left-radius: var(--border-radius-lg);
   border-bottom-right-radius: var(--border-radius-lg);
   transition: all var(--transition-fast);
+}
+
+.admin-bar .site-header {
+  top: 32px;
+}
+
+@media screen and (max-width: 782px) {
+  .admin-bar .site-header {
+    top: 46px;
+  }
 }
 
 .header-container {
@@ -724,60 +737,6 @@ ol {
   z-index: 1;
   pointer-events: none;
   visibility: hidden;
-}
-
-/* Card Header */
-.carousel-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  width: 100%;
-  padding: 0;
-  border: none;
-}
-
-.card-title-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(9, 21, 35, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  padding: 5px 12px;
-  border-radius: 9999px;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
-}
-
-.card-indicator-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #2dd4bf;
-  box-shadow: 0 0 6px rgba(45, 212, 191, 0.7);
-}
-
-.card-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 0.2px;
-}
-
-.card-badge {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  background: rgba(45, 155, 155, 0.25);
-  border: 1px solid rgba(45, 155, 155, 0.45);
-  padding: 4px 10px;
-  border-radius: 9999px;
-  color: #5eead4;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
 }
 
 .carousel-card-body {
