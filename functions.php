@@ -341,37 +341,55 @@ function flowtrus_posted_by()
 /**
  * Flowtrus Form Shortcode Integration Helper
  * 
- * This function provides a wrapper for Flowtrus form shortcodes
- * Replace with actual shortcode syntax when integrating the form script
+ * Usage:
+ *   Inline Form: [flowtrus_form id="form_123"]
+ *   Modal Trigger: [flowtrus_button id="form_123" text="Book Now" class="btn btn-primary"]
  */
 function flowtrus_form_shortcode($atts)
 {
     $atts = shortcode_atts(array(
         'id' => '',
         'type' => 'default',
-        'key' => ''
+        'key' => '',
+        'client_id' => '',
+        'class' => ''
     ), $atts);
 
-    // If key or id is present, setup inline hydration container
-    if (!empty($atts['key'])) {
-        $key = esc_attr($atts['key']);
-        return '<div class="flowtrus-inline-wrapper" data-flowtrus-inline="true" data-form-key="' . $key . '">Loading Flowtrus Form...</div>';
+    $form_id = !empty($atts['id']) ? esc_attr($atts['id']) : (!empty($atts['key']) ? esc_attr($atts['key']) : '');
+    $client_attr = !empty($atts['client_id']) ? ' data-client-id="' . esc_attr($atts['client_id']) . '"' : '';
+    $extra_class = !empty($atts['class']) ? ' ' . esc_attr($atts['class']) : '';
+
+    if (!empty($form_id)) {
+        return '<div class="flowtrus-form-embed flowtrus-inline-wrapper' . $extra_class . '" data-form-id="' . $form_id . '"' . $client_attr . '></div>';
     }
 
-    if (!empty($atts['id'])) {
-        $id = esc_attr($atts['id']);
-        return '<div class="flowtrus-inline-wrapper" data-flowtrus-inline="true" data-form-id="' . $id . '">Loading Flowtrus Form...</div>';
-    }
-
-    return '';
+    return '<div class="flowtrus-form-embed flowtrus-inline-wrapper' . $extra_class . '"' . $client_attr . '></div>';
 }
 add_shortcode('flowtrus_form', 'flowtrus_form_shortcode');
 add_shortcode('flowtrus-form', 'flowtrus_form_shortcode');
+add_shortcode('flowtrus', 'flowtrus_form_shortcode');
 
-/**
- * Add custom CSS class for Flowtrus trigger buttons
- * Usage: Add class "flowtrus-trigger" to any button/link
- */
+function flowtrus_button_shortcode($atts, $content = null)
+{
+    $atts = shortcode_atts(array(
+        'id' => '',
+        'form_id' => '',
+        'text' => 'Get Started',
+        'class' => 'btn btn-primary',
+        'client_id' => ''
+    ), $atts);
+
+    $form_id = !empty($atts['id']) ? esc_attr($atts['id']) : (!empty($atts['form_id']) ? esc_attr($atts['form_id']) : '');
+    $button_text = !empty($content) ? esc_html($content) : esc_html($atts['text']);
+    $class = esc_attr($atts['class']);
+    $client_attr = !empty($atts['client_id']) ? ' data-client-id="' . esc_attr($atts['client_id']) . '"' : '';
+    $form_attr = !empty($form_id) ? ' data-form-id="' . $form_id . '"' : '';
+
+    return '<button type="button" class="flowtrus-trigger ' . $class . '"' . $form_attr . $client_attr . '>' . $button_text . '</button>';
+}
+add_shortcode('flowtrus_button', 'flowtrus_button_shortcode');
+add_shortcode('flowtrus-button', 'flowtrus_button_shortcode');
+add_shortcode('flowtrus_trigger', 'flowtrus_button_shortcode');
 
 /**
  * Customizer Additions
