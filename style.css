@@ -592,25 +592,65 @@ ol {
   margin-bottom: 18px;
 }
 
-.hero-highlights {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 18px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+/* ===================================
+   HERO TRUST BAR BANNER
+   =================================== */
+
+.hero-trust-bar {
+  width: 100%;
+  background: linear-gradient(90deg, #071320 0%, #0d2238 50%, #071320 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 13px 0;
+  position: relative;
+  z-index: 15;
 }
 
-.hero-highlight-item {
+.hero-trust-bar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  flex-wrap: wrap;
+}
+
+.hero-trust-item {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 12px;
+  gap: 9px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 13.5px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.2px;
 }
 
-.hero-highlight-item .highlight-icon {
-  font-size: 14px;
+.hero-trust-item svg {
+  flex-shrink: 0;
+}
+
+.hero-trust-divider {
+  width: 1px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+@media (max-width: 768px) {
+  .hero-trust-bar {
+    padding: 12px 0;
+  }
+
+  .hero-trust-bar-container {
+    gap: 14px 20px;
+    justify-content: center;
+  }
+
+  .hero-trust-divider {
+    display: none;
+  }
+
+  .hero-trust-item {
+    font-size: 12.5px;
+  }
 }
 
 /* Showcase 3D Coverflow Container */
@@ -836,10 +876,6 @@ ol {
   }
 
   .hero-text-col .hero-cta {
-    justify-content: center;
-  }
-
-  .hero-highlights {
     justify-content: center;
   }
 

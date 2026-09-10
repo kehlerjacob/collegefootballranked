@@ -33,22 +33,6 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
                 <a href="<?php echo esc_url(home_url('/demo')); ?>" class="btn btn-accent btn-lg" style="font-weight: 700;">See Live Demo</a>
                 <a href="#" class="btn btn-secondary btn-lg flowtrus-trigger" data-form-id="LhOxsSHbmRt0t6SfAeOi" style="font-weight: 700; background-color: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.3); color: white;">Get Started</a>
             </div>
-
-            <!-- Value Highlights -->
-            <div class="hero-highlights">
-                <div class="hero-highlight-item">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                    <span>Sub-100ms Instant Load</span>
-                </div>
-                <div class="hero-highlight-item">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                    <span>Zero Data Leakage</span>
-                </div>
-                <div class="hero-highlight-item">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-                    <span>+38% Avg Conversion Lift</span>
-                </div>
-            </div>
         </div>
 
         <!-- Right Column: 3D Coverflow Form Showcase Carousel -->
@@ -232,7 +216,28 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
             <a href="#" class="btn btn-secondary btn-lg flowtrus-trigger" data-form-id="LhOxsSHbmRt0t6SfAeOi" style="font-weight: 700; background-color: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.3); color: white;">Get Started</a>
         </div>
     </div>
+</section>
 <?php endif; ?>
+
+<!-- Hero Trust Bar Banner -->
+<div class="hero-trust-bar">
+    <div class="container hero-trust-bar-container">
+        <div class="hero-trust-item">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            <span>Sub-100ms Instant Load</span>
+        </div>
+        <div class="hero-trust-divider"></div>
+        <div class="hero-trust-item">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span>Zero Data Leakage</span>
+        </div>
+        <div class="hero-trust-divider"></div>
+        <div class="hero-trust-item">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            <span>+38% Avg Conversion Lift</span>
+        </div>
+    </div>
+</div>
 
 <!-- ==============================================
      1. PROBLEM SECTION
