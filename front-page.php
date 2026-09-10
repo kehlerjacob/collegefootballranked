@@ -25,7 +25,7 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
         <div class="hero-text-col">
             <h1 class="hero-title">
                 More Bookings.<br>
-                Fewer Drop-Offs.<br>
+                <span style="white-space: nowrap;">Fewer Drop-Offs.</span><br>
                 <em>Zero Guesswork.</em>
             </h1>
             <p class="hero-description">
