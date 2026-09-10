@@ -593,63 +593,109 @@ ol {
 }
 
 /* ===================================
-   HERO TRUST BAR BANNER
+   HERO TRUST BAR BANNER (Substantial & Highlighted)
    =================================== */
 
 .hero-trust-bar {
   width: 100%;
-  background: linear-gradient(90deg, #071320 0%, #0d2238 50%, #071320 100%);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 13px 0;
+  background: radial-gradient(circle at 50% 0%, #0d2847 0%, #071524 65%, #050e18 100%);
+  border-top: 1px solid rgba(45, 212, 191, 0.28);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  padding: 24px 0;
   position: relative;
   z-index: 15;
+  box-shadow: inset 0 1px 0 rgba(45, 212, 191, 0.2), 0 16px 36px -10px rgba(0, 0, 0, 0.45);
 }
 
 .hero-trust-bar-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 36px;
+  gap: 24px;
   flex-wrap: wrap;
 }
 
 .hero-trust-item {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  color: rgba(255, 255, 255, 0.92);
-  font-size: 13.5px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 12px 24px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.25s ease;
 }
 
-.hero-trust-item svg {
+.hero-trust-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(45, 212, 191, 0.45);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 15px rgba(45, 212, 191, 0.15);
+}
+
+.hero-trust-icon-box {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(45, 212, 191, 0.12);
+  border: 1px solid rgba(45, 212, 191, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+  box-shadow: 0 0 12px rgba(45, 212, 191, 0.15);
 }
 
-.hero-trust-divider {
-  width: 1px;
-  height: 14px;
-  background: rgba(255, 255, 255, 0.18);
+.hero-trust-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-trust-title {
+  color: #ffffff;
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+}
+
+@media (max-width: 991px) {
+  .hero-trust-bar-container {
+    gap: 16px;
+  }
+  
+  .hero-trust-item {
+    padding: 10px 18px;
+  }
+
+  .hero-trust-title {
+    font-size: 14.5px;
+  }
 }
 
 @media (max-width: 768px) {
   .hero-trust-bar {
-    padding: 12px 0;
+    padding: 20px 0;
   }
 
   .hero-trust-bar-container {
-    gap: 14px 20px;
-    justify-content: center;
-  }
-
-  .hero-trust-divider {
-    display: none;
+    gap: 12px;
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 360px;
+    margin: 0 auto;
   }
 
   .hero-trust-item {
-    font-size: 12.5px;
+    justify-content: flex-start;
+    padding: 10px 16px;
+  }
+
+  .hero-trust-title {
+    font-size: 14px;
   }
 }
 
