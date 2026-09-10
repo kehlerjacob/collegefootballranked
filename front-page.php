@@ -224,7 +224,7 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
     <div class="container hero-trust-bar-container">
         <div class="hero-trust-item">
             <div class="hero-trust-icon-box">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
             </div>
             <div class="hero-trust-text">
                 <span class="hero-trust-title">Sub-100ms Instant Load</span>
@@ -232,7 +232,7 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
         </div>
         <div class="hero-trust-item">
             <div class="hero-trust-icon-box">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
             </div>
             <div class="hero-trust-text">
                 <span class="hero-trust-title">Zero Data Leakage</span>
@@ -240,7 +240,7 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
         </div>
         <div class="hero-trust-item">
             <div class="hero-trust-icon-box">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
             </div>
             <div class="hero-trust-text">
                 <span class="hero-trust-title">+38% Avg Conversion Lift</span>
