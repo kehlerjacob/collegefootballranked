@@ -26,7 +26,7 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
             <h1 class="hero-title">
                 More Bookings.<br>
                 <span style="white-space: nowrap;">Fewer Drop-Offs.</span><br>
-                <em>Zero Guesswork.</em>
+                <span style="white-space: nowrap;"><em>Engineered to Convert.</em></span>
             </h1>
             <p class="hero-description">
                 Eliminate booking friction and <strong>stop losing up to 70% of potential leads</strong>. Flowtrus powers high-converting, telemetry-backed interactive forms designed for maximum revenue.
@@ -210,7 +210,7 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
         <h1 style="font-size: clamp(40px, 5.5vw, 68px); font-weight: 800; line-height: 1.05; margin-bottom: 24px; letter-spacing: -1px;">
             More Bookings.<br>
             Fewer Drop-Offs.<br>
-            <em>Zero Guesswork.</em>
+            <em>Engineered to Convert.</em>
         </h1>
         <p style="font-size: 18px; line-height: 1.65; max-width: 820px; margin: 0 auto 32px auto; color: rgba(255, 255, 255, 0.9);">
             Eliminate booking friction and <strong>stop losing up to 70% of potential leads</strong>. Flowtrus powers high-converting, telemetry-backed interactive forms designed for maximum revenue.
