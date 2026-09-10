@@ -255,9 +255,6 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
 <section class="section" id="problem" style="background: #fafafa; border-bottom: 1px solid #edf2f7; padding: 85px 0;">
     <div class="container">
         <div class="text-center mb-12">
-            <span class="section-tag-badge badge-danger">
-                ⚠️ THE CONVERSION BOTTLENECK
-            </span>
             <h2 class="section-header-title">
                 Why 70% of Your Potential Bookings Evaporate Before Submitting
             </h2>
