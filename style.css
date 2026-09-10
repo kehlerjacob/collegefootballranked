@@ -557,8 +557,8 @@ ol {
 
 .hero-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 36px;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 40px;
   align-items: center;
   position: relative;
   z-index: 2;
@@ -572,11 +572,11 @@ ol {
 
 .hero-text-col .hero-title {
   color: var(--color-white);
-  font-size: clamp(34px, 4.2vw, 58px);
+  font-size: clamp(28px, 3.4vw, 44px);
   font-weight: 800;
-  line-height: 1.1;
-  margin-bottom: 20px;
-  letter-spacing: -0.9px;
+  line-height: 1.14;
+  margin-bottom: 16px;
+  letter-spacing: -0.6px;
 }
 
 .hero-text-col .hero-title em {
@@ -586,11 +586,11 @@ ol {
 }
 
 .hero-text-col .hero-description {
-  font-size: 15.5px;
+  font-size: 15px;
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.88);
   margin-bottom: 18px;
-  max-width: 500px;
+  max-width: 480px;
 }
 
 .hero-text-col .hero-cta {
@@ -724,7 +724,7 @@ ol {
 .hero-carousel-container {
   position: relative;
   width: 100%;
-  max-width: 580px;
+  max-width: 620px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -734,7 +734,7 @@ ol {
 .hero-carousel-stage {
   position: relative;
   width: 100%;
-  height: 480px;
+  height: 520px;
   perspective: 1200px;
   display: flex;
   align-items: center;
@@ -746,7 +746,7 @@ ol {
   top: 50%;
   left: 50%;
   width: 100%;
-  max-width: 480px;
+  max-width: 540px;
   transform: translate(-50%, -50%);
   transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), 
               opacity 0.5s ease, 
@@ -772,7 +772,7 @@ ol {
 
 /* Card on Left (Previous - overlaps under text) */
 .hero-carousel-card.is-prev {
-  transform: translate(-104%, -50%) scale(0.86) rotateY(10deg);
+  transform: translate(-98%, -50%) scale(0.86) rotateY(10deg);
   opacity: 0.45;
   filter: blur(3.5px);
   z-index: 3;
@@ -796,12 +796,12 @@ ol {
 .hero-carousel-card.is-prev:hover {
   opacity: 0.72;
   filter: blur(1.5px);
-  transform: translate(-100%, -50%) scale(0.88) rotateY(7deg);
+  transform: translate(-94%, -50%) scale(0.88) rotateY(7deg);
 }
 
 /* Card on Right (Next) */
 .hero-carousel-card.is-next {
-  transform: translate(4%, -50%) scale(0.86) rotateY(-10deg);
+  transform: translate(-2%, -50%) scale(0.86) rotateY(-10deg);
   opacity: 0.45;
   filter: blur(3.5px);
   z-index: 3;
@@ -812,7 +812,7 @@ ol {
 .hero-carousel-card.is-next:hover {
   opacity: 0.72;
   filter: blur(1.5px);
-  transform: translate(0%, -50%) scale(0.88) rotateY(-7deg);
+  transform: translate(-6%, -50%) scale(0.88) rotateY(-7deg);
 }
 
 /* Side & Hidden card body pointer events */
@@ -937,19 +937,19 @@ ol {
   }
 
   .hero-carousel-stage {
-    height: 470px;
+    height: 500px;
   }
 
   .hero-carousel-card {
-    max-width: 370px;
+    max-width: 460px;
   }
 
   .hero-carousel-card.is-prev {
-    transform: translate(-88%, -50%) scale(0.8) rotateY(10deg);
+    transform: translate(-90%, -50%) scale(0.82) rotateY(10deg);
   }
 
   .hero-carousel-card.is-next {
-    transform: translate(-12%, -50%) scale(0.8) rotateY(-10deg);
+    transform: translate(-10%, -50%) scale(0.82) rotateY(-10deg);
   }
 }
 
