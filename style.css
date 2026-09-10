@@ -2003,7 +2003,7 @@ input.game-input::placeholder {
   line-height: 1.65;
   color: #64748b;
   flex-grow: 1;
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 
 .problem-stat-pill {

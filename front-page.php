@@ -281,9 +281,6 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
                 <p class="problem-desc">
                     Walls of 10+ mandatory fields overwhelm users, particularly on mobile screens. Visitors experience immediate hesitation and exit before answering a single question.
                 </p>
-                <div>
-                    <span class="problem-stat-pill">68% Mobile Abandonment</span>
-                </div>
             </div>
 
             <!-- Problem 2 -->
@@ -298,9 +295,6 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
                 <p class="problem-desc">
                     Google Analytics only counts visits and final button clicks. You remain completely blind to which question, date-picker hurdle, or validation error caused users to abandon.
                 </p>
-                <div>
-                    <span class="problem-stat-pill">Zero Diagnostic Visibility</span>
-                </div>
             </div>
 
             <!-- Problem 3 -->
@@ -315,9 +309,6 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
                 <p class="problem-desc">
                     Generic confirmation text sparks buyer anxiety. Unsure if anyone received their message, prospects instinctively return to Google and submit quotes with 2–3 competitors.
                 </p>
-                <div>
-                    <span class="problem-stat-pill">Lost to Fastest Responder</span>
-                </div>
             </div>
         </div>
     </div>
@@ -330,9 +321,6 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
 <section class="section" id="solution" style="background: white; padding: 90px 0;">
     <div class="container">
         <div class="text-center mb-12">
-            <span class="section-tag-badge badge-secondary">
-                ⚡ CONVERSION-ENGINEERED SOLUTION
-            </span>
             <h2 class="section-header-title">
                 Intelligent Intake Forms Backed by Real-Time Telemetry
             </h2>
