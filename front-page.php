@@ -701,8 +701,26 @@ if ($showcase_enabled === '1' && !empty($hero_slides)) :
                 </thead>
                 <tbody>
                     <tr>
+                        <td><strong>Industry-Leading Conversion Rates</strong></td>
+                        <td class="flowtrus-col"><span class="badge-check">✓ +38% to 50%+ Lift</span></td>
+                        <td><span class="badge-cross">✕ Static Baseline (~2.3%)</span></td>
+                        <td><span class="badge-partial">⚠️ Average Benchmarks</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>100% Custom Design to Match Branding</strong></td>
+                        <td class="flowtrus-col"><span class="badge-check">✓ Seamless & Tailored</span></td>
+                        <td><span class="badge-partial">⚠️ Clunky Default CSS</span></td>
+                        <td><span class="badge-partial">⚠️ Generic Hosted Look</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Confidence-Building User Experience</strong></td>
+                        <td class="flowtrus-col"><span class="badge-check">✓ Anxiety-Free & Reassuring</span></td>
+                        <td><span class="badge-cross">✕ High Fatigue & Friction</span></td>
+                        <td><span class="badge-partial">⚠️ Rigid Generic Inputs</span></td>
+                    </tr>
+                    <tr>
                         <td><strong>Real-Time As-You-Type Lead Recapture</strong></td>
-                        <td class="flowtrus-col"><span class="badge-check">✓ Included</span></td>
+                        <td class="flowtrus-col"><span class="badge-check">✓ Included (&lt;40% Lift)</span></td>
                         <td><span class="badge-cross">✕ No (Submits only)</span></td>
                         <td><span class="badge-cross">✕ No</span></td>
                     </tr>
