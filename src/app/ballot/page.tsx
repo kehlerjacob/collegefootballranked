@@ -646,14 +646,14 @@ export default function BallotPage() {
 
         {/* Auth Notice if not logged in */}
         {!user && (
-          <div className="mt-4 p-4 rounded-xl bg-accent-dim border border-accent/30 text-xs text-foreground flex items-center justify-between">
-            <div>
+          <div className="mt-4 p-3.5 sm:p-4 rounded-xl bg-accent-dim border border-accent/30 text-xs text-foreground flex items-center justify-between gap-3">
+            <div className="leading-relaxed">
               <span className="font-bold text-accent">Sign in required:</span>{" "}
               You must be logged in to submit your official ballot.
             </div>
             <Link
               href="/login"
-              className="px-3 py-1.5 rounded-lg bg-accent text-background font-bold hover:bg-accent-glow transition-all"
+              className="px-4 py-2 rounded-lg bg-accent text-background font-bold hover:bg-accent-glow transition-all whitespace-nowrap shrink-0 text-center min-w-[5rem]"
             >
               Log In
             </Link>

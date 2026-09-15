@@ -47,7 +47,7 @@ export function Header() {
               </span>
               <button
                 onClick={logout}
-                className="px-3 py-1.5 text-xs font-medium rounded-lg border border-border text-muted hover:text-foreground hover:border-border-light transition-all duration-200"
+                className="px-3 py-1.5 text-xs font-medium rounded-lg border border-border text-muted hover:text-foreground hover:border-border-light transition-all duration-200 whitespace-nowrap shrink-0"
               >
                 Log out
               </button>
@@ -55,7 +55,7 @@ export function Header() {
           ) : (
             <Link
               href="/login"
-              className="px-3 py-1.5 text-xs font-medium rounded-lg border border-border text-muted hover:text-foreground hover:border-border-light transition-all duration-200"
+              className="px-3.5 py-1.5 text-xs font-medium rounded-lg border border-border text-muted hover:text-foreground hover:border-border-light transition-all duration-200 whitespace-nowrap shrink-0"
             >
               Log in
             </Link>

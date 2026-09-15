@@ -187,13 +187,13 @@ export function CommentsSection({ weekId, weekTitle }: CommentsSectionProps) {
             <div className="flex items-center gap-2 shrink-0">
               <Link
                 href="/login"
-                className="px-3 py-1.5 rounded-lg bg-accent text-background font-bold hover:bg-accent-glow transition-all text-xs"
+                className="px-4 py-2 rounded-lg bg-accent text-background font-bold hover:bg-accent-glow transition-all text-xs whitespace-nowrap min-w-[5rem] text-center"
               >
                 Log In
               </Link>
               <Link
                 href="/register"
-                className="px-3 py-1.5 rounded-lg bg-surface border border-border text-muted hover:text-foreground font-semibold transition-all text-xs"
+                className="px-4 py-2 rounded-lg bg-surface border border-border text-muted hover:text-foreground font-semibold transition-all text-xs whitespace-nowrap min-w-[5rem] text-center"
               >
                 Sign Up
               </Link>
