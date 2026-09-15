@@ -1055,15 +1055,10 @@ export default function BallotPage() {
                                     size={26}
                                   />
                                   <div className="min-w-0">
-                                    <div className="flex items-center gap-1.5 flex-wrap">
+                                    <div className="flex items-center gap-1.5">
                                       <p className="text-xs font-semibold text-foreground truncate">
                                         {t.name}
                                       </p>
-                                      {apRanks.has(t.id) && (
-                                        <span className="px-1.5 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-[9px] font-bold text-amber-400 shrink-0">
-                                          AP #{apRanks.get(t.id)}
-                                        </span>
-                                      )}
                                       <span className="text-[10px] font-bold text-accent shrink-0">
                                         {t.record}
                                       </span>
@@ -1132,7 +1127,7 @@ export default function BallotPage() {
                 Teams Directory
               </h2>
               <span className="text-[10px] font-semibold text-muted bg-surface px-2 py-0.5 rounded-md border border-border">
-                Sorted by AP Poll &amp; Win %
+                Suggested Order
               </span>
             </div>
 
@@ -1191,15 +1186,10 @@ export default function BallotPage() {
                         size={32}
                       />
                       <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-1.5 flex-wrap">
+                        <div className="flex items-center gap-1.5">
                           <p className="text-xs font-semibold text-foreground truncate">
                             {team.name}
                           </p>
-                          {apRanks.has(team.id) && (
-                            <span className="px-1.5 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-[9px] font-bold text-amber-400 shrink-0">
-                              AP #{apRanks.get(team.id)}
-                            </span>
-                          )}
                           <span className="text-[10px] font-bold text-accent shrink-0">
                             {team.record}
                           </span>
