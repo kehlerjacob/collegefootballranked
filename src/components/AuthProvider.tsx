@@ -7,6 +7,14 @@ export interface AuthUser {
   email: string;
   username: string;
   role: string;
+  favoriteTeam?: {
+    id: string;
+    name: string;
+    shortName: string;
+    logoUrl?: string | null;
+    primaryColor?: string | null;
+    conference?: string;
+  } | null;
 }
 
 interface AuthContextType {
@@ -14,6 +22,7 @@ interface AuthContextType {
   isLoading: boolean;
   login: (userData: AuthUser) => void;
   logout: () => Promise<void>;
+  updateUser: (userData: Partial<AuthUser>) => void;
   refreshUser: () => Promise<void>;
 }
 
@@ -22,6 +31,7 @@ const AuthContext = createContext<AuthContextType>({
   isLoading: true,
   login: () => {},
   logout: async () => {},
+  updateUser: () => {},
   refreshUser: async () => {},
 });
 
@@ -53,6 +63,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(userData);
   };
 
+  const updateUser = (userData: Partial<AuthUser>) => {
+    setUser((prev) => (prev ? { ...prev, ...userData } : null));
+  };
+
   const logout = async () => {
     try {
       await fetch("/api/auth/logout", { method: "POST" });
@@ -69,6 +83,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isLoading,
         login,
         logout,
+        updateUser,
         refreshUser: fetchUser,
       }}
     >
