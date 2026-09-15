@@ -16,6 +16,16 @@ export async function GET() {
       username: true,
       role: true,
       createdAt: true,
+      favoriteTeam: {
+        select: {
+          id: true,
+          name: true,
+          shortName: true,
+          logoUrl: true,
+          primaryColor: true,
+          conference: true,
+        },
+      },
       ballots: {
         select: {
           weekId: true,

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useAuth } from "./AuthProvider";
+import { TeamLogo } from "./TeamLogo";
 
 export interface CommentData {
   id: string;
@@ -9,6 +10,13 @@ export interface CommentData {
   userId: string;
   username: string;
   userRole?: string;
+  favoriteTeam?: {
+    id: string;
+    name: string;
+    shortName: string;
+    logoUrl?: string | null;
+    primaryColor?: string | null;
+  } | null;
   parentId?: string | null;
   createdAt: string;
   likeCount: number;
@@ -224,6 +232,25 @@ export function CommentItem({
             <span className="text-xs font-bold text-foreground hover:underline cursor-pointer">
               @{comment.username}
             </span>
+
+            {comment.favoriteTeam && (
+              <span
+                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-surface border border-border/70 hover:border-accent/50 transition-colors shadow-xs shrink-0"
+                title={`Fan of ${comment.favoriteTeam.name}`}
+              >
+                <TeamLogo
+                  logoUrl={comment.favoriteTeam.logoUrl}
+                  name={comment.favoriteTeam.name}
+                  shortName={comment.favoriteTeam.shortName}
+                  primaryColor={comment.favoriteTeam.primaryColor}
+                  size={14}
+                />
+                <span className="text-[10px] font-bold text-muted/90 leading-none">
+                  {comment.favoriteTeam.shortName}
+                </span>
+              </span>
+            )}
+
             {comment.userRole === "ADMIN" && (
               <span className="px-1 py-0.2 rounded bg-accent/20 border border-accent/40 text-[9px] font-bold text-accent uppercase tracking-wider">
                 Admin

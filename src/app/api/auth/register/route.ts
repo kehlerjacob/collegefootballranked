@@ -11,6 +11,7 @@ const registerSchema = z.object({
     .max(20, "Username must be at most 20 characters")
     .regex(/^[a-zA-Z0-9_]+$/, "Username can only contain letters, numbers, and underscores"),
   password: z.string().min(6, "Password must be at least 6 characters"),
+  favoriteTeamId: z.string().min(1, "Please select your favorite team"),
 });
 
 export async function POST(request: Request) {
@@ -25,7 +26,19 @@ export async function POST(request: Request) {
       );
     }
 
-    const { email, username, password } = result.data;
+    const { email, username, password, favoriteTeamId } = result.data;
+
+    // Check if favorite team exists
+    const team = await prisma.team.findUnique({
+      where: { id: favoriteTeamId },
+    });
+
+    if (!team) {
+      return NextResponse.json(
+        { error: "Invalid favorite team selected" },
+        { status: 400 }
+      );
+    }
 
     // Check if user already exists
     const existingUser = await prisma.user.findFirst({
@@ -52,6 +65,19 @@ export async function POST(request: Request) {
         username,
         passwordHash,
         role: "USER",
+        favoriteTeamId: team.id,
+      },
+      include: {
+        favoriteTeam: {
+          select: {
+            id: true,
+            name: true,
+            shortName: true,
+            logoUrl: true,
+            primaryColor: true,
+            conference: true,
+          },
+        },
       },
     });
 
@@ -71,6 +97,7 @@ export async function POST(request: Request) {
         email: user.email,
         username: user.username,
         role: user.role,
+        favoriteTeam: user.favoriteTeam,
       },
     });
   } catch (error) {

@@ -13,6 +13,21 @@ const createCommentSchema = z.object({
   parentId: z.string().optional().nullable(),
 });
 
+const userSelectFields = {
+  id: true,
+  username: true,
+  role: true,
+  favoriteTeam: {
+    select: {
+      id: true,
+      name: true,
+      shortName: true,
+      logoUrl: true,
+      primaryColor: true,
+    },
+  },
+};
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -51,7 +66,7 @@ export async function GET(request: Request) {
       orderBy: { createdAt: "desc" },
       include: {
         user: {
-          select: { id: true, username: true, role: true },
+          select: userSelectFields,
         },
         _count: {
           select: { likes: true, replies: true },
@@ -66,7 +81,7 @@ export async function GET(request: Request) {
           orderBy: { createdAt: "asc" },
           include: {
             user: {
-              select: { id: true, username: true, role: true },
+              select: userSelectFields,
             },
             _count: {
               select: { likes: true },
@@ -88,6 +103,7 @@ export async function GET(request: Request) {
       userId: c.userId,
       username: c.user.username,
       userRole: c.user.role,
+      favoriteTeam: c.user.favoriteTeam,
       createdAt: c.createdAt.toISOString(),
       likeCount: c._count.likes,
       replyCount: c._count.replies,
@@ -98,6 +114,7 @@ export async function GET(request: Request) {
         userId: r.userId,
         username: r.user.username,
         userRole: r.user.role,
+        favoriteTeam: r.user.favoriteTeam,
         parentId: c.id,
         createdAt: r.createdAt.toISOString(),
         likeCount: r._count.likes,
@@ -172,7 +189,7 @@ export async function POST(request: Request) {
       },
       include: {
         user: {
-          select: { id: true, username: true, role: true },
+          select: userSelectFields,
         },
       },
     });
@@ -185,6 +202,7 @@ export async function POST(request: Request) {
         userId: newComment.userId,
         username: newComment.user.username,
         userRole: newComment.user.role,
+        favoriteTeam: newComment.user.favoriteTeam,
         parentId: newComment.parentId,
         createdAt: newComment.createdAt.toISOString(),
         likeCount: 0,

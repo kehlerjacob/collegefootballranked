@@ -9,16 +9,18 @@ datasource db {
 }
 
 model User {
-  id           String        @id @default(cuid())
-  email        String        @unique
-  username     String        @unique
-  passwordHash String
-  role         String        @default("USER") // USER, ADMIN
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  ballots      Ballot[]
-  comments     Comment[]
-  commentLikes CommentLike[]
+  id             String        @id @default(cuid())
+  email          String        @unique
+  username       String        @unique
+  passwordHash   String
+  role           String        @default("USER") // USER, ADMIN
+  favoriteTeamId String?
+  favoriteTeam   Team?         @relation("UserFavoriteTeam", fields: [favoriteTeamId], references: [id], onDelete: SetNull)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  ballots        Ballot[]
+  comments       Comment[]
+  commentLikes   CommentLike[]
 }
 
 model Season {
@@ -57,6 +59,7 @@ model Team {
   primaryColor   String?
   ballotItems    BallotItem[]
   consensusRanks ConsensusRanking[]
+  fans           User[]             @relation("UserFavoriteTeam")
   createdAt      DateTime           @default(now())
 }
 
