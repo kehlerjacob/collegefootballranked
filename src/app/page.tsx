@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { RankingsTable, TeamData } from "@/components/RankingsTable";
 import { Header } from "@/components/Header";
 import { WeekSelector, WeekItem } from "@/components/WeekSelector";
-import { StatsBar } from "@/components/StatsBar";
 import { PollCountdown } from "@/components/PollCountdown";
 import { CommentsSection } from "@/components/CommentsSection";
 import Link from "next/link";
@@ -114,7 +113,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Week selector + stats */}
+        {/* Week selector */}
         <div
           className="flex flex-col gap-3 mb-4 animate-fade-in-up"
           style={{ animationDelay: "0.1s" }}
@@ -123,11 +122,6 @@ export default function Home() {
             weeks={weeks}
             selectedWeekNumber={selectedWeekNumber}
             onSelectWeek={(num) => setSelectedWeekNumber(num)}
-          />
-          <StatsBar
-            totalVotes={stats.totalPointsAwarded}
-            totalBallots={stats.totalBallots}
-            status={stats.status}
           />
         </div>
 
