@@ -33,6 +33,7 @@ export default function BallotPage() {
   const [weeks, setWeeks] = useState<WeekInfo[]>([]);
   const [selectedWeek, setSelectedWeek] = useState<WeekInfo | null>(null);
   const [teams, setTeams] = useState<Team[]>([]);
+  const [apRanks, setApRanks] = useState<Map<string, number>>(new Map());
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedConference, setSelectedConference] = useState("ALL");
 
@@ -79,20 +80,51 @@ export default function BallotPage() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Load weeks and teams
+  // Load weeks, teams, and most recent AP poll
   useEffect(() => {
     async function loadInitialData() {
       try {
-        const [weeksRes, teamsRes] = await Promise.all([
+        const [weeksRes, teamsRes, apRes] = await Promise.all([
           fetch("/api/weeks"),
           fetch("/api/teams"),
+          fetch("/api/ap-poll").catch(() => null),
         ]);
 
         const weeksData = await weeksRes.json();
         const teamsData = await teamsRes.json();
+        const loadedTeams: Team[] = teamsData.teams || [];
 
         setWeeks(weeksData.weeks || []);
-        setTeams(teamsData.teams || []);
+        setTeams(loadedTeams);
+
+        if (apRes && apRes.ok) {
+          try {
+            const apData = await apRes.json();
+            if (apData?.ranks && Array.isArray(apData.ranks)) {
+              const newApMap = new Map<string, number>();
+              apData.ranks.forEach((r: { rank?: number; teamId?: string | null; teamName?: string; name?: string; shortName?: string }) => {
+                let id = r.teamId;
+                if (!id) {
+                  const qName = (r.teamName || r.name || "").toLowerCase().trim();
+                  const qShort = (r.shortName || "").toLowerCase().trim();
+                  const found = loadedTeams.find(
+                    (t) =>
+                      t.name.toLowerCase().trim() === qName ||
+                      t.shortName.toLowerCase().trim() === qShort ||
+                      (qName === "miami" && t.name.includes("Miami"))
+                  );
+                  if (found) id = found.id;
+                }
+                if (id && typeof r.rank === "number") {
+                  newApMap.set(id, r.rank);
+                }
+              });
+              setApRanks(newApMap);
+            }
+          } catch (e) {
+            console.error("Could not parse AP poll data:", e);
+          }
+        }
 
         const openWeek =
           weeksData.weeks?.find((w: WeekInfo) => w.status === "OPEN") ||
@@ -489,8 +521,27 @@ export default function BallotPage() {
     return { wins, losses, ties, total, pct };
   };
 
-  // Compare teams by Win Percentage -> More Wins -> Fewer Losses -> Alphabetical
-  const compareTeamsByWinPct = (a: Team, b: Team) => {
+  // Compare teams by:
+  // 1. Most recent AP Poll rank (1 to 25)
+  // 2. Remaining teams sorted by Win Percentage -> More Wins -> Fewer Losses -> Alphabetical
+  const compareTeams = (a: Team, b: Team) => {
+    const rankA = apRanks.get(a.id);
+    const rankB = apRanks.get(b.id);
+
+    // If both are ranked in AP poll, sort by AP rank (ascending: #1, #2, ...)
+    if (rankA !== undefined && rankB !== undefined) {
+      return rankA - rankB;
+    }
+    // If only 'a' is ranked in AP poll, 'a' comes first
+    if (rankA !== undefined) {
+      return -1;
+    }
+    // If only 'b' is ranked in AP poll, 'b' comes first
+    if (rankB !== undefined) {
+      return 1;
+    }
+
+    // Both are unranked in AP poll -> sort by win percentage
     const recA = parseRecord(a.record);
     const recB = parseRecord(b.record);
 
@@ -506,7 +557,7 @@ export default function BallotPage() {
     return a.name.localeCompare(b.name);
   };
 
-  // Filtered teams for right panel (sorted by win percentage)
+  // Filtered teams for right panel (sorted by AP Poll then win percentage)
   const filteredPanelTeams = teams
     .filter((team) => {
       const matchesSearch =
@@ -518,9 +569,9 @@ export default function BallotPage() {
         selectedConference === "ALL" || team.conference === selectedConference;
       return matchesSearch && matchesConf;
     })
-    .sort(compareTeamsByWinPct);
+    .sort(compareTeams);
 
-  // Filtered teams for inline slot search dropdown (sorted by win percentage)
+  // Filtered teams for inline slot search dropdown (sorted by AP Poll then win percentage)
   const inlineSlotSearchResults = teams
     .filter((team) => {
       const q = slotSearchQuery.toLowerCase().trim();
@@ -532,7 +583,7 @@ export default function BallotPage() {
         team.conference.toLowerCase().includes(q)
       );
     })
-    .sort(compareTeamsByWinPct)
+    .sort(compareTeams)
     .slice(0, 8); // Top 8 matches for fast mobile dropdown
 
   const filledCount = ballotRanks.filter(Boolean).length;
@@ -1002,10 +1053,15 @@ export default function BallotPage() {
                                     size={26}
                                   />
                                   <div className="min-w-0">
-                                    <div className="flex items-center gap-1.5">
+                                    <div className="flex items-center gap-1.5 flex-wrap">
                                       <p className="text-xs font-semibold text-foreground truncate">
                                         {t.name}
                                       </p>
+                                      {apRanks.has(t.id) && (
+                                        <span className="px-1.5 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-[9px] font-bold text-amber-400 shrink-0">
+                                          AP #{apRanks.get(t.id)}
+                                        </span>
+                                      )}
                                       <span className="text-[10px] font-bold text-accent shrink-0">
                                         {t.record}
                                       </span>
@@ -1074,7 +1130,7 @@ export default function BallotPage() {
                 Teams Directory
               </h2>
               <span className="text-[10px] font-semibold text-muted bg-surface px-2 py-0.5 rounded-md border border-border">
-                Sorted by Win %
+                Sorted by AP Poll &amp; Win %
               </span>
             </div>
 
@@ -1133,10 +1189,15 @@ export default function BallotPage() {
                         size={32}
                       />
                       <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-1.5">
+                        <div className="flex items-center gap-1.5 flex-wrap">
                           <p className="text-xs font-semibold text-foreground truncate">
                             {team.name}
                           </p>
+                          {apRanks.has(team.id) && (
+                            <span className="px-1.5 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-[9px] font-bold text-amber-400 shrink-0">
+                              AP #{apRanks.get(team.id)}
+                            </span>
+                          )}
                           <span className="text-[10px] font-bold text-accent shrink-0">
                             {team.record}
                           </span>
