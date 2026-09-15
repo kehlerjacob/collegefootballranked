@@ -287,7 +287,7 @@ export function UserAccountMenu() {
             )}
           </div>
 
-          {/* Menu Items */}
+          {/* Menu Items (No emojis, sleek modern UI icons) */}
           <div className="space-y-1 text-xs">
             {/* Admin Dashboard */}
             {isAdmin && (
@@ -296,7 +296,9 @@ export function UserAccountMenu() {
                 onClick={() => setIsOpen(false)}
                 className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-amber-400 hover:bg-amber-500/10 font-bold transition-colors"
               >
-                <span className="text-sm">🛡️</span>
+                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
                 <span>Admin Dashboard</span>
               </Link>
             )}
@@ -309,7 +311,9 @@ export function UserAccountMenu() {
               }}
               className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-foreground hover:bg-surface-elevated hover:text-accent font-semibold transition-colors text-left"
             >
-              <span className="text-sm">🏈</span>
+              <svg className="w-4 h-4 text-muted group-hover:text-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+              </svg>
               <span>Change Favorite Team</span>
             </button>
 
@@ -321,7 +325,9 @@ export function UserAccountMenu() {
               }}
               className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-foreground hover:bg-surface-elevated hover:text-accent font-semibold transition-colors text-left"
             >
-              <span className="text-sm">🔑</span>
+              <svg className="w-4 h-4 text-muted group-hover:text-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
               <span>Change Password</span>
             </button>
 
@@ -331,7 +337,9 @@ export function UserAccountMenu() {
               onClick={() => setIsOpen(false)}
               className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-foreground hover:bg-surface-elevated hover:text-accent font-semibold transition-colors"
             >
-              <span className="text-sm">🗳️</span>
+              <svg className="w-4 h-4 text-muted group-hover:text-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+              </svg>
               <span>My Ballot Builder</span>
             </Link>
 
@@ -345,22 +353,24 @@ export function UserAccountMenu() {
               }}
               className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-danger hover:bg-danger/10 font-bold transition-colors text-left"
             >
-              <span className="text-sm">🚪</span>
+              <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
               <span>Log Out</span>
             </button>
           </div>
         </div>
       )}
 
-      {/* MODAL 1: CHANGE FAVORITE TEAM */}
+      {/* MODAL 1: CHANGE FAVORITE TEAM (Mobile-optimized positioning) */}
       {isTeamModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs animate-fade-in">
-          <div className="glass-card max-w-lg w-full max-h-[85vh] flex flex-col rounded-2xl border border-border shadow-2xl overflow-hidden animate-scale-up">
+        <div className="fixed inset-0 z-[100] overflow-y-auto bg-black/80 backdrop-blur-xs p-3 sm:p-4 flex min-h-full items-start sm:items-center justify-center pt-8 sm:pt-4 pb-8 animate-fade-in">
+          <div className="glass-card max-w-lg w-full max-h-[85dvh] sm:max-h-[85vh] flex flex-col rounded-2xl border border-border shadow-2xl overflow-hidden animate-scale-up my-auto">
             {/* Modal Header */}
-            <div className="p-4 sm:p-5 border-b border-border flex items-center justify-between">
+            <div className="p-4 sm:p-5 border-b border-border flex items-center justify-between shrink-0">
               <div>
-                <h2 className="text-base font-bold text-foreground flex items-center gap-2">
-                  <span>🏈</span> Change Favorite Team
+                <h2 className="text-base font-bold text-foreground">
+                  Change Favorite Team
                 </h2>
                 <p className="text-xs text-muted mt-0.5">
                   Select your primary FBS college football team to display next to your comments.
@@ -375,7 +385,7 @@ export function UserAccountMenu() {
             </div>
 
             {/* Filter / Search bar */}
-            <div className="p-3 border-b border-border/60 bg-surface/50 space-y-2">
+            <div className="p-3 border-b border-border/60 bg-surface/50 space-y-2 shrink-0">
               <input
                 type="text"
                 placeholder="Search teams (e.g. Georgia, Michigan, Oregon)..."
@@ -405,7 +415,7 @@ export function UserAccountMenu() {
             </div>
 
             {/* Teams Grid */}
-            <div className="flex-1 overflow-y-auto p-3 max-h-72 grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div className="flex-1 overflow-y-auto p-3 max-h-64 sm:max-h-72 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {filteredTeams.length === 0 ? (
                 <div className="col-span-full py-8 text-center text-xs text-muted">
                   No FBS teams found matching &quot;{teamSearch}&quot;.
@@ -445,7 +455,7 @@ export function UserAccountMenu() {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 border-t border-border bg-surface/70 flex items-center justify-between gap-3">
+            <div className="p-4 border-t border-border bg-surface/70 flex items-center justify-between gap-3 shrink-0">
               <div>
                 {teamError && <p className="text-xs text-danger font-medium">{teamError}</p>}
                 {teamSuccess && <p className="text-xs text-success font-bold">{teamSuccess}</p>}
@@ -473,13 +483,13 @@ export function UserAccountMenu() {
         </div>
       )}
 
-      {/* MODAL 2: CHANGE PASSWORD */}
+      {/* MODAL 2: CHANGE PASSWORD (Mobile-optimized positioning) */}
       {isPasswordModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs animate-fade-in">
-          <div className="glass-card max-w-md w-full rounded-2xl border border-border shadow-2xl overflow-hidden animate-scale-up">
-            <div className="p-4 sm:p-5 border-b border-border flex items-center justify-between">
-              <h2 className="text-base font-bold text-foreground flex items-center gap-2">
-                <span>🔑</span> Change Password
+        <div className="fixed inset-0 z-[100] overflow-y-auto bg-black/80 backdrop-blur-xs p-3 sm:p-4 flex min-h-full items-start sm:items-center justify-center pt-8 sm:pt-4 pb-8 animate-fade-in">
+          <div className="glass-card max-w-md w-full rounded-2xl border border-border shadow-2xl overflow-hidden animate-scale-up my-auto">
+            <div className="p-4 sm:p-5 border-b border-border flex items-center justify-between shrink-0">
+              <h2 className="text-base font-bold text-foreground">
+                Change Password
               </h2>
               <button
                 onClick={() => setIsPasswordModalOpen(false)}
