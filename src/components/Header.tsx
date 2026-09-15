@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useAuth } from "./AuthProvider";
+import { CFRLogo } from "./CFRLogo";
 
 export function Header() {
   const { user, logout, isLoading } = useAuth();
@@ -10,18 +11,10 @@ export function Header() {
     <header className="sticky top-0 z-50 glass-card border-b border-border">
       <div className="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
         {/* Logo / brand */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="flex flex-col items-start leading-none">
-            <span
-              className="text-xl font-black tracking-[0.08em] uppercase text-foreground group-hover:text-accent transition-colors duration-200"
-              style={{
-                fontFamily: "var(--font-geist-sans), 'Impact', 'Arial Black', sans-serif",
-                letterSpacing: "0.12em",
-              }}
-            >
-              CFR
-            </span>
-            <span className="text-[8px] font-semibold uppercase tracking-[0.18em] text-muted group-hover:text-accent/70 transition-colors duration-200 mt-[-1px]">
+        <Link href="/" className="flex items-center gap-2.5 group py-1">
+          <div className="flex items-center gap-2.5">
+            <CFRLogo height={28} className="group-hover:scale-105 transition-transform duration-200" />
+            <span className="hidden sm:inline-block text-[9.5px] font-bold uppercase tracking-[0.16em] text-muted group-hover:text-accent/90 transition-colors duration-200 border-l border-border/80 pl-2.5 py-0.5 leading-tight">
               College Football Ranked
             </span>
           </div>

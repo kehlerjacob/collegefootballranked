@@ -97,7 +97,7 @@ export default function Home() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-                Power Rankings
+                College Football Rankings
               </h1>
               <p className="mt-1 text-sm text-muted">
                 Community-voted Top 25 · Updated weekly

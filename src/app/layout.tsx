@@ -14,12 +14,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "College Football Ranked — Community Power Rankings",
+  title: "College Football Ranked — Consensus College Football Rankings",
   description:
-    "Vote on your top 25 college football teams each week. See live community-driven power rankings and compare your ballot to the consensus.",
+    "Vote on your top 25 college football teams each week. See live community-driven college football rankings and compare your ballot to the consensus.",
   keywords: [
     "college football",
     "rankings",
+    "college football rankings",
     "power rankings",
     "CFB",
     "top 25",
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "College Football Ranked",
-    description: "Community-driven college football power rankings.",
+    description: "Community-driven consensus college football rankings.",
     type: "website",
   },
 };
