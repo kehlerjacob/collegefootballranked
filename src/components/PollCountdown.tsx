@@ -9,6 +9,51 @@ interface PollCountdownProps {
   votingDeadline?: string | null;
 }
 
+function getTargetTime(votingDeadline?: string | null): number {
+  const now = new Date();
+
+  // If votingDeadline is provided and is in the future, use it
+  if (votingDeadline) {
+    const d = new Date(votingDeadline).getTime();
+    if (!isNaN(d) && d > now.getTime()) {
+      return d;
+    }
+  }
+
+  // Otherwise calculate upcoming Wednesday at 12:00 PM (Noon)
+  const target = new Date(now);
+  const currentDay = now.getDay(); // 0: Sun, 1: Mon, 2: Tue, 3: Wed, 4: Thu, 5: Fri, 6: Sat
+  let daysUntilWednesday = (3 - currentDay + 7) % 7;
+
+  target.setDate(now.getDate() + daysUntilWednesday);
+  target.setHours(12, 0, 0, 0);
+
+  // If today is Wednesday and already at or past noon, target next Wednesday noon
+  if (daysUntilWednesday === 0 && now.getTime() >= target.getTime()) {
+    target.setDate(target.getDate() + 7);
+    target.setHours(12, 0, 0, 0);
+  }
+
+  return target.getTime();
+}
+
+function calculateTimeLeft(votingDeadline?: string | null) {
+  const targetTime = getTargetTime(votingDeadline);
+  const now = Date.now();
+  const diff = targetTime - now;
+
+  if (diff <= 0) {
+    return { days: 0, hours: 0, minutes: 0, seconds: 0, isPast: true };
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / 1000 / 60) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+
+  return { days, hours, minutes, seconds, isPast: false };
+}
+
 export function PollCountdown({
   weekTitle,
   totalBallots = 0,
@@ -28,51 +73,22 @@ export function PollCountdown({
     isPast: false,
   });
 
+  const [hasMounted, setHasMounted] = useState(false);
+
   useEffect(() => {
-    function getTargetTime(): number {
-      if (votingDeadline) {
-        const d = new Date(votingDeadline).getTime();
-        if (!isNaN(d)) return d;
-      }
-      // Default: Next upcoming Wednesday at 12:00 PM (Noon)
-      const now = new Date();
-      const target = new Date(now);
-      const currentDay = now.getDay(); // 0: Sun, 1: Mon, 2: Tue, 3: Wed, 4: Thu, 5: Fri, 6: Sat
-      let daysUntilWednesday = (3 - currentDay + 7) % 7;
+    setHasMounted(true);
 
-      target.setDate(now.getDate() + daysUntilWednesday);
-      target.setHours(12, 0, 0, 0);
-
-      // If it's Wednesday and already past noon, target next week's Wednesday noon
-      if (daysUntilWednesday === 0 && now.getTime() >= target.getTime()) {
-        target.setDate(target.getDate() + 7);
-      }
-      return target.getTime();
+    function tick() {
+      setTimeLeft(calculateTimeLeft(votingDeadline));
     }
 
-    const targetTime = getTargetTime();
-
-    function updateCountdown() {
-      const now = Date.now();
-      const diff = targetTime - now;
-
-      if (diff <= 0) {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0, isPast: true });
-        return;
-      }
-
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / 1000 / 60) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
-
-      setTimeLeft({ days, hours, minutes, seconds, isPast: false });
-    }
-
-    updateCountdown();
-    const interval = setInterval(updateCountdown, 1000);
+    tick();
+    const interval = setInterval(tick, 1000);
     return () => clearInterval(interval);
   }, [votingDeadline]);
+
+  // If before mount, compute initial value so there is no delay
+  const displayTime = hasMounted ? timeLeft : calculateTimeLeft(votingDeadline);
 
   return (
     <div className="glass-card rounded-2xl p-6 sm:p-8 text-center relative overflow-hidden border border-accent/40 shadow-[0_0_30px_rgba(201,168,76,0.12)]">
@@ -97,7 +113,7 @@ export function PollCountdown({
       <div className="grid grid-cols-4 gap-2 sm:gap-4 max-w-sm sm:max-w-md mx-auto my-6">
         <div className="flex flex-col items-center justify-center p-3 rounded-xl bg-surface-elevated border border-border">
           <span className="text-2xl sm:text-3xl font-black text-accent tabular-nums">
-            {String(timeLeft.days).padStart(2, "0")}
+            {String(displayTime.days).padStart(2, "0")}
           </span>
           <span className="text-[10px] sm:text-xs font-semibold uppercase text-muted tracking-wider mt-1">
             Days
@@ -106,7 +122,7 @@ export function PollCountdown({
 
         <div className="flex flex-col items-center justify-center p-3 rounded-xl bg-surface-elevated border border-border">
           <span className="text-2xl sm:text-3xl font-black text-accent tabular-nums">
-            {String(timeLeft.hours).padStart(2, "0")}
+            {String(displayTime.hours).padStart(2, "0")}
           </span>
           <span className="text-[10px] sm:text-xs font-semibold uppercase text-muted tracking-wider mt-1">
             Hours
@@ -115,7 +131,7 @@ export function PollCountdown({
 
         <div className="flex flex-col items-center justify-center p-3 rounded-xl bg-surface-elevated border border-border">
           <span className="text-2xl sm:text-3xl font-black text-accent tabular-nums">
-            {String(timeLeft.minutes).padStart(2, "0")}
+            {String(displayTime.minutes).padStart(2, "0")}
           </span>
           <span className="text-[10px] sm:text-xs font-semibold uppercase text-muted tracking-wider mt-1">
             Mins
@@ -124,7 +140,7 @@ export function PollCountdown({
 
         <div className="flex flex-col items-center justify-center p-3 rounded-xl bg-surface-elevated border border-border">
           <span className="text-2xl sm:text-3xl font-black text-accent tabular-nums">
-            {String(timeLeft.seconds).padStart(2, "0")}
+            {String(displayTime.seconds).padStart(2, "0")}
           </span>
           <span className="text-[10px] sm:text-xs font-semibold uppercase text-muted tracking-wider mt-1">
             Secs

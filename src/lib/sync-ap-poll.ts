@@ -36,18 +36,22 @@ export async function syncScheduleAndAPPoll() {
     create: { year: 2026, isCurrent: true },
   });
 
-  // 2. Ensure Week 0 (Preseason), Week 1 (Concluded), Week 2 (OPEN), Weeks 3-15 (Upcoming)
+  // Base Wednesday Sep 16, 2026 at 12:00 PM EST (16:00 UTC) as Week 2 deadline
+  const week2Deadline = new Date("2026-09-16T16:00:00.000Z");
+
   const weekDefs = [
-    { weekNumber: 0, title: "Week 0 (Preseason)", status: "PUBLISHED" },
-    { weekNumber: 1, title: "Week 1", status: "PUBLISHED" },
-    { weekNumber: 2, title: "Week 2", status: "OPEN" },
+    { weekNumber: 0, title: "Week 0 (Preseason)", status: "PUBLISHED", votingDeadline: null },
+    { weekNumber: 1, title: "Week 1", status: "PUBLISHED", votingDeadline: new Date("2026-09-09T16:00:00.000Z") },
+    { weekNumber: 2, title: "Week 2", status: "OPEN", votingDeadline: week2Deadline },
   ];
 
   for (let w = 3; w <= 15; w++) {
+    const deadline = new Date(week2Deadline.getTime() + (w - 2) * 7 * 24 * 60 * 60 * 1000);
     weekDefs.push({
       weekNumber: w,
       title: `Week ${w}`,
       status: "UPCOMING",
+      votingDeadline: deadline,
     });
   }
 
@@ -63,12 +67,14 @@ export async function syncScheduleAndAPPoll() {
       update: {
         title: def.title,
         status: def.status,
+        votingDeadline: def.votingDeadline,
       },
       create: {
         seasonId: season.id,
         weekNumber: def.weekNumber,
         title: def.title,
         status: def.status,
+        votingDeadline: def.votingDeadline,
       },
     });
     weekMap.set(def.weekNumber, week);
