@@ -598,6 +598,8 @@ export default function BallotPage() {
     "AAC",
     "Sun Belt",
     "C-USA",
+    "MAC",
+    "Pac-12",
   ];
 
   if (authLoading || isLoading) {

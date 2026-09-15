@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { syncAllFBSTeams } from "../src/lib/sync-fbs-teams";
 import { syncScheduleAndAPPoll } from "../src/lib/sync-ap-poll";
-import { syncTeamRecordsFromESPN } from "../src/lib/sync-records";
 
 const prisma = new PrismaClient();
 
@@ -28,11 +28,13 @@ async function main() {
   }
   console.log(`✓ Demo accounts ready (e.g. guru@cfr.com / password123)`);
 
-  // 2. Sync real AP Top 25 Poll for Week 0 & Week 1, and configure Week 2 as OPEN
-  await syncScheduleAndAPPoll();
+  // 2. Sync all 134+ FBS Division I teams, conferences, records, and logos
+  console.log("🏈 Syncing all FBS Division I teams...");
+  const teamsResult = await syncAllFBSTeams();
+  console.log(`✓ Synced ${teamsResult.totalSynced} FBS teams (${teamsResult.createdCount} created, ${teamsResult.updatedCount} updated)`);
 
-  // 3. Sync real-time team records from ESPN
-  await syncTeamRecordsFromESPN();
+  // 3. Sync real AP Top 25 Poll for Week 0 & Week 1, and configure Week 2 as OPEN
+  await syncScheduleAndAPPoll();
 
   console.log("🎉 Database seed and AP Poll sync complete!");
 }
