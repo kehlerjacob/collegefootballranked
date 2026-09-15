@@ -127,9 +127,8 @@ export function CommentsSection({ weekId, weekTitle }: CommentsSectionProps) {
       {/* Header */}
       <div className="flex items-center justify-between pb-4 border-b border-border/50">
         <div className="flex items-center gap-2">
-          <span className="text-lg">💬</span>
           <h3 className="text-sm sm:text-base font-bold text-foreground">
-            Fan Reactions &amp; Debate
+            Comments
           </h3>
           <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-surface border border-border text-accent">
             {totalCount}
