@@ -9,14 +9,16 @@ datasource db {
 }
 
 model User {
-  id           String    @id @default(cuid())
-  email        String    @unique
-  username     String    @unique
+  id           String        @id @default(cuid())
+  email        String        @unique
+  username     String        @unique
   passwordHash String
-  role         String    @default("USER") // USER, ADMIN
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  role         String        @default("USER") // USER, ADMIN
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
   ballots      Ballot[]
+  comments     Comment[]
+  commentLikes CommentLike[]
 }
 
 model Season {
@@ -36,6 +38,7 @@ model Week {
   status           String             @default("UPCOMING") // UPCOMING, OPEN, VOTING_CLOSED, PUBLISHED
   votingDeadline   DateTime?
   ballots          Ballot[]
+  comments         Comment[]
   consensusRanks   ConsensusRanking[]
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
@@ -101,4 +104,32 @@ model ConsensusRanking {
 
   @@unique([weekId, teamId])
   @@unique([weekId, rank])
+}
+
+model Comment {
+  id        String        @id @default(cuid())
+  content   String
+  userId    String
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  weekId    String
+  week      Week          @relation(fields: [weekId], references: [id], onDelete: Cascade)
+  parentId  String?
+  parent    Comment?      @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   Comment[]     @relation("CommentReplies")
+  likes     CommentLike[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([weekId, parentId])
+}
+
+model CommentLike {
+  id        String   @id @default(cuid())
+  commentId String
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([commentId, userId]) // 1 like per user per comment
 }

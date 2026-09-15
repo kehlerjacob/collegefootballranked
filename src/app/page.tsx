@@ -6,6 +6,7 @@ import { Header } from "@/components/Header";
 import { WeekSelector, WeekItem } from "@/components/WeekSelector";
 import { StatsBar } from "@/components/StatsBar";
 import { PollCountdown } from "@/components/PollCountdown";
+import { CommentsSection } from "@/components/CommentsSection";
 import Link from "next/link";
 
 export default function Home() {
@@ -141,6 +142,14 @@ export default function Home() {
           ) : (
             <RankingsTable rankings={rankings} isLoading={isLoading} />
           )}
+        </div>
+
+        {/* Community Discussion & TikTok/Instagram Style Comments */}
+        <div className="animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
+          <CommentsSection
+            weekId={selectedWeek?.id}
+            weekTitle={selectedWeek?.title}
+          />
         </div>
       </main>
 
