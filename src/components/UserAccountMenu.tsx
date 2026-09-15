@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { useAuth } from "./AuthProvider";
 import { TeamLogo } from "./TeamLogo";
 import Link from "next/link";
@@ -35,6 +36,7 @@ function getAvatarGradient(username: string) {
 export function UserAccountMenu() {
   const { user, logout, updateUser } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   // Modals state
@@ -58,6 +60,10 @@ export function UserAccountMenu() {
   const [passwordError, setPasswordError] = useState("");
   const [passwordSuccess, setPasswordSuccess] = useState("");
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Close dropdown on outside click
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -67,6 +73,19 @@ export function UserAccountMenu() {
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Handle escape key
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setIsOpen(false);
+        setIsTeamModalOpen(false);
+        setIsPasswordModalOpen(false);
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   // Fetch teams when team modal opens
@@ -287,7 +306,7 @@ export function UserAccountMenu() {
             )}
           </div>
 
-          {/* Menu Items (No emojis, sleek modern UI icons) */}
+          {/* Menu Items */}
           <div className="space-y-1 text-xs">
             {/* Admin Dashboard */}
             {isAdmin && (
@@ -362,12 +381,15 @@ export function UserAccountMenu() {
         </div>
       )}
 
-      {/* MODAL 1: CHANGE FAVORITE TEAM (Mobile-optimized positioning) */}
-      {isTeamModalOpen && (
-        <div className="fixed inset-0 z-[100] overflow-y-auto bg-black/80 backdrop-blur-xs p-3 sm:p-4 flex min-h-full items-start sm:items-center justify-center pt-8 sm:pt-4 pb-8 animate-fade-in">
-          <div className="glass-card max-w-lg w-full max-h-[85dvh] sm:max-h-[85vh] flex flex-col rounded-2xl border border-border shadow-2xl overflow-hidden animate-scale-up my-auto">
+      {/* MODAL 1: CHANGE FAVORITE TEAM (Rendered in Portal directly on body) */}
+      {mounted && isTeamModalOpen && createPortal(
+        <div className="fixed inset-0 z-[9999] overflow-y-auto bg-black/80 backdrop-blur-md p-4 flex min-h-screen items-center justify-center animate-fade-in">
+          {/* Backdrop overlay click to close */}
+          <div className="fixed inset-0" onClick={() => setIsTeamModalOpen(false)} />
+
+          <div className="relative bg-[#161a22] max-w-lg w-full max-h-[90vh] flex flex-col rounded-2xl border border-border shadow-2xl overflow-hidden animate-scale-up z-10 my-auto">
             {/* Modal Header */}
-            <div className="p-4 sm:p-5 border-b border-border flex items-center justify-between shrink-0">
+            <div className="p-4 sm:p-5 border-b border-border flex items-center justify-between shrink-0 bg-[#161a22]">
               <div>
                 <h2 className="text-base font-bold text-foreground">
                   Change Favorite Team
@@ -377,21 +399,22 @@ export function UserAccountMenu() {
                 </p>
               </div>
               <button
+                type="button"
                 onClick={() => setIsTeamModalOpen(false)}
-                className="p-1.5 rounded-lg text-muted hover:text-foreground hover:bg-surface text-sm"
+                className="p-1.5 rounded-lg text-muted hover:text-foreground hover:bg-surface-elevated text-sm transition-colors"
               >
                 ✕
               </button>
             </div>
 
             {/* Filter / Search bar */}
-            <div className="p-3 border-b border-border/60 bg-surface/50 space-y-2 shrink-0">
+            <div className="p-3 border-b border-border/60 bg-[#1c2029] space-y-2 shrink-0">
               <input
                 type="text"
                 placeholder="Search teams (e.g. Georgia, Michigan, Oregon)..."
                 value={teamSearch}
                 onChange={(e) => setTeamSearch(e.target.value)}
-                className="w-full px-3.5 py-2 rounded-xl bg-surface border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
+                className="w-full px-3.5 py-2 rounded-xl bg-[#161a22] border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
                 autoFocus
               />
 
@@ -405,7 +428,7 @@ export function UserAccountMenu() {
                     className={`px-2.5 py-1 rounded-lg font-semibold whitespace-nowrap transition-all ${
                       selectedConference === conf
                         ? "bg-accent text-background"
-                        : "bg-surface text-muted hover:text-foreground border border-border"
+                        : "bg-[#161a22] text-muted hover:text-foreground border border-border"
                     }`}
                   >
                     {conf}
@@ -415,7 +438,7 @@ export function UserAccountMenu() {
             </div>
 
             {/* Teams Grid */}
-            <div className="flex-1 overflow-y-auto p-3 max-h-64 sm:max-h-72 grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div className="flex-1 overflow-y-auto p-3 min-h-[180px] max-h-[48vh] grid grid-cols-1 sm:grid-cols-2 gap-2 bg-[#12151c]">
               {filteredTeams.length === 0 ? (
                 <div className="col-span-full py-8 text-center text-xs text-muted">
                   No FBS teams found matching &quot;{teamSearch}&quot;.
@@ -431,7 +454,7 @@ export function UserAccountMenu() {
                       className={`flex items-center gap-2.5 p-2.5 rounded-xl border text-left transition-all ${
                         isSelected
                           ? "bg-accent/15 border-accent text-foreground shadow-xs"
-                          : "bg-surface border-border hover:border-accent/40 text-muted hover:text-foreground"
+                          : "bg-[#161a22] border-border hover:border-accent/40 text-muted hover:text-foreground"
                       }`}
                     >
                       <TeamLogo
@@ -455,7 +478,7 @@ export function UserAccountMenu() {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 border-t border-border bg-surface/70 flex items-center justify-between gap-3 shrink-0">
+            <div className="p-4 border-t border-border bg-[#161a22] flex items-center justify-between gap-3 shrink-0">
               <div>
                 {teamError && <p className="text-xs text-danger font-medium">{teamError}</p>}
                 {teamSuccess && <p className="text-xs text-success font-bold">{teamSuccess}</p>}
@@ -465,7 +488,7 @@ export function UserAccountMenu() {
                 <button
                   type="button"
                   onClick={() => setIsTeamModalOpen(false)}
-                  className="px-3.5 py-1.5 rounded-xl border border-border text-muted hover:text-foreground text-xs font-medium"
+                  className="px-3.5 py-1.5 rounded-xl border border-border text-muted hover:text-foreground text-xs font-medium transition-colors"
                 >
                   Cancel
                 </button>
@@ -480,26 +503,31 @@ export function UserAccountMenu() {
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
-      {/* MODAL 2: CHANGE PASSWORD (Mobile-optimized positioning) */}
-      {isPasswordModalOpen && (
-        <div className="fixed inset-0 z-[100] overflow-y-auto bg-black/80 backdrop-blur-xs p-3 sm:p-4 flex min-h-full items-start sm:items-center justify-center pt-8 sm:pt-4 pb-8 animate-fade-in">
-          <div className="glass-card max-w-md w-full rounded-2xl border border-border shadow-2xl overflow-hidden animate-scale-up my-auto">
-            <div className="p-4 sm:p-5 border-b border-border flex items-center justify-between shrink-0">
+      {/* MODAL 2: CHANGE PASSWORD (Rendered in Portal directly on body) */}
+      {mounted && isPasswordModalOpen && createPortal(
+        <div className="fixed inset-0 z-[9999] overflow-y-auto bg-black/80 backdrop-blur-md p-4 flex min-h-screen items-center justify-center animate-fade-in">
+          {/* Backdrop overlay click to close */}
+          <div className="fixed inset-0" onClick={() => setIsPasswordModalOpen(false)} />
+
+          <div className="relative bg-[#161a22] max-w-md w-full max-h-[90vh] flex flex-col rounded-2xl border border-border shadow-2xl overflow-hidden animate-scale-up z-10 my-auto">
+            <div className="p-4 sm:p-5 border-b border-border flex items-center justify-between shrink-0 bg-[#161a22]">
               <h2 className="text-base font-bold text-foreground">
                 Change Password
               </h2>
               <button
+                type="button"
                 onClick={() => setIsPasswordModalOpen(false)}
-                className="p-1.5 rounded-lg text-muted hover:text-foreground hover:bg-surface text-sm"
+                className="p-1.5 rounded-lg text-muted hover:text-foreground hover:bg-surface-elevated text-sm transition-colors"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleSavePassword} className="p-4 sm:p-5 space-y-3.5">
+            <form onSubmit={handleSavePassword} className="p-4 sm:p-5 space-y-3.5 overflow-y-auto bg-[#161a22]">
               <div>
                 <label className="block text-xs font-semibold text-muted mb-1">
                   Current Password
@@ -510,7 +538,7 @@ export function UserAccountMenu() {
                   onChange={(e) => setCurrentPassword(e.target.value)}
                   placeholder="Enter your current password"
                   required
-                  className="w-full px-3.5 py-2 rounded-xl bg-surface border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
+                  className="w-full px-3.5 py-2 rounded-xl bg-[#1c2029] border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
                 />
               </div>
 
@@ -525,7 +553,7 @@ export function UserAccountMenu() {
                   placeholder="Enter new password"
                   required
                   minLength={6}
-                  className="w-full px-3.5 py-2 rounded-xl bg-surface border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
+                  className="w-full px-3.5 py-2 rounded-xl bg-[#1c2029] border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
                 />
               </div>
 
@@ -540,7 +568,7 @@ export function UserAccountMenu() {
                   placeholder="Confirm new password"
                   required
                   minLength={6}
-                  className="w-full px-3.5 py-2 rounded-xl bg-surface border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
+                  className="w-full px-3.5 py-2 rounded-xl bg-[#1c2029] border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
                 />
               </div>
 
@@ -555,7 +583,7 @@ export function UserAccountMenu() {
                 <button
                   type="button"
                   onClick={() => setIsPasswordModalOpen(false)}
-                  className="px-3.5 py-1.5 rounded-xl border border-border text-muted hover:text-foreground text-xs font-medium"
+                  className="px-3.5 py-1.5 rounded-xl border border-border text-muted hover:text-foreground text-xs font-medium transition-colors"
                 >
                   Cancel
                 </button>
@@ -569,7 +597,8 @@ export function UserAccountMenu() {
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
