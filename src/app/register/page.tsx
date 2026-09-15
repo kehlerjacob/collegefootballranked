@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/AuthProvider";
@@ -13,6 +13,7 @@ interface TeamOption {
   shortName: string;
   mascot: string | null;
   conference: string;
+  record?: string;
   logoUrl: string | null;
   primaryColor: string | null;
 }
@@ -22,6 +23,7 @@ export default function RegisterPage() {
   const { login } = useAuth();
 
   const [teams, setTeams] = useState<TeamOption[]>([]);
+  const [apRanks, setApRanks] = useState<Map<string, number>>(new Map());
   const [loadingTeams, setLoadingTeams] = useState(true);
 
   const [formData, setFormData] = useState({
@@ -32,20 +34,64 @@ export default function RegisterPage() {
   });
 
   const [teamSearch, setTeamSearch] = useState("");
-  const [isTeamPickerOpen, setIsTeamPickerOpen] = useState(false);
-  const teamPickerRef = useRef<HTMLDivElement | null>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Load all FBS teams
+  // Load all FBS teams & AP poll data for identical sorting to ballot builder
   useEffect(() => {
-    async function loadTeams() {
+    async function loadData() {
       try {
-        const res = await fetch("/api/teams");
-        if (res.ok) {
-          const data = await res.json();
-          setTeams(data.teams || []);
+        const [teamsRes, apRes] = await Promise.all([
+          fetch("/api/teams"),
+          fetch("/api/ap-poll").catch(() => null),
+        ]);
+
+        let loadedTeams: TeamOption[] = [];
+        if (teamsRes.ok) {
+          const data = await teamsRes.json();
+          loadedTeams = data.teams || [];
+          setTeams(loadedTeams);
+        }
+
+        if (apRes && apRes.ok) {
+          try {
+            const apData = await apRes.json();
+            if (apData?.ranks && Array.isArray(apData.ranks)) {
+              const newApMap = new Map<string, number>();
+              apData.ranks.forEach(
+                (r: {
+                  rank?: number;
+                  teamId?: string | null;
+                  teamName?: string;
+                  name?: string;
+                  shortName?: string;
+                }) => {
+                  let id = r.teamId;
+                  if (!id) {
+                    const qName = (r.teamName || r.name || "").toLowerCase().trim();
+                    const qShort = (r.shortName || "").toLowerCase().trim();
+                    const found = loadedTeams.find(
+                      (t) =>
+                        t.name.toLowerCase().trim() === qName ||
+                        t.shortName.toLowerCase().trim() === qShort ||
+                        (qName === "miami" && t.name.includes("Miami"))
+                    );
+                    if (found) id = found.id;
+                  }
+                  if (id && typeof r.rank === "number") {
+                    newApMap.set(id, r.rank);
+                  }
+                }
+              );
+              setApRanks(newApMap);
+            }
+          } catch (e) {
+            console.error("Could not parse AP poll data:", e);
+          }
         }
       } catch (e) {
         console.error("Failed to load teams:", e);
@@ -53,17 +99,17 @@ export default function RegisterPage() {
         setLoadingTeams(false);
       }
     }
-    loadTeams();
+    loadData();
   }, []);
 
   // Click outside to close team picker
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (
-        teamPickerRef.current &&
-        !teamPickerRef.current.contains(e.target as Node)
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
       ) {
-        setIsTeamPickerOpen(false);
+        setIsDropdownOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -72,16 +118,67 @@ export default function RegisterPage() {
 
   const selectedTeam = teams.find((t) => t.id === formData.favoriteTeamId);
 
-  const filteredTeams = teams.filter((t) => {
+  // Parse win-loss record
+  const parseRecord = (recordStr?: string | null) => {
+    if (!recordStr) return { wins: 0, losses: 0, ties: 0, total: 0, pct: 0 };
+    const parts = recordStr.split("-").map((n) => parseInt(n.trim(), 10) || 0);
+    const wins = parts[0] || 0;
+    const losses = parts[1] || 0;
+    const ties = parts[2] || 0;
+    const total = wins + losses + ties;
+    const pct = total > 0 ? (wins + 0.5 * ties) / total : 0;
+    return { wins, losses, ties, total, pct };
+  };
+
+  // Compare teams identically to ballot builder (AP rank -> Win % -> Alphabetical)
+  const compareTeams = (a: TeamOption, b: TeamOption) => {
+    const rankA = apRanks.get(a.id);
+    const rankB = apRanks.get(b.id);
+
+    if (rankA !== undefined && rankB !== undefined) return rankA - rankB;
+    if (rankA !== undefined) return -1;
+    if (rankB !== undefined) return 1;
+
+    const recA = parseRecord(a.record);
+    const recB = parseRecord(b.record);
+
+    if (recB.pct !== recA.pct) return recB.pct - recA.pct;
+    if (recB.wins !== recA.wins) return recB.wins - recA.wins;
+    if (recA.losses !== recB.losses) return recA.losses - recB.losses;
+    return a.name.localeCompare(b.name);
+  };
+
+  // Filter and sort teams for search results
+  const searchResults = useMemo(() => {
     const q = teamSearch.toLowerCase().trim();
-    if (!q) return true;
-    return (
-      t.name.toLowerCase().includes(q) ||
-      t.shortName.toLowerCase().includes(q) ||
-      (t.mascot && t.mascot.toLowerCase().includes(q)) ||
-      t.conference.toLowerCase().includes(q)
-    );
-  });
+    return teams
+      .filter((t) => {
+        if (!q) return true;
+        return (
+          t.name.toLowerCase().includes(q) ||
+          t.shortName.toLowerCase().includes(q) ||
+          (t.mascot && t.mascot.toLowerCase().includes(q)) ||
+          t.conference.toLowerCase().includes(q)
+        );
+      })
+      .sort(compareTeams);
+  }, [teams, teamSearch, apRanks]);
+
+  const handleSelectTeam = (teamId: string) => {
+    setFormData((prev) => ({ ...prev, favoriteTeamId: teamId }));
+    setIsDropdownOpen(false);
+    setTeamSearch("");
+    setError("");
+  };
+
+  const handleClearSelectedTeam = () => {
+    setFormData((prev) => ({ ...prev, favoriteTeamId: "" }));
+    setTeamSearch("");
+    setIsDropdownOpen(true);
+    setTimeout(() => {
+      searchInputRef.current?.focus();
+    }, 50);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -187,140 +284,141 @@ export default function RegisterPage() {
               />
             </div>
 
-            {/* Favorite Team Picker */}
-            <div className="relative" ref={teamPickerRef}>
+            {/* Favorite Team Search Selector (Works like Ballot Builder Search) */}
+            <div className="relative" ref={containerRef}>
               <label className="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5 flex items-center justify-between">
                 <span>Favorite Team</span>
-                <span className="text-[10px] text-accent font-normal lowercase">Required</span>
+                <span className="text-[10px] text-accent font-semibold uppercase">Required</span>
               </label>
 
-              {/* Picker Button */}
-              <button
-                type="button"
-                onClick={() => setIsTeamPickerOpen(!isTeamPickerOpen)}
-                className={`w-full px-3.5 py-2.5 rounded-xl bg-surface border transition-all text-left flex items-center justify-between ${
-                  selectedTeam
-                    ? "border-accent/60 bg-accent/5 ring-1 ring-accent/30"
-                    : "border-border text-muted/70 hover:border-border-light"
-                }`}
-              >
-                {selectedTeam ? (
+              {selectedTeam ? (
+                /* Selected Team Card View */
+                <div className="flex items-center justify-between p-2.5 px-3 rounded-xl bg-surface-elevated border border-accent/60 ring-1 ring-accent/30 transition-all shadow-sm">
                   <div className="flex items-center gap-2.5 min-w-0">
                     <TeamLogo
                       logoUrl={selectedTeam.logoUrl}
                       name={selectedTeam.name}
                       shortName={selectedTeam.shortName}
                       primaryColor={selectedTeam.primaryColor}
-                      size={24}
+                      size={26}
                     />
-                    <div className="min-w-0">
+                    <div className="flex items-center gap-2 min-w-0">
                       <span className="text-xs font-bold text-foreground truncate">
                         {selectedTeam.name}
                       </span>
-                      <span className="text-[10px] text-muted ml-1.5">
+                      {selectedTeam.record && (
+                        <span className="px-1.5 py-0.5 rounded bg-surface border border-border text-[10px] font-bold text-accent shrink-0">
+                          {selectedTeam.record}
+                        </span>
+                      )}
+                      <span className="text-[10px] text-muted shrink-0">
                         ({selectedTeam.conference})
                       </span>
                     </div>
                   </div>
-                ) : (
-                  <span className="text-xs text-muted/70">
-                    {loadingTeams ? "Loading teams..." : "Select your favorite team..."}
-                  </span>
-                )}
 
-                <svg
-                  className={`w-4 h-4 text-muted transition-transform ${
-                    isTeamPickerOpen ? "rotate-180" : ""
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-
-              {/* Searchable Teams Dropdown */}
-              {isTeamPickerOpen && (
-                <div className="absolute left-0 right-0 mt-1.5 rounded-2xl bg-surface-elevated border border-accent/40 shadow-2xl z-50 p-2 animate-fade-in-up backdrop-blur-xl">
-                  {/* Search bar */}
+                  <button
+                    type="button"
+                    onClick={handleClearSelectedTeam}
+                    className="p-1 px-2 rounded-lg text-xs font-semibold text-muted hover:text-foreground hover:bg-surface border border-border/60 transition-colors ml-2 shrink-0"
+                    title="Change Team"
+                  >
+                    Change
+                  </button>
+                </div>
+              ) : (
+                /* Search Input View */
+                <div className="relative">
                   <input
+                    ref={searchInputRef}
                     type="text"
-                    autoFocus
                     value={teamSearch}
-                    onChange={(e) => setTeamSearch(e.target.value)}
-                    placeholder="Search teams (e.g. Georgia, Ohio State, Texas)..."
-                    className="w-full px-3 py-1.5 rounded-xl bg-background border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent mb-2"
+                    onChange={(e) => {
+                      setTeamSearch(e.target.value);
+                      if (!isDropdownOpen) setIsDropdownOpen(true);
+                    }}
+                    onFocus={() => setIsDropdownOpen(true)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Escape") {
+                        setIsDropdownOpen(false);
+                      }
+                      if (e.key === "Enter" && searchResults.length > 0) {
+                        e.preventDefault();
+                        handleSelectTeam(searchResults[0].id);
+                      }
+                    }}
+                    placeholder={
+                      loadingTeams
+                        ? "Loading teams..."
+                        : "Type team name (e.g. Georgia, OSU, Texas)..."
+                    }
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-border text-foreground text-base sm:text-sm placeholder:text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
                   />
 
-                  {/* Teams List */}
-                  <div className="max-h-52 overflow-y-auto space-y-1 divide-y divide-border/20 pr-1">
-                    {filteredTeams.map((team) => {
-                      const isSelected = formData.favoriteTeamId === team.id;
-                      return (
-                        <button
-                          key={team.id}
-                          type="button"
-                          onClick={() => {
-                            setFormData({
-                              ...formData,
-                              favoriteTeamId: team.id,
-                            });
-                            setIsTeamPickerOpen(false);
-                            setTeamSearch("");
-                          }}
-                          className={`w-full flex items-center justify-between p-2 rounded-xl text-left transition-colors ${
-                            isSelected
-                              ? "bg-accent/20 border border-accent/40"
-                              : "hover:bg-surface border border-transparent"
-                          }`}
-                        >
-                          <div className="flex items-center gap-2.5 min-w-0">
-                            <TeamLogo
-                              logoUrl={team.logoUrl}
-                              name={team.name}
-                              shortName={team.shortName}
-                              primaryColor={team.primaryColor}
-                              size={22}
-                            />
-                            <div className="min-w-0">
-                              <p className="text-xs font-semibold text-foreground truncate">
-                                {team.name}
-                              </p>
-                              <p className="text-[10px] text-muted">
-                                {team.conference}
-                              </p>
-                            </div>
-                          </div>
+                  {teamSearch && (
+                    <button
+                      type="button"
+                      onClick={() => setTeamSearch("")}
+                      className="absolute right-3 top-3 text-muted hover:text-foreground text-xs"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+              )}
 
-                          {isSelected && (
-                            <span className="text-accent text-xs font-bold shrink-0">
-                              ✓
+              {/* Suggestions Dropdown (Identical to Ballot Builder slot search) */}
+              {!selectedTeam && isDropdownOpen && (
+                <div className="absolute left-0 right-0 mt-1.5 rounded-2xl bg-[#161a22] border border-accent/40 shadow-2xl z-50 p-1.5 max-h-64 overflow-y-auto divide-y divide-border/30 animate-fade-in backdrop-blur-xl">
+                  {searchResults.length > 0 ? (
+                    searchResults.map((t) => (
+                      <button
+                        key={t.id}
+                        type="button"
+                        onClick={() => handleSelectTeam(t.id)}
+                        className="w-full flex items-center justify-between p-2 rounded-xl hover:bg-accent/15 text-left transition-colors group"
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <TeamLogo
+                            logoUrl={t.logoUrl}
+                            name={t.name}
+                            shortName={t.shortName}
+                            primaryColor={t.primaryColor}
+                            size={24}
+                          />
+                          <div className="flex items-center gap-2 min-w-0">
+                            <span className="text-xs font-bold text-foreground group-hover:text-accent transition-colors truncate">
+                              {t.name}
                             </span>
-                          )}
-                        </button>
-                      );
-                    })}
+                            {t.record && (
+                              <span className="px-1.5 py-0.2 rounded bg-[#1c2029] border border-border text-[10px] font-bold text-accent shrink-0">
+                                {t.record}
+                              </span>
+                            )}
+                            <span className="text-[10px] text-muted shrink-0">
+                              ({t.conference})
+                            </span>
+                          </div>
+                        </div>
 
-                    {filteredTeams.length === 0 && (
-                      <div className="p-4 text-center text-xs text-muted">
-                        No teams found for &ldquo;{teamSearch}&rdquo;
-                      </div>
-                    )}
-                  </div>
+                        <span className="text-[10px] font-bold text-muted group-hover:text-accent shrink-0 ml-2">
+                          Select →
+                        </span>
+                      </button>
+                    ))
+                  ) : (
+                    <div className="p-4 text-center text-xs text-muted">
+                      No teams found for &ldquo;{teamSearch}&rdquo;
+                    </div>
+                  )}
                 </div>
               )}
             </div>
 
             <button
               type="submit"
-              disabled={isSubmitting}
-              className="w-full py-2.5 px-4 rounded-xl bg-accent text-background font-bold text-sm hover:bg-accent-glow transition-all duration-200 disabled:opacity-50 shadow-[0_0_15px_rgba(201,168,76,0.25)]"
+              disabled={isSubmitting || !formData.favoriteTeamId}
+              className="w-full py-3 rounded-xl bg-accent text-background font-bold text-sm hover:bg-accent-glow transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed mt-2"
             >
               {isSubmitting ? "Creating Account..." : "Create Account"}
             </button>
