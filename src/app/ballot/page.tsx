@@ -628,25 +628,19 @@ export default function BallotPage() {
             </p>
           </div>
 
-          {/* Week Selector */}
+          {/* Current Active Voting Week Badge */}
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-muted uppercase">
-              Week:
-            </span>
-            <select
-              value={selectedWeek?.id || ""}
-              onChange={(e) => {
-                const w = weeks.find((item) => item.id === e.target.value);
-                if (w) setSelectedWeek(w);
-              }}
-              className="px-3 py-1.5 rounded-lg bg-surface border border-border text-foreground text-xs font-semibold focus:outline-none focus:border-accent"
-            >
-              {weeks.map((w) => (
-                <option key={w.id} value={w.id}>
-                  {w.title} ({w.status})
-                </option>
-              ))}
-            </select>
+            <div className="px-3.5 py-1.5 rounded-xl bg-surface border border-accent/40 flex items-center gap-2 text-xs">
+              <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
+              <span className="font-bold text-foreground">
+                {selectedWeek?.title || "Current Week"}
+              </span>
+              <span className="text-[10px] text-accent font-semibold uppercase tracking-wider bg-accent/10 px-1.5 py-0.5 rounded border border-accent/20">
+                {selectedWeek?.status === "OPEN"
+                  ? "Voting Open"
+                  : selectedWeek?.status || "Active"}
+              </span>
+            </div>
           </div>
         </div>
 

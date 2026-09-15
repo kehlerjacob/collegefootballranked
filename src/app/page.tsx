@@ -5,11 +5,12 @@ import { RankingsTable, TeamData } from "@/components/RankingsTable";
 import { Header } from "@/components/Header";
 import { WeekSelector, WeekItem } from "@/components/WeekSelector";
 import { StatsBar } from "@/components/StatsBar";
+import { PollCountdown } from "@/components/PollCountdown";
 import Link from "next/link";
 
 export default function Home() {
   const [weeks, setWeeks] = useState<WeekItem[]>([]);
-  const [selectedWeekNumber, setSelectedWeekNumber] = useState<number>(2);
+  const [selectedWeekNumber, setSelectedWeekNumber] = useState<number>(1);
   const [rankings, setRankings] = useState<TeamData[]>([]);
   const [stats, setStats] = useState({
     totalPointsAwarded: 0,
@@ -18,20 +19,28 @@ export default function Home() {
   });
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load weeks list
+  // Load weeks list & default to latest published consensus poll
   useEffect(() => {
     async function loadWeeks() {
       try {
         const res = await fetch("/api/weeks");
         if (res.ok) {
           const data = await res.json();
-          setWeeks(data.weeks || []);
-          // Default to Week 1 (concluded AP poll) or latest published
-          const week1 = data.weeks?.find((w: WeekItem) => w.weekNumber === 1);
-          if (week1) {
-            setSelectedWeekNumber(1);
-          } else if (data.weeks?.length > 0) {
-            setSelectedWeekNumber(data.weeks[0].weekNumber);
+          const loadedWeeks: WeekItem[] = data.weeks || [];
+          setWeeks(loadedWeeks);
+
+          // Default to the most recent published consensus poll (highest weekNumber with PUBLISHED status)
+          const publishedWeeks = loadedWeeks.filter(
+            (w) => w.status === "PUBLISHED"
+          );
+
+          if (publishedWeeks.length > 0) {
+            const latestPublished = publishedWeeks.reduce((prev, curr) =>
+              curr.weekNumber > prev.weekNumber ? curr : prev
+            );
+            setSelectedWeekNumber(latestPublished.weekNumber);
+          } else if (loadedWeeks.length > 0) {
+            setSelectedWeekNumber(loadedWeeks[0].weekNumber);
           }
         }
       } catch (e) {
@@ -41,7 +50,7 @@ export default function Home() {
     loadWeeks();
   }, []);
 
-  // Load rankings for selected week (including Week 0)
+  // Load rankings for selected week
   useEffect(() => {
     if (selectedWeekNumber === undefined || selectedWeekNumber === null) return;
 
@@ -75,6 +84,10 @@ export default function Home() {
     loadRankings();
   }, [selectedWeekNumber]);
 
+  const selectedWeek = weeks.find((w) => w.weekNumber === selectedWeekNumber);
+  const isOpenVotingWeek =
+    selectedWeek?.status === "OPEN" || stats.status === "OPEN";
+
   return (
     <>
       <Header />
@@ -95,7 +108,7 @@ export default function Home() {
               href="/ballot"
               className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-accent/15 border border-accent/40 text-accent hover:bg-accent hover:text-background text-xs font-bold transition-all duration-200"
             >
-              <span>Vote Next Week →</span>
+              <span>Vote This Week →</span>
             </Link>
           </div>
         </section>
@@ -117,9 +130,17 @@ export default function Home() {
           />
         </div>
 
-        {/* Rankings table */}
+        {/* Main Content Area: Poll Countdown when voting is OPEN, or Rankings Table when published */}
         <div className="animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
-          <RankingsTable rankings={rankings} isLoading={isLoading} />
+          {isOpenVotingWeek ? (
+            <PollCountdown
+              weekTitle={selectedWeek?.title || `Week ${selectedWeekNumber}`}
+              totalBallots={stats.totalBallots}
+              votingDeadline={selectedWeek?.votingDeadline}
+            />
+          ) : (
+            <RankingsTable rankings={rankings} isLoading={isLoading} />
+          )}
         </div>
       </main>
 

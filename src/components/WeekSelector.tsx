@@ -5,6 +5,7 @@ export interface WeekItem {
   weekNumber: number;
   title: string;
   status: string;
+  votingDeadline?: string | null;
 }
 
 interface WeekSelectorProps {
