@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/AuthProvider";
 import { Header } from "@/components/Header";
 import { TeamLogo } from "@/components/TeamLogo";
+import { BallotShareModal, RankedTeamInfo } from "@/components/BallotShareModal";
 import Link from "next/link";
 
 interface Team {
@@ -65,6 +66,7 @@ export default function BallotPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   // Close quick fill on click outside
   useEffect(() => {
@@ -498,10 +500,7 @@ export default function BallotPage() {
 
       setSuccessMsg(data.message || "Ballot submitted successfully!");
       setExistingBallotId(data.ballotId);
-
-      setTimeout(() => {
-        router.push(`/?week=${selectedWeek.weekNumber}`);
-      }, 1500);
+      setIsShareModalOpen(true);
     } catch {
       setErrorMsg("An unexpected network error occurred");
     } finally {
@@ -587,6 +586,25 @@ export default function BallotPage() {
     .slice(0, 8); // Top 8 matches for fast mobile dropdown
 
   const filledCount = ballotRanks.filter(Boolean).length;
+
+  const rankedTeamsData: RankedTeamInfo[] = [];
+  ballotRanks.forEach((teamId, index) => {
+    const team = teamById(teamId);
+    if (team) {
+      rankedTeamsData.push({
+        rank: index + 1,
+        id: team.id,
+        name: team.name,
+        shortName: team.shortName,
+        mascot: team.mascot,
+        conference: team.conference,
+        record: team.record,
+        primaryColor: team.primaryColor,
+        logoUrl: team.logoUrl,
+      });
+    }
+  });
+
   const conferences = [
     "ALL",
     "SEC",
@@ -1095,22 +1113,35 @@ export default function BallotPage() {
                 )}
               </div>
 
-              <button
-                type="button"
-                disabled={
-                  filledCount !== 25 ||
-                  isSubmitting ||
-                  selectedWeek?.status !== "OPEN"
-                }
-                onClick={handleSubmitBallot}
-                className="px-6 py-2.5 rounded-xl bg-accent text-background font-bold text-xs hover:bg-accent-glow transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(201,168,76,0.3)]"
-              >
-                {isSubmitting
-                  ? "Submitting..."
-                  : existingBallotId
-                  ? "Update My Ballot"
-                  : "Submit Official Ballot"}
-              </button>
+              <div className="flex items-center gap-2">
+                {filledCount === 25 && (
+                  <button
+                    type="button"
+                    onClick={() => setIsShareModalOpen(true)}
+                    className="px-4 py-2.5 rounded-xl bg-surface-elevated border border-accent/40 text-accent font-bold text-xs hover:bg-accent/15 transition-all flex items-center gap-1.5 active:scale-95 shadow-sm"
+                  >
+                    <span>✨</span>
+                    <span>Share Graphic</span>
+                  </button>
+                )}
+
+                <button
+                  type="button"
+                  disabled={
+                    filledCount !== 25 ||
+                    isSubmitting ||
+                    selectedWeek?.status !== "OPEN"
+                  }
+                  onClick={handleSubmitBallot}
+                  className="px-6 py-2.5 rounded-xl bg-accent text-background font-bold text-xs hover:bg-accent-glow transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(201,168,76,0.3)] active:scale-95"
+                >
+                  {isSubmitting
+                    ? "Submitting..."
+                    : existingBallotId
+                    ? "Update My Ballot"
+                    : "Submit Official Ballot"}
+                </button>
+              </div>
             </div>
           </div>
 
@@ -1216,6 +1247,20 @@ export default function BallotPage() {
           </div>
         </div>
       </main>
+
+      {/* Shareable Ballot Graphic Modal */}
+      <BallotShareModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        weekTitle={selectedWeek?.title || `Week ${selectedWeek?.weekNumber || 1}`}
+        weekNumber={selectedWeek?.weekNumber || 1}
+        username={user?.username || "Voter"}
+        rankedTeams={rankedTeamsData}
+        onContinueToRankings={() => {
+          setIsShareModalOpen(false);
+          router.push(`/?week=${selectedWeek?.weekNumber || 1}`);
+        }}
+      />
     </>
   );
 }

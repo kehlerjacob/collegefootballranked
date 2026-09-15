@@ -35,6 +35,7 @@ export function TeamLogo({
           className="w-full h-full object-contain"
           onError={() => setHasError(true)}
           loading="lazy"
+          crossOrigin="anonymous"
         />
       </div>
     );
