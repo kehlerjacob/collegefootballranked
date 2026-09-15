@@ -19,11 +19,12 @@ export function WeekSelector({
   selectedWeekNumber,
   onSelectWeek,
 }: WeekSelectorProps) {
-  if (!weeks || weeks.length === 0) return null;
+  const visibleWeeks = (weeks || []).filter((w) => w.status !== "UPCOMING");
+  if (visibleWeeks.length === 0) return null;
 
   return (
     <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none -mx-1 px-1">
-      {weeks.map((week) => {
+      {visibleWeeks.map((week) => {
         const isSelected = selectedWeekNumber === week.weekNumber;
         return (
           <button
