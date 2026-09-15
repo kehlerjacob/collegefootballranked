@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser, isUserAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 
 export async function GET() {
@@ -8,7 +8,7 @@ export async function GET() {
     return NextResponse.json({ user: null });
   }
 
-  const user = await prisma.user.findUnique({
+  let user = await prisma.user.findUnique({
     where: { id: sessionUser.userId },
     select: {
       id: true,
@@ -34,6 +34,14 @@ export async function GET() {
       },
     },
   });
+
+  if (user && isUserAdmin(user.email, user.role) && user.role !== "ADMIN") {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { role: "ADMIN" },
+    });
+    user.role = "ADMIN";
+  }
 
   return NextResponse.json({ user });
 }

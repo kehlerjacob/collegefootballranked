@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { verifyPassword, createSessionToken, setSessionCookie } from "@/lib/auth";
+import { verifyPassword, createSessionToken, setSessionCookie, isUserAdmin } from "@/lib/auth";
 import { z } from "zod";
 
 const loginSchema = z.object({
@@ -47,11 +47,21 @@ export async function POST(request: Request) {
       );
     }
 
+    const isAdmin = isUserAdmin(user.email, user.role);
+    let userRole = user.role;
+    if (isAdmin && user.role !== "ADMIN") {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { role: "ADMIN" },
+      });
+      userRole = "ADMIN";
+    }
+
     const token = await createSessionToken({
       userId: user.id,
       email: user.email,
       username: user.username,
-      role: user.role,
+      role: userRole,
     });
 
     await setSessionCookie(token);
@@ -62,7 +72,7 @@ export async function POST(request: Request) {
         id: user.id,
         email: user.email,
         username: user.username,
-        role: user.role,
+        role: userRole,
       },
     });
   } catch (error) {

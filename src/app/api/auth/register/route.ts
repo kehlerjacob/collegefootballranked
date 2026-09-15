@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { hashPassword, createSessionToken, setSessionCookie } from "@/lib/auth";
+import { hashPassword, createSessionToken, setSessionCookie, isUserAdmin } from "@/lib/auth";
 import { z } from "zod";
 
 const registerSchema = z.object({
@@ -58,13 +58,14 @@ export async function POST(request: Request) {
     }
 
     const passwordHash = await hashPassword(password);
+    const initialRole = isUserAdmin(email) ? "ADMIN" : "USER";
 
     const user = await prisma.user.create({
       data: {
         email: email.toLowerCase(),
         username,
         passwordHash,
-        role: "USER",
+        role: initialRole,
         favoriteTeamId: team.id,
       },
       include: {

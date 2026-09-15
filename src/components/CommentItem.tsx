@@ -110,7 +110,7 @@ export function CommentItem({
   const replies = comment.replies || [];
   const hasReplies = replies.length > 0;
   const isAuthor = user?.id === comment.userId;
-  const isAdmin = user?.role === "ADMIN";
+  const isAdmin = user?.role === "ADMIN" || user?.email?.toLowerCase() === "kehlerjacob@gmail.com";
 
   // Handle Like Toggle with optimistic UI
   const handleLikeToggle = async () => {

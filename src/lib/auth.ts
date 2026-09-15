@@ -15,6 +15,15 @@ export interface UserSession {
   role: string;
 }
 
+export const ADMIN_EMAILS = ["kehlerjacob@gmail.com"];
+
+export function isUserAdmin(email?: string | null, role?: string | null): boolean {
+  if (!email && !role) return false;
+  if (role === "ADMIN") return true;
+  if (email && ADMIN_EMAILS.includes(email.toLowerCase().trim())) return true;
+  return false;
+}
+
 export async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 10);
 }
@@ -27,7 +36,8 @@ export async function verifyPassword(
 }
 
 export async function createSessionToken(payload: UserSession): Promise<string> {
-  return new SignJWT({ ...payload })
+  const role = isUserAdmin(payload.email, payload.role) ? "ADMIN" : payload.role;
+  return new SignJWT({ ...payload, role })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime("30d")
@@ -39,11 +49,13 @@ export async function verifySessionToken(
 ): Promise<UserSession | null> {
   try {
     const { payload } = await jwtVerify(token, JWT_SECRET);
+    const email = payload.email as string;
+    const role = isUserAdmin(email, payload.role as string) ? "ADMIN" : (payload.role as string);
     return {
       userId: payload.userId as string,
-      email: payload.email as string,
+      email,
       username: payload.username as string,
-      role: payload.role as string,
+      role,
     };
   } catch {
     return null;

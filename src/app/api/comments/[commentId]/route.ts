@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser, isUserAdmin } from "@/lib/auth";
 
 export async function DELETE(
   request: Request,
@@ -28,8 +28,10 @@ export async function DELETE(
       );
     }
 
+    const isAdmin = isUserAdmin(user.email, user.role);
+
     // Only comment author or admin can delete
-    if (comment.userId !== user.userId && user.role !== "ADMIN") {
+    if (comment.userId !== user.userId && !isAdmin) {
       return NextResponse.json(
         { error: "You can only delete your own comments" },
         { status: 403 }
