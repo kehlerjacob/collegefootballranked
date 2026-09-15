@@ -112,6 +112,9 @@ export function UserAccountMenu() {
   const initials = user.username.slice(0, 2).toUpperCase();
   const avatarGrad = getAvatarGradient(user.username);
 
+  const hasTeamColor = !!user.favoriteTeam?.primaryColor;
+  const avatarStyle = hasTeamColor ? { backgroundColor: user.favoriteTeam!.primaryColor! } : undefined;
+
   // Handle Save Team
   const handleSaveTeam = async () => {
     if (!selectedTeamId) return;
@@ -226,20 +229,21 @@ export function UserAccountMenu() {
         <div className="relative">
           {/* Avatar circle */}
           <div
-            className={`w-7 h-7 rounded-full bg-gradient-to-tr ${avatarGrad} flex items-center justify-center text-white text-xs font-black shrink-0 shadow-sm`}
+            className={`w-7 h-7 rounded-full ${hasTeamColor ? '' : `bg-gradient-to-tr ${avatarGrad}`} flex items-center justify-center text-white text-xs font-black shrink-0 shadow-sm`}
+            style={avatarStyle}
           >
             {initials}
           </div>
 
           {/* Micro team logo badge */}
           {user.favoriteTeam && (
-            <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-background border border-border flex items-center justify-center shadow-xs overflow-hidden">
+            <div className="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full bg-background border border-border flex items-center justify-center shadow-xs overflow-hidden">
               <TeamLogo
                 logoUrl={user.favoriteTeam.logoUrl}
                 name={user.favoriteTeam.name}
                 shortName={user.favoriteTeam.shortName}
                 primaryColor={user.favoriteTeam.primaryColor}
-                size={12}
+                size={16}
               />
             </div>
           )}
@@ -269,7 +273,8 @@ export function UserAccountMenu() {
           <div className="p-3 rounded-xl bg-surface/70 border border-border/60 mb-2">
             <div className="flex items-center gap-2.5">
               <div
-                className={`w-9 h-9 rounded-full bg-gradient-to-tr ${avatarGrad} flex items-center justify-center text-white text-sm font-black shrink-0 shadow-sm`}
+                className={`w-9 h-9 rounded-full ${hasTeamColor ? '' : `bg-gradient-to-tr ${avatarGrad}`} flex items-center justify-center text-white text-sm font-black shrink-0 shadow-sm`}
+                style={avatarStyle}
               >
                 {initials}
               </div>
