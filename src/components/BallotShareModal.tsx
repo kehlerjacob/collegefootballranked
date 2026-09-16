@@ -238,7 +238,7 @@ export function BallotShareModal({
             </span>
             <div>
               <h2 className="text-sm sm:text-base font-bold text-foreground leading-tight">
-                Share Your Top 25 Ballot
+                Share Your Top 25 Picks
               </h2>
               <p className="text-[11px] text-muted">
                 Portrait graphic formatted for stories & mobile sharing.
