@@ -326,7 +326,7 @@ export default function BallotPage() {
     });
 
     setBallotRanks(filled);
-    setSuccessMsg(`⚡ Auto-filled Top 25 from ${sourceLabel}!`);
+    setSuccessMsg(`Auto-filled Top 25 from ${sourceLabel}!`);
     setTimeout(() => setSuccessMsg(""), 4000);
   };
 
@@ -410,7 +410,7 @@ export default function BallotPage() {
         );
         setBallotRanks(newRanks);
         setSuccessMsg(
-          `🗳️ Loaded your submitted ballot from Week ${targetWeekNumber}!`
+          `Loaded your submitted ballot from Week ${targetWeekNumber}!`
         );
         setTimeout(() => setSuccessMsg(""), 4000);
       } else {
@@ -730,7 +730,9 @@ export default function BallotPage() {
                     {quickFillLoading ? (
                       <span className="inline-block w-3 h-3 border-2 border-accent border-t-transparent rounded-full animate-spin"></span>
                     ) : (
-                      <span>⚡</span>
+                      <svg className="w-3.5 h-3.5 text-accent" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                      </svg>
                     )}
                     <span>Auto-fill</span>
                     <svg
@@ -782,8 +784,10 @@ export default function BallotPage() {
                         onClick={handleFillConsensus}
                         className="w-full text-left p-2 rounded-xl hover:bg-surface-elevated border border-transparent hover:border-border transition-all flex items-start gap-2.5 group"
                       >
-                        <div className="w-7 h-7 rounded-lg bg-accent-dim text-accent flex items-center justify-center shrink-0 text-sm group-hover:scale-110 transition-transform">
-                          ⚡
+                        <div className="w-7 h-7 rounded-lg bg-accent-dim text-accent flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                          <svg className="w-3.5 h-3.5 text-accent" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                          </svg>
                         </div>
                         <div>
                           <div className="text-xs font-bold text-foreground group-hover:text-accent transition-colors flex items-center gap-1.5">
@@ -801,8 +805,10 @@ export default function BallotPage() {
                         onClick={handleFillPreviousSubmission}
                         className="w-full text-left p-2 rounded-xl hover:bg-surface-elevated border border-transparent hover:border-border transition-all flex items-start gap-2.5 group"
                       >
-                        <div className="w-7 h-7 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center shrink-0 text-sm group-hover:scale-110 transition-transform">
-                          🗳️
+                        <div className="w-7 h-7 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                          <svg className="w-3.5 h-3.5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                          </svg>
                         </div>
                         <div>
                           <div className="text-xs font-bold text-foreground group-hover:text-purple-400 transition-colors flex items-center gap-1.5">
@@ -820,8 +826,10 @@ export default function BallotPage() {
                         onClick={handleFillAPPoll}
                         className="w-full text-left p-2 rounded-xl hover:bg-surface-elevated border border-transparent hover:border-border transition-all flex items-start gap-2.5 group"
                       >
-                        <div className="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0 text-sm group-hover:scale-110 transition-transform">
-                          🏆
+                        <div className="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                          <svg className="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                          </svg>
                         </div>
                         <div>
                           <div className="text-xs font-bold text-foreground group-hover:text-amber-400 transition-colors flex items-center gap-1.5">
@@ -845,7 +853,9 @@ export default function BallotPage() {
                         }}
                         className="w-full text-left px-2.5 py-1.5 rounded-xl hover:bg-danger/10 text-muted hover:text-danger transition-colors flex items-center gap-2 text-xs font-medium"
                       >
-                        <span>🗑️</span>
+                        <svg className="w-3.5 h-3.5 text-danger" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
                         <span>Clear all 25 slots</span>
                       </button>
                     </div>
@@ -854,8 +864,11 @@ export default function BallotPage() {
               </div>
             </div>
 
-            <p className="text-[11px] text-muted -mt-1 hidden sm:block">
-              💡 Tip: Click or tap any row to type and search teams directly.
+            <p className="text-[11px] text-muted -mt-1 hidden sm:flex items-center gap-1">
+              <svg className="w-3.5 h-3.5 text-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>Tip: Click or tap any row to type and search teams directly.</span>
             </p>
 
             {/* Ballot List with Inline Accordion Search Dropdowns */}
@@ -1016,7 +1029,9 @@ export default function BallotPage() {
                             className="p-1 text-muted hover:text-accent hover:bg-accent/10 rounded active:scale-75 transition-all disabled:opacity-20 disabled:pointer-events-none"
                             title="Move Up"
                           >
-                            ▲
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7" />
+                            </svg>
                           </button>
                           <button
                             type="button"
@@ -1025,7 +1040,9 @@ export default function BallotPage() {
                             className="p-1 text-muted hover:text-accent hover:bg-accent/10 rounded active:scale-75 transition-all disabled:opacity-20 disabled:pointer-events-none"
                             title="Move Down"
                           >
-                            ▼
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                            </svg>
                           </button>
                           <button
                             type="button"
@@ -1034,7 +1051,9 @@ export default function BallotPage() {
                             className="p-1 text-muted hover:text-danger hover:bg-danger/10 rounded active:scale-75 transition-all ml-0.5 disabled:opacity-20"
                             title="Remove Team"
                           >
-                            ✕
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
                           </button>
                         </div>
                       )}
@@ -1120,7 +1139,9 @@ export default function BallotPage() {
                     onClick={() => setIsShareModalOpen(true)}
                     className="px-4 py-2.5 rounded-xl bg-surface-elevated border border-accent/40 text-accent font-bold text-xs hover:bg-accent/15 transition-all flex items-center gap-1.5 active:scale-95 shadow-sm"
                   >
-                    <span>✨</span>
+                    <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                    </svg>
                     <span>Share Graphic</span>
                   </button>
                 )}

@@ -232,7 +232,9 @@ export function BallotShareModal({
         <div className="p-3.5 sm:px-5 sm:py-3.5 border-b border-border/80 flex items-center justify-between shrink-0 bg-[#151922]">
           <div className="flex items-center gap-2">
             <span className="w-7 h-7 rounded-lg bg-accent/15 border border-accent/30 text-accent flex items-center justify-center text-sm">
-              🎉
+              <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+              </svg>
             </span>
             <div>
               <h2 className="text-sm sm:text-base font-bold text-foreground leading-tight">
@@ -276,8 +278,11 @@ export function BallotShareModal({
 
             {/* Mobile Long Press Tip */}
             {isMobileDevice && (
-              <p className="text-[10px] text-muted/80 mt-2 text-center">
-                💡 Tip: Tap &ldquo;Share / Save&rdquo; or press and hold the image to save to Photos.
+              <p className="text-[10px] text-muted/80 mt-2 text-center flex items-center justify-center gap-1">
+                <svg className="w-3.5 h-3.5 text-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Tip: Tap &ldquo;Share / Save&rdquo; or press and hold the image to save to Photos.</span>
               </p>
             )}
 
@@ -301,7 +306,9 @@ export function BallotShareModal({
                 <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-white/10">
                   <div className="flex items-center gap-2">
                     <div className="w-7 h-7 rounded-lg bg-accent flex items-center justify-center text-background font-black text-xs shadow-md">
-                      🏈
+                      <svg className="w-4 h-4 text-background" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                      </svg>
                     </div>
                     <div>
                       <div className="text-[10px] font-black tracking-widest text-accent uppercase leading-tight">
@@ -375,7 +382,7 @@ export function BallotShareModal({
                     {/* Right Side: Star Badge */}
                     <div className="flex flex-col items-end shrink-0 z-10 pr-1">
                       <span className="text-[10px] font-black text-accent tracking-wider uppercase">
-                        ★ TOP RANK ★
+                        TOP RANK
                       </span>
                     </div>
                   </div>
@@ -440,7 +447,15 @@ export function BallotShareModal({
               disabled={isGenerating}
               className="px-4 py-2 rounded-xl bg-accent text-background font-bold text-xs hover:bg-accent-glow transition-all flex items-center gap-1.5 shadow-md active:scale-95 disabled:opacity-50"
             >
-              <span>{canNativeShare ? "📲" : "⬇️"}</span>
+              {canNativeShare ? (
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                </svg>
+              ) : (
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+              )}
               <span>{canNativeShare ? "Share / Save" : "Download PNG"}</span>
             </button>
 
@@ -452,7 +467,9 @@ export function BallotShareModal({
                 disabled={isGenerating}
                 className="px-3.5 py-2 rounded-xl bg-surface-elevated hover:bg-white/15 text-foreground border border-border font-semibold text-xs transition-all flex items-center gap-1.5 active:scale-95 disabled:opacity-50"
               >
-                <span>⬇️</span>
+                <svg className="w-3.5 h-3.5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
                 <span>Download</span>
               </button>
             )}
@@ -465,7 +482,9 @@ export function BallotShareModal({
                 disabled={isGenerating}
                 className="px-3.5 py-2 rounded-xl bg-surface-elevated hover:bg-white/15 text-foreground border border-border font-semibold text-xs transition-all items-center gap-1.5 active:scale-95 disabled:opacity-50"
               >
-                <span>📋</span>
+                <svg className="w-3.5 h-3.5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
                 <span>Copy</span>
               </button>
             )}

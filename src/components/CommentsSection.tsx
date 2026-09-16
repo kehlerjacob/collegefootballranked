@@ -179,7 +179,9 @@ export function CommentsSection({ weekId, weekTitle }: CommentsSectionProps) {
         ) : (
           <div className="p-3.5 rounded-xl bg-surface/60 border border-accent/20 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-foreground">
             <div className="flex items-center gap-2 text-center sm:text-left">
-              <span>🔒</span>
+              <svg className="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
               <span>
                 <strong>Join the discussion:</strong> Sign in to leave a comment, reply, and like rankings reactions.
               </span>
@@ -222,8 +224,12 @@ export function CommentsSection({ weekId, weekTitle }: CommentsSectionProps) {
             ))}
           </div>
         ) : (
-          <div className="py-8 text-center text-xs text-muted flex flex-col items-center justify-center gap-1.5">
-            <span className="text-xl">🏈</span>
+          <div className="py-8 text-center text-xs text-muted flex flex-col items-center justify-center gap-2">
+            <div className="w-10 h-10 rounded-full bg-surface-elevated border border-border flex items-center justify-center text-muted">
+              <svg className="w-5 h-5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+            </div>
             <p className="font-semibold text-foreground/80">No comments yet</p>
             <p className="text-[11px]">
               Be the first to share your thoughts on the {weekTitle || "this week's"} Top 25 rankings!

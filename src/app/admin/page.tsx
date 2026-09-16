@@ -246,8 +246,10 @@ export default function AdminDashboardPage() {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center px-4">
         <div className="glass-card max-w-md w-full p-8 rounded-2xl border border-danger/30 text-center">
-          <div className="w-14 h-14 bg-danger/10 text-danger rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
-            🛡️
+          <div className="w-14 h-14 bg-danger/10 text-danger rounded-2xl flex items-center justify-center mx-auto mb-4 font-bold">
+            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
           </div>
           <h2 className="text-xl font-bold text-foreground mb-2">Admin Restricted Area</h2>
           <p className="text-sm text-muted mb-6 leading-relaxed">{errorMsg}</p>
@@ -318,7 +320,9 @@ export default function AdminDashboardPage() {
         <div className="glass-card p-5 rounded-2xl border border-border/80 shadow-md">
           <div className="flex items-center justify-between text-muted mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider">Total Users</span>
-            <span className="text-lg">👥</span>
+            <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
           </div>
           <div className="text-3xl font-black text-foreground tabular-nums">
             {adminData?.stats.totalUsers.toLocaleString() ?? 0}
@@ -329,7 +333,9 @@ export default function AdminDashboardPage() {
         <div className="glass-card p-5 rounded-2xl border border-border/80 shadow-md">
           <div className="flex items-center justify-between text-muted mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider">Ballots Submitted</span>
-            <span className="text-lg">🗳️</span>
+            <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+            </svg>
           </div>
           <div className="text-3xl font-black text-accent tabular-nums">
             {adminData?.stats.totalBallots.toLocaleString() ?? 0}
@@ -340,7 +346,9 @@ export default function AdminDashboardPage() {
         <div className="glass-card p-5 rounded-2xl border border-border/80 shadow-md">
           <div className="flex items-center justify-between text-muted mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider">Comments</span>
-            <span className="text-lg">💬</span>
+            <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
           </div>
           <div className="text-3xl font-black text-foreground tabular-nums">
             {adminData?.stats.totalComments.toLocaleString() ?? 0}
@@ -351,7 +359,9 @@ export default function AdminDashboardPage() {
         <div className="glass-card p-5 rounded-2xl border border-border/80 shadow-md">
           <div className="flex items-center justify-between text-muted mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider">Comment Likes</span>
-            <span className="text-lg">❤️</span>
+            <svg className="w-4 h-4 text-rose-500 fill-rose-500" viewBox="0 0 24 24">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
           </div>
           <div className="text-3xl font-black text-rose-500 tabular-nums">
             {adminData?.stats.totalLikes.toLocaleString() ?? 0}
@@ -403,7 +413,10 @@ export default function AdminDashboardPage() {
           {adminData?.favoriteTeams && adminData.favoriteTeams.length > 0 && (
             <div className="glass-card p-5 sm:p-6 rounded-2xl border border-border/80">
               <h3 className="text-sm font-bold text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
-                <span>🏆</span> Most Popular Favorite Teams
+                <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                </svg>
+                <span>Most Popular Favorite Teams</span>
               </h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                 {adminData.favoriteTeams.map((team, index) => {
@@ -666,8 +679,18 @@ export default function AdminDashboardPage() {
                         </p>
 
                         <div className="flex items-center gap-3 mt-2 text-[11px] text-muted font-semibold">
-                          <span>❤️ {c._count.likes} likes</span>
-                          <span>💬 {c._count.replies} replies</span>
+                          <span className="flex items-center gap-1">
+                            <svg className="w-3 h-3 text-rose-500 fill-rose-500" viewBox="0 0 24 24">
+                              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                            <span>{c._count.likes} likes</span>
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <svg className="w-3 h-3 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                            </svg>
+                            <span>{c._count.replies} replies</span>
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -676,9 +699,12 @@ export default function AdminDashboardPage() {
                       <button
                         onClick={() => handleDeleteComment(c.id)}
                         disabled={deletingCommentId === c.id}
-                        className="px-3 py-1.5 rounded-lg bg-danger/15 border border-danger/30 text-danger hover:bg-danger/25 text-xs font-bold transition-all disabled:opacity-50"
+                        className="px-3 py-1.5 rounded-lg bg-danger/15 border border-danger/30 text-danger hover:bg-danger/25 text-xs font-bold transition-all disabled:opacity-50 flex items-center gap-1.5"
                       >
-                        {deletingCommentId === c.id ? "Deleting..." : "🗑️ Delete Comment"}
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        <span>{deletingCommentId === c.id ? "Deleting..." : "Delete Comment"}</span>
                       </button>
                     </div>
                   </div>
@@ -696,7 +722,10 @@ export default function AdminDashboardPage() {
           <div className="glass-card p-5 sm:p-6 rounded-2xl border border-border/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
-                <span>🔄</span> Live ESPN Team Records &amp; AP Poll Sync
+                <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                <span>Live ESPN Team Records &amp; AP Poll Sync</span>
               </h3>
               <p className="text-xs text-muted mt-1 max-w-xl">
                 Fetch and synchronize official win-loss records and rankings from ESPN for all 138 FBS teams.
