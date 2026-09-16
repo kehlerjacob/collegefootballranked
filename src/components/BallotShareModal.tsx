@@ -305,12 +305,12 @@ export function BallotShareModal({
 
           {/* Stable Fixed Aspect-Ratio Container to Prevent ANY Layout Shift */}
           <div className="w-full flex flex-col items-center justify-center">
-            <div className="w-full max-w-[340px] sm:max-w-[380px] aspect-[440/730] max-h-[62vh] relative flex items-center justify-center rounded-xl bg-[#0d1117] border border-[#2d3748] shadow-2xl overflow-hidden">
+            <div className="w-full max-w-[340px] sm:max-w-[380px] aspect-[440/730] max-h-[62vh] relative flex items-center justify-center overflow-hidden">
               {previewDataUrl ? (
                 <img
                   src={previewDataUrl}
                   alt="My Top 25 Ballot Graphic"
-                  className="w-full h-full object-contain rounded-xl animate-fade-in"
+                  className="w-full h-full object-contain rounded-2xl drop-shadow-2xl animate-fade-in"
                 />
               ) : (
                 <div className="flex flex-col items-center justify-center gap-3 p-6 text-center text-muted">
