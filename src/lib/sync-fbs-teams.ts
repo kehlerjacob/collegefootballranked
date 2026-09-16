@@ -51,7 +51,7 @@ export async function syncAllFBSTeams(): Promise<SyncFBSTeamsResult> {
       }
     ),
     fetch(
-      "https://site.api.espn.com/apis/site/v2/sports/football/college-football/teams?limit=500",
+      "https://site.api.espn.com/apis/site/v2/sports/football/college-football/teams?limit=1000",
       {
         headers: { "User-Agent": "Mozilla/5.0" },
         cache: "no-store",
@@ -72,20 +72,26 @@ export async function syncAllFBSTeams(): Promise<SyncFBSTeamsResult> {
       const teamsData = await teamsRes.json();
       const allTeamsList = teamsData.sports?.[0]?.leagues?.[0]?.teams || [];
       for (const item of allTeamsList) {
-        if (item.team?.id) {
-          const logos = item.team.logos || [];
+        if (item.team) {
+          const t = item.team;
+          const logos = t.logos || [];
           const secondaryLogo =
             logos.find((l: any) => l.rel?.includes("secondary_logo_on_white_color"))?.href ||
             logos.find((l: any) => l.rel?.includes("secondary_logo_on_black_color"))?.href ||
             logos.find((l: any) => l.rel?.some((r: string) => r.includes("secondary")))?.href ||
-            undefined;
+            (logos.length > 1 ? logos[1]?.href : undefined);
 
-          espnMetaMap.set(String(item.team.id), {
-            color: item.team.color ? `#${item.team.color}` : undefined,
+          const metaObj = {
+            color: t.color ? `#${t.color}` : undefined,
             logo: logos[0]?.href,
             secondaryLogo,
-            abbrev: item.team.abbreviation,
-          });
+            abbrev: t.abbreviation,
+          };
+
+          if (t.id) espnMetaMap.set(String(t.id), metaObj);
+          if (t.location) espnMetaMap.set(t.location.toLowerCase(), metaObj);
+          if (t.displayName) espnMetaMap.set(t.displayName.toLowerCase(), metaObj);
+          if (t.name) espnMetaMap.set(t.name.toLowerCase(), metaObj);
         }
       }
     } catch (e) {
@@ -121,7 +127,10 @@ export async function syncAllFBSTeams(): Promise<SyncFBSTeamsResult> {
           (s: any) => s.name === "overall" || s.type === "total"
         );
         const record = overallStat?.displayValue || "0-0";
-        const meta = espnMetaMap.get(String(t.id));
+        const meta =
+          espnMetaMap.get(String(t.id)) ||
+          espnMetaMap.get(teamName.toLowerCase()) ||
+          espnMetaMap.get(rawLocation.toLowerCase());
 
         const logoUrl =
           meta?.logo ||

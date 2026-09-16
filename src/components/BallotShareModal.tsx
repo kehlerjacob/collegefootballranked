@@ -429,22 +429,16 @@ export function BallotShareModal({
 
                     {/* Right Side: Mascot Logo Accent */}
                     <div className="flex items-center gap-2 shrink-0 z-10 pr-0.5">
-                      {team1.secondaryLogoUrl ? (
+                      {(team1.secondaryLogoUrl || team1.logoUrl) && (
                         <div className="relative flex items-center justify-center w-12 h-12 rounded-xl bg-white/[0.07] border border-white/10 p-1 shadow-inner">
                           <img
-                            src={team1.secondaryLogoUrl}
+                            src={team1.secondaryLogoUrl || team1.logoUrl!}
                             alt={team1.mascot || `${team1.name} Mascot`}
                             className="w-full h-full object-contain filter drop-shadow"
                             crossOrigin="anonymous"
                             loading="eager"
                             decoding="sync"
                           />
-                        </div>
-                      ) : (
-                        <div className="flex flex-col items-end">
-                          <span className="text-[10px] font-black text-accent tracking-wider uppercase">
-                            TOP RANK
-                          </span>
                         </div>
                       )}
                     </div>
