@@ -66,16 +66,24 @@ export async function syncAllFBSTeams(): Promise<SyncFBSTeamsResult> {
   const standingsData = await standingsRes.json();
 
   // Build metadata map from ESPN teams directory if available
-  const espnMetaMap = new Map<string, { color?: string; logo?: string; abbrev?: string }>();
+  const espnMetaMap = new Map<string, { color?: string; logo?: string; secondaryLogo?: string; abbrev?: string }>();
   if (teamsRes && teamsRes.ok) {
     try {
       const teamsData = await teamsRes.json();
       const allTeamsList = teamsData.sports?.[0]?.leagues?.[0]?.teams || [];
       for (const item of allTeamsList) {
         if (item.team?.id) {
+          const logos = item.team.logos || [];
+          const secondaryLogo =
+            logos.find((l: any) => l.rel?.includes("secondary_logo_on_white_color"))?.href ||
+            logos.find((l: any) => l.rel?.includes("secondary_logo_on_black_color"))?.href ||
+            logos.find((l: any) => l.rel?.some((r: string) => r.includes("secondary")))?.href ||
+            undefined;
+
           espnMetaMap.set(String(item.team.id), {
             color: item.team.color ? `#${item.team.color}` : undefined,
-            logo: item.team.logos?.[0]?.href,
+            logo: logos[0]?.href,
+            secondaryLogo,
             abbrev: item.team.abbreviation,
           });
         }
@@ -93,6 +101,7 @@ export async function syncAllFBSTeams(): Promise<SyncFBSTeamsResult> {
     conference: string;
     record: string;
     logoUrl: string | null;
+    secondaryLogoUrl: string | null;
     primaryColor: string | null;
   }
 
@@ -119,6 +128,13 @@ export async function syncAllFBSTeams(): Promise<SyncFBSTeamsResult> {
           t.logos?.[0]?.href ||
           `https://a.espncdn.com/i/teamlogos/ncaa/500/${t.id}.png`;
 
+        const secondaryLogoUrl =
+          meta?.secondaryLogo ||
+          t.logos?.find((l: any) => l.rel?.includes("secondary_logo_on_white_color"))?.href ||
+          t.logos?.find((l: any) => l.rel?.includes("secondary_logo_on_black_color"))?.href ||
+          t.logos?.find((l: any) => l.rel?.some((r: string) => r.includes("secondary")))?.href ||
+          null;
+
         const primaryColor =
           meta?.color || (t.color ? `#${t.color}` : "#041E42");
 
@@ -135,6 +151,7 @@ export async function syncAllFBSTeams(): Promise<SyncFBSTeamsResult> {
           conference: confName,
           record,
           logoUrl,
+          secondaryLogoUrl,
           primaryColor,
         });
       }
@@ -184,6 +201,7 @@ export async function syncAllFBSTeams(): Promise<SyncFBSTeamsResult> {
           conference: t.conference,
           record: t.record,
           logoUrl: t.logoUrl || existing.logoUrl,
+          secondaryLogoUrl: t.secondaryLogoUrl || existing.secondaryLogoUrl,
           primaryColor: t.primaryColor || existing.primaryColor,
         },
       });
@@ -197,6 +215,7 @@ export async function syncAllFBSTeams(): Promise<SyncFBSTeamsResult> {
           conference: t.conference,
           record: t.record,
           logoUrl: t.logoUrl,
+          secondaryLogoUrl: t.secondaryLogoUrl,
           primaryColor: t.primaryColor,
         },
       });

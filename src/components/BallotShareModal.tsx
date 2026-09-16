@@ -14,6 +14,7 @@ export interface RankedTeamInfo {
   record: string;
   primaryColor: string | null;
   logoUrl?: string | null | undefined;
+  secondaryLogoUrl?: string | null | undefined;
 }
 
 interface BallotShareModalProps {
@@ -79,8 +80,11 @@ export function BallotShareModal({
     try {
       setIsGenerating(true);
 
-      // 1. Preload all team logos
-      await preloadImages(rankedTeams.map((t) => t.logoUrl));
+      // 1. Preload all team primary logos & secondary mascot logos
+      await preloadImages([
+        ...rankedTeams.map((t) => t.logoUrl),
+        ...rankedTeams.map((t) => t.secondaryLogoUrl),
+      ]);
 
       // 2. Wait for all <img> tags in graphicRef to finish loading
       const imgElements = Array.from(graphicRef.current.querySelectorAll("img"));
@@ -386,8 +390,8 @@ export function BallotShareModal({
                       }}
                     />
 
-                    {/* Left Side: Rank 1 Badge + Logo */}
-                    <div className="flex items-center gap-2.5 z-10 min-w-0">
+                    {/* Left Side: Rank 1 Badge + Primary Logo + Team Info */}
+                    <div className="flex items-center gap-2.5 z-10 min-w-0 flex-1">
                       <div className="flex flex-col items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-b from-amber-300 to-amber-500 text-background font-black shadow-md shrink-0">
                         <span className="text-[8px] uppercase tracking-wider font-extrabold opacity-80 leading-none">
                           NO.
@@ -403,8 +407,8 @@ export function BallotShareModal({
                         size={46}
                       />
 
-                      <div className="min-w-0">
-                        <div className="text-sm font-black tracking-tight text-white truncate max-w-[210px]">
+                      <div className="min-w-0 flex-1">
+                        <div className="text-sm font-black tracking-tight text-white truncate">
                           {team1.name}
                         </div>
                         <div className="flex items-center gap-1.5 text-[10px] text-white/70 font-semibold mt-0.5">
@@ -413,15 +417,36 @@ export function BallotShareModal({
                           </span>
                           <span>•</span>
                           <span>{team1.conference}</span>
+                          {team1.mascot && (
+                            <>
+                              <span>•</span>
+                              <span className="text-white/60 truncate">{team1.mascot}</span>
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>
 
-                    {/* Right Side: Star Badge */}
-                    <div className="flex flex-col items-end shrink-0 z-10 pr-1">
-                      <span className="text-[10px] font-black text-accent tracking-wider uppercase">
-                        TOP RANK
-                      </span>
+                    {/* Right Side: Mascot Logo Accent */}
+                    <div className="flex items-center gap-2 shrink-0 z-10 pr-0.5">
+                      {team1.secondaryLogoUrl ? (
+                        <div className="relative flex items-center justify-center w-12 h-12 rounded-xl bg-white/[0.07] border border-white/10 p-1 shadow-inner">
+                          <img
+                            src={team1.secondaryLogoUrl}
+                            alt={team1.mascot || `${team1.name} Mascot`}
+                            className="w-full h-full object-contain filter drop-shadow"
+                            crossOrigin="anonymous"
+                            loading="eager"
+                            decoding="sync"
+                          />
+                        </div>
+                      ) : (
+                        <div className="flex flex-col items-end">
+                          <span className="text-[10px] font-black text-accent tracking-wider uppercase">
+                            TOP RANK
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}

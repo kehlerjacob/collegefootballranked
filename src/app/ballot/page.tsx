@@ -17,6 +17,7 @@ interface Team {
   record: string;
   primaryColor: string | null;
   logoUrl?: string | null;
+  secondaryLogoUrl?: string | null;
 }
 
 interface WeekInfo {
@@ -601,6 +602,7 @@ export default function BallotPage() {
         record: team.record,
         primaryColor: team.primaryColor,
         logoUrl: team.logoUrl,
+        secondaryLogoUrl: team.secondaryLogoUrl,
       });
     }
   });
