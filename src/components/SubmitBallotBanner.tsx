@@ -10,7 +10,7 @@ export function SubmitBallotBanner() {
   if (pathname === "/ballot") return null;
 
   return (
-    <div className="w-full bg-gradient-to-r from-[#1c180e] via-[#241d0e] to-[#1c180e] border-b border-accent/35 shadow-xs relative overflow-hidden">
+    <div className="w-full bg-gradient-to-r from-[#1c180e] via-[#241d0e] to-[#1c180e] border-b border-accent/35 shadow-xs relative z-10 overflow-hidden">
       {/* Subtle background glow */}
       <div className="absolute inset-0 bg-radial-gradient pointer-events-none opacity-20" />
 
@@ -20,10 +20,9 @@ export function SubmitBallotBanner() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
           </span>
-          <div className="text-xs text-foreground/90 truncate font-medium">
-            <span className="font-bold text-accent">Polling is Live:</span>{" "}
-            <span className="hidden sm:inline">Submit your Top 25 ballot before the weekly deadline.</span>
-            <span className="sm:hidden">Submit your weekly Top 25 ballot.</span>
+          <div className="text-xs text-foreground/90 font-medium whitespace-nowrap">
+            <span className="font-bold text-accent">Polling is Live</span>
+            <span className="hidden sm:inline">: Submit your Top 25 ballot before the weekly deadline.</span>
           </div>
         </div>
 

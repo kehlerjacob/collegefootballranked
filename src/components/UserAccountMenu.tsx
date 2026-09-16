@@ -268,7 +268,7 @@ export function UserAccountMenu() {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-72 rounded-2xl bg-[#141822] border border-[#2d3748] shadow-2xl shadow-black/80 p-2.5 z-50 animate-fade-in origin-top-right">
+        <div className="absolute right-0 mt-2 w-72 rounded-2xl bg-[#141822] border border-[#2d3748] shadow-2xl shadow-black/80 p-2.5 z-[100] animate-fade-in origin-top-right">
           {/* User Header Info Card */}
           <div className="p-3 rounded-xl bg-[#1c2230] border border-border/80 mb-2">
             <div className="flex items-center gap-2.5">

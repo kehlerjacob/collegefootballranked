@@ -16,7 +16,7 @@ export function Header({ hideBanner = false }: HeaderProps) {
 
   return (
     <div className="sticky top-0 z-50">
-      <header className="glass-card border-b border-border bg-[#0e121a]/95 backdrop-blur-md">
+      <header className="glass-card border-b border-border bg-[#0e121a]/95 backdrop-blur-md relative z-20">
         <div className="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
           {/* Logo / brand */}
           <Link href="/" className="flex items-center gap-2.5 group py-1">

@@ -120,7 +120,7 @@ export function NavigationMenu() {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-64 sm:w-72 rounded-2xl bg-[#141822] border border-[#2d3748] shadow-2xl shadow-black/80 p-2 z-50 animate-fade-in origin-top-right">
+        <div className="absolute right-0 mt-2 w-64 sm:w-72 rounded-2xl bg-[#141822] border border-[#2d3748] shadow-2xl shadow-black/80 p-2 z-[100] animate-fade-in origin-top-right">
           <div className="px-3 py-1.5 text-[10px] font-black uppercase tracking-wider text-muted/70">
             Navigation
           </div>
