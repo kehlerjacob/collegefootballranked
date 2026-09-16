@@ -4,6 +4,7 @@ import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/AuthProvider";
 import { TeamLogo } from "@/components/TeamLogo";
+import { Header } from "@/components/Header";
 import Link from "next/link";
 
 interface UserData {
@@ -311,37 +312,42 @@ export default function AdminDashboardPage() {
 
   if (errorMsg) {
     return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center px-4">
-        <div className="glass-card max-w-md w-full p-8 rounded-2xl border border-danger/30 text-center">
-          <div className="w-14 h-14 bg-danger/10 text-danger rounded-2xl flex items-center justify-center mx-auto mb-4 font-bold">
-            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
+      <>
+        <Header />
+        <div className="min-h-[60vh] flex flex-col items-center justify-center px-4">
+          <div className="glass-card max-w-md w-full p-8 rounded-2xl border border-danger/30 text-center">
+            <div className="w-14 h-14 bg-danger/10 text-danger rounded-2xl flex items-center justify-center mx-auto mb-4 font-bold">
+              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <h2 className="text-xl font-bold text-foreground mb-2">Admin Restricted Area</h2>
+            <p className="text-sm text-muted mb-6 leading-relaxed">{errorMsg}</p>
+            <Link
+              href="/"
+              className="inline-block px-5 py-2.5 rounded-xl bg-surface border border-border text-foreground text-sm font-bold hover:bg-surface-elevated transition-colors"
+            >
+              ← Back to Polls
+            </Link>
           </div>
-          <h2 className="text-xl font-bold text-foreground mb-2">Admin Restricted Area</h2>
-          <p className="text-sm text-muted mb-6 leading-relaxed">{errorMsg}</p>
-          <Link
-            href="/"
-            className="inline-block px-5 py-2.5 rounded-xl bg-surface border border-border text-foreground text-sm font-bold hover:bg-surface-elevated transition-colors"
-          >
-            ← Back to Polls
-          </Link>
         </div>
-      </div>
+      </>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 animate-fade-in">
-      {/* Header & Breadcrumb */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border/60">
-        <div>
-          <div className="flex items-center gap-2 text-xs text-muted mb-1">
-            <Link href="/" className="hover:text-accent transition-colors">
-              College Football Ranked
-            </Link>
-            <span>/</span>
-            <span className="text-accent font-semibold">Admin Dashboard</span>
+    <>
+      <Header />
+      <div className="max-w-6xl mx-auto px-4 py-8 animate-fade-in">
+        {/* Header & Breadcrumb */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border/60">
+          <div>
+            <div className="flex items-center gap-2 text-xs text-muted mb-1">
+              <Link href="/" className="hover:text-accent transition-colors">
+                College Football Ranked
+              </Link>
+              <span>/</span>
+              <span className="text-accent font-semibold">Admin Dashboard</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground flex items-center gap-2.5">
             <span className="px-2.5 py-0.5 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-400 text-sm font-bold uppercase tracking-wider">
@@ -944,6 +950,7 @@ export default function AdminDashboardPage() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }
