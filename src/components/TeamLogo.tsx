@@ -34,7 +34,8 @@ export function TeamLogo({
           alt={`${name} logo`}
           className="w-full h-full object-contain"
           onError={() => setHasError(true)}
-          loading="lazy"
+          loading="eager"
+          decoding="sync"
           crossOrigin="anonymous"
         />
       </div>

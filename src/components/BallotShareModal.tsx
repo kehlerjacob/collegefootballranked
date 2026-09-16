@@ -26,6 +26,24 @@ interface BallotShareModalProps {
   onContinueToRankings?: () => void;
 }
 
+// Preload team logo URLs into browser memory cache
+async function preloadImages(urls: (string | null | undefined)[]): Promise<void> {
+  const validUrls = urls.filter((u): u is string => Boolean(u));
+  await Promise.all(
+    validUrls.map(
+      (url) =>
+        new Promise<void>((resolve) => {
+          const img = new Image();
+          img.crossOrigin = "anonymous";
+          img.onload = () => resolve();
+          img.onerror = () => resolve();
+          img.src = url;
+          if (img.complete) resolve();
+        })
+    )
+  );
+}
+
 export function BallotShareModal({
   isOpen,
   onClose,
@@ -60,8 +78,25 @@ export function BallotShareModal({
     if (!graphicRef.current) return null;
     try {
       setIsGenerating(true);
-      // Brief pause to ensure all webfonts and images are ready in DOM
-      await new Promise((r) => setTimeout(r, 150));
+
+      // 1. Preload all team logos
+      await preloadImages(rankedTeams.map((t) => t.logoUrl));
+
+      // 2. Wait for all <img> tags in graphicRef to finish loading
+      const imgElements = Array.from(graphicRef.current.querySelectorAll("img"));
+      await Promise.all(
+        imgElements.map((img) => {
+          if (img.complete && img.naturalWidth > 0) return Promise.resolve();
+          return new Promise<void>((resolve) => {
+            img.onload = () => resolve();
+            img.onerror = () => resolve();
+            setTimeout(resolve, 800);
+          });
+        })
+      );
+
+      // 3. Brief stabilization delay
+      await new Promise((r) => setTimeout(r, 100));
 
       const blob = await toBlob(graphicRef.current, {
         pixelRatio: 2.5,
@@ -80,14 +115,15 @@ export function BallotShareModal({
     } finally {
       setIsGenerating(false);
     }
-  }, []);
+  }, [rankedTeams]);
 
   useEffect(() => {
     if (isOpen && rankedTeams.length >= 25) {
       setPreviewDataUrl(null);
+      // Small timeout for initial modal mount
       const t = setTimeout(() => {
         generateImage();
-      }, 300);
+      }, 150);
       return () => clearTimeout(t);
     }
   }, [isOpen, rankedTeams, generateImage]);
@@ -263,18 +299,25 @@ export function BallotShareModal({
             </div>
           )}
 
-          {/* Graphic Preview Container - Auto scales cleanly on all mobile & desktop viewports */}
+          {/* Stable Fixed Aspect-Ratio Container to Prevent ANY Layout Shift */}
           <div className="w-full flex flex-col items-center justify-center">
-            {/* If high-res preview image is ready, show it with touch/long-press save support on mobile */}
-            {previewDataUrl ? (
-              <div className="relative max-h-[62vh] max-w-full flex items-center justify-center rounded-xl overflow-hidden shadow-2xl border border-[#2d3748]">
+            <div className="w-full max-w-[340px] sm:max-w-[380px] aspect-[440/730] max-h-[62vh] relative flex items-center justify-center rounded-xl bg-[#0d1117] border border-[#2d3748] shadow-2xl overflow-hidden">
+              {previewDataUrl ? (
                 <img
                   src={previewDataUrl}
                   alt="My Top 25 Ballot Graphic"
-                  className="max-h-[62vh] w-auto object-contain rounded-xl"
+                  className="w-full h-full object-contain rounded-xl animate-fade-in"
                 />
-              </div>
-            ) : null}
+              ) : (
+                <div className="flex flex-col items-center justify-center gap-3 p-6 text-center text-muted">
+                  <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin shadow-md" />
+                  <div>
+                    <p className="text-xs font-bold text-foreground">Preparing your Top 25 graphic...</p>
+                    <p className="text-[10px] text-muted mt-0.5">Loading official logos & colors</p>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* Mobile Long Press Tip */}
             {isMobileDevice && (
@@ -286,16 +329,11 @@ export function BallotShareModal({
               </p>
             )}
 
-            {/* The actual HTML graphic template that gets captured by html-to-image */}
-            {/* Kept in DOM with exact portrait styling */}
-            <div
-              className={`w-full flex items-center justify-center ${
-                previewDataUrl ? "absolute -left-[9999px] pointer-events-none" : ""
-              }`}
-            >
+            {/* Hidden Permanent Off-Screen High-Res Render Node for html-to-image */}
+            <div className="fixed -left-[9999px] top-0 pointer-events-none opacity-0 select-none">
               <div
                 ref={graphicRef}
-                className="w-[440px] shrink-0 rounded-2xl p-4 border border-[#2d3748] shadow-2xl text-white select-none relative overflow-hidden"
+                className="w-[440px] rounded-2xl p-4 border border-[#2d3748] shadow-2xl text-white relative overflow-hidden"
                 style={{
                   backgroundColor: "#0d1117",
                   backgroundImage:
