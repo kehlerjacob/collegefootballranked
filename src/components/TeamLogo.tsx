@@ -22,11 +22,13 @@ export function TeamLogo({
   const [hasError, setHasError] = useState(false);
   const initials = shortName || name.slice(0, 3).toUpperCase();
 
+  const paddingClass = size <= 22 ? "p-0.5" : "p-1";
+
   // If a logoUrl exists and hasn't errored, show the image on a crisp white background
   if (logoUrl && !hasError) {
     return (
       <div
-        className={`relative shrink-0 flex items-center justify-center overflow-hidden rounded-full bg-white shadow-sm ring-1 ring-white/20 p-1 ${className}`}
+        className={`relative shrink-0 flex items-center justify-center overflow-hidden rounded-full bg-white ${paddingClass} ${className}`}
         style={{ width: size, height: size }}
       >
         <img
@@ -45,7 +47,7 @@ export function TeamLogo({
   // Fallback colored badge with team initials
   return (
     <div
-      className={`shrink-0 rounded-full flex items-center justify-center font-bold text-background text-xs shadow-sm ring-1 ring-white/10 ${className}`}
+      className={`shrink-0 rounded-full flex items-center justify-center font-bold text-background text-xs ${className}`}
       style={{
         width: size,
         height: size,

@@ -378,18 +378,10 @@ export function BallotShareModal({
                     className="mb-2.5 p-2.5 rounded-xl border border-accent/60 shadow-lg relative overflow-hidden flex items-center justify-between gap-3"
                     style={{
                       background: team1.primaryColor
-                        ? `linear-gradient(135deg, ${team1.primaryColor}38 0%, rgba(20,24,33,0.95) 100%)`
-                        : "linear-gradient(135deg, rgba(201,168,76,0.25) 0%, rgba(20,24,33,0.95) 100%)",
+                        ? `linear-gradient(135deg, ${team1.primaryColor}40 0%, rgba(20,24,33,0.96) 65%, ${team1.primaryColor}22 100%)`
+                        : "linear-gradient(135deg, rgba(201,168,76,0.25) 0%, rgba(20,24,33,0.96) 100%)",
                     }}
                   >
-                    {/* Subtle Background Glow */}
-                    <div
-                      className="absolute -right-6 -top-6 w-28 h-28 rounded-full blur-2xl opacity-40 pointer-events-none"
-                      style={{
-                        backgroundColor: team1.primaryColor || "#c9a84c",
-                      }}
-                    />
-
                     {/* Left Side: Rank 1 Badge + Primary Logo + Team Info */}
                     <div className="flex items-center gap-2.5 z-10 min-w-0 flex-1">
                       <div className="flex flex-col items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-b from-amber-300 to-amber-500 text-background font-black shadow-md shrink-0">
@@ -430,11 +422,11 @@ export function BallotShareModal({
                     {/* Right Side: Mascot Logo Accent */}
                     <div className="flex items-center gap-2 shrink-0 z-10 pr-0.5">
                       {(team1.secondaryLogoUrl || team1.logoUrl) && (
-                        <div className="relative flex items-center justify-center w-12 h-12 rounded-xl bg-white/[0.07] border border-white/10 p-1 shadow-inner">
+                        <div className="relative flex items-center justify-center w-12 h-12 rounded-xl bg-white/[0.06] border border-white/10 p-1">
                           <img
                             src={team1.secondaryLogoUrl || team1.logoUrl!}
                             alt={team1.mascot || `${team1.name} Mascot`}
-                            className="w-full h-full object-contain filter drop-shadow"
+                            className="w-full h-full object-contain drop-shadow"
                             crossOrigin="anonymous"
                             loading="eager"
                             decoding="sync"
