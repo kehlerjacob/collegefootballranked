@@ -216,14 +216,36 @@ export function CommentItem({
   const initials = comment.username.slice(0, 2).toUpperCase();
   const avatarGrad = getAvatarGradient(comment.username);
 
+  const hasTeamColor = !!comment.favoriteTeam?.primaryColor;
+  const avatarStyle = hasTeamColor
+    ? { backgroundColor: comment.favoriteTeam!.primaryColor! }
+    : undefined;
+
   return (
     <div className="flex flex-col group animate-fade-in-up">
       <div className="flex items-start gap-3">
-        {/* Avatar */}
-        <div
-          className={`w-8 h-8 rounded-full bg-gradient-to-tr ${avatarGrad} flex items-center justify-center text-white text-xs font-black shrink-0 shadow-sm`}
-        >
-          {initials}
+        {/* Avatar with team color & micro badge */}
+        <div className="relative shrink-0">
+          <div
+            className={`w-8 h-8 rounded-full ${
+              hasTeamColor ? "" : `bg-gradient-to-tr ${avatarGrad}`
+            } flex items-center justify-center text-white text-xs font-black shadow-sm`}
+            style={avatarStyle}
+          >
+            {initials}
+          </div>
+
+          {comment.favoriteTeam && (
+            <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-background border border-border flex items-center justify-center shadow-xs overflow-hidden">
+              <TeamLogo
+                logoUrl={comment.favoriteTeam.logoUrl}
+                name={comment.favoriteTeam.name}
+                shortName={comment.favoriteTeam.shortName}
+                primaryColor={comment.favoriteTeam.primaryColor}
+                size={13}
+              />
+            </div>
+          )}
         </div>
 
         {/* Comment Body & Meta */}

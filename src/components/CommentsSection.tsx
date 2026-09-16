@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "./AuthProvider";
 import { CommentItem, CommentData } from "./CommentItem";
+import { TeamLogo } from "./TeamLogo";
 import Link from "next/link";
 
 interface CommentsSectionProps {
@@ -146,8 +147,32 @@ export function CommentsSection({ weekId, weekTitle }: CommentsSectionProps) {
           <form onSubmit={handlePostComment} className="flex flex-col gap-2">
             <div className="flex items-center gap-3">
               {/* User Avatar */}
-              <div className="w-8 h-8 rounded-full bg-accent/20 border border-accent/40 text-accent flex items-center justify-center text-xs font-black shrink-0">
-                {user.username.slice(0, 2).toUpperCase()}
+              <div className="relative shrink-0">
+                <div
+                  className={`w-8 h-8 rounded-full ${
+                    user.favoriteTeam?.primaryColor
+                      ? "text-white"
+                      : "bg-accent/20 border border-accent/40 text-accent"
+                  } flex items-center justify-center text-xs font-black shadow-sm`}
+                  style={
+                    user.favoriteTeam?.primaryColor
+                      ? { backgroundColor: user.favoriteTeam.primaryColor }
+                      : undefined
+                  }
+                >
+                  {user.username.slice(0, 2).toUpperCase()}
+                </div>
+                {user.favoriteTeam && (
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-background border border-border flex items-center justify-center shadow-xs overflow-hidden">
+                    <TeamLogo
+                      logoUrl={user.favoriteTeam.logoUrl}
+                      name={user.favoriteTeam.name}
+                      shortName={user.favoriteTeam.shortName}
+                      primaryColor={user.favoriteTeam.primaryColor}
+                      size={13}
+                    />
+                  </div>
+                )}
               </div>
 
               {/* Input field */}

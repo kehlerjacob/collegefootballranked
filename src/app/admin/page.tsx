@@ -642,8 +642,26 @@ export default function AdminDashboardPage() {
                     className="p-4 sm:p-5 hover:bg-surface/40 transition-colors flex flex-col sm:flex-row sm:items-start justify-between gap-4"
                   >
                     <div className="flex items-start gap-3 flex-1 min-w-0">
-                      <div className="w-8 h-8 rounded-full bg-surface-elevated border border-border flex items-center justify-center font-bold text-xs text-foreground shrink-0">
-                        {c.user.username.slice(0, 2).toUpperCase()}
+                      <div className="relative shrink-0">
+                        <div
+                          className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs text-white shadow-sm"
+                          style={{
+                            backgroundColor: c.user.favoriteTeam?.primaryColor || "#353b48",
+                          }}
+                        >
+                          {c.user.username.slice(0, 2).toUpperCase()}
+                        </div>
+                        {c.user.favoriteTeam && (
+                          <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-background border border-border flex items-center justify-center shadow-xs overflow-hidden">
+                            <TeamLogo
+                              logoUrl={c.user.favoriteTeam.logoUrl}
+                              name={c.user.favoriteTeam.name}
+                              shortName={c.user.favoriteTeam.shortName}
+                              primaryColor={c.user.favoriteTeam.primaryColor}
+                              size={12}
+                            />
+                          </div>
+                        )}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
