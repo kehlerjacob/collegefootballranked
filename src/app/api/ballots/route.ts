@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
-import { calculateWeekConsensus } from "@/lib/rankings-engine";
+import { calculateWeekConsensus, autoAdvanceExpiredWeeks } from "@/lib/rankings-engine";
 import { z } from "zod";
 
 const ballotSubmissionSchema = z.object({
@@ -18,6 +18,7 @@ const ballotSubmissionSchema = z.object({
 
 export async function GET(request: Request) {
   try {
+    await autoAdvanceExpiredWeeks();
     const user = await getCurrentUser();
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -104,6 +105,9 @@ export async function POST(request: Request) {
     }
 
     const { weekId, ranks } = result.data;
+
+    // Advance any expired weeks before checking this ballot
+    await autoAdvanceExpiredWeeks();
 
     // Check week status and deadline
     const week = await prisma.week.findUnique({

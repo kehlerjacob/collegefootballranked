@@ -136,3 +136,56 @@ export async function calculateWeekConsensus(weekId: string) {
     totalRankedTeams: consensusEntries.length,
   };
 }
+
+/**
+ * Automatically checks for OPEN weeks whose voting deadline has passed,
+ * computes their final consensus rankings, publishes them, and advances
+ * the next upcoming week to OPEN.
+ */
+export async function autoAdvanceExpiredWeeks() {
+  const now = new Date();
+
+  // Find any OPEN weeks whose voting deadline has passed
+  const expiredOpenWeeks = await prisma.week.findMany({
+    where: {
+      status: "OPEN",
+      votingDeadline: {
+        lte: now,
+      },
+    },
+    orderBy: { weekNumber: "asc" },
+  });
+
+  if (expiredOpenWeeks.length === 0) {
+    return { transitionedCount: 0 };
+  }
+
+  for (const week of expiredOpenWeeks) {
+    // 1. Calculate & materialize final consensus ranking
+    await calculateWeekConsensus(week.id);
+
+    // 2. Mark this week as PUBLISHED
+    await prisma.week.update({
+      where: { id: week.id },
+      data: { status: "PUBLISHED" },
+    });
+
+    // 3. Find next week and open it if it is UPCOMING
+    const nextWeek = await prisma.week.findFirst({
+      where: {
+        seasonId: week.seasonId,
+        weekNumber: week.weekNumber + 1,
+        status: "UPCOMING",
+      },
+    });
+
+    if (nextWeek) {
+      await prisma.week.update({
+        where: { id: nextWeek.id },
+        data: { status: "OPEN" },
+      });
+    }
+  }
+
+  return { transitionedCount: expiredOpenWeeks.length };
+}

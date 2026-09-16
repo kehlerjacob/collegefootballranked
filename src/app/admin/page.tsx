@@ -203,6 +203,73 @@ export default function AdminDashboardPage() {
     }
   };
 
+  // Week Management Triggers
+  const [weekActionLoading, setWeekActionLoading] = useState<string | null>(null);
+
+  const handleUpdateWeekStatus = async (weekId: string, newStatus: string) => {
+    setWeekActionLoading(weekId);
+    try {
+      const res = await fetch("/api/admin/weeks", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ weekId, status: newStatus }),
+      });
+      if (res.ok) {
+        await loadAdminData();
+      } else {
+        const d = await res.json();
+        alert(`Error updating week: ${d.error || "Unknown error"}`);
+      }
+    } catch (e) {
+      console.error(e);
+      alert("Failed to update week status");
+    } finally {
+      setWeekActionLoading(null);
+    }
+  };
+
+  const handleRecalculateConsensus = async (weekId: string) => {
+    setWeekActionLoading(weekId);
+    try {
+      const res = await fetch("/api/admin/weeks", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ weekId, recalculate: true }),
+      });
+      if (res.ok) {
+        await loadAdminData();
+        alert("Consensus rankings recalculated successfully!");
+      } else {
+        const d = await res.json();
+        alert(`Error: ${d.error || "Unknown error"}`);
+      }
+    } catch (e) {
+      console.error(e);
+      alert("Failed to recalculate consensus");
+    } finally {
+      setWeekActionLoading(null);
+    }
+  };
+
+  const handleAdvanceWeeks = async () => {
+    setIsSyncing(true);
+    setSyncStatus(null);
+    try {
+      const res = await fetch("/api/admin/weeks", { method: "POST" });
+      const data = await res.json();
+      if (res.ok) {
+        setSyncStatus(`Auto-advance completed: ${data.result?.transitionedCount || 0} week(s) transitioned.`);
+        await loadAdminData();
+      } else {
+        setSyncStatus(`Advance error: ${data.error || "Unknown error"}`);
+      }
+    } catch {
+      setSyncStatus("Failed to execute auto-advance.");
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
   // Filtered Users
   const filteredUsers = useMemo(() => {
     if (!adminData?.users) return [];
@@ -736,36 +803,69 @@ export default function AdminDashboardPage() {
       {/* TAB 3: WEEKS & SYSTEM CONTROLS */}
       {activeTab === "weeks" && (
         <div className="space-y-6 animate-fade-in">
-          {/* ESPN Sync Trigger Card */}
-          <div className="glass-card p-5 sm:p-6 rounded-2xl border border-border/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
-                <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-                <span>Live ESPN Team Records &amp; AP Poll Sync</span>
-              </h3>
-              <p className="text-xs text-muted mt-1 max-w-xl">
-                Fetch and synchronize official win-loss records and rankings from ESPN for all 138 FBS teams.
-              </p>
-              {syncStatus && (
-                <div className="mt-2 text-xs font-semibold text-accent">{syncStatus}</div>
-              )}
+          {/* Controls Bar */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* ESPN Sync Trigger Card */}
+            <div className="glass-card p-5 rounded-2xl border border-border/80 flex flex-col justify-between gap-4">
+              <div>
+                <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+                  <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  <span>Live ESPN Records Sync</span>
+                </h3>
+                <p className="text-xs text-muted mt-1">
+                  Fetch official records and rankings from ESPN for all 138 FBS teams.
+                </p>
+              </div>
+
+              <button
+                onClick={handleSyncRecords}
+                disabled={isSyncing}
+                className="px-4 py-2.5 rounded-xl bg-accent text-background font-bold text-xs hover:bg-accent-glow transition-all disabled:opacity-50 shrink-0 self-start shadow-md"
+              >
+                {isSyncing ? "Syncing with ESPN..." : "Sync ESPN Records Now"}
+              </button>
             </div>
 
-            <button
-              onClick={handleSyncRecords}
-              disabled={isSyncing}
-              className="px-4 py-2.5 rounded-xl bg-accent text-background font-bold text-xs hover:bg-accent-glow transition-all disabled:opacity-50 shrink-0"
-            >
-              {isSyncing ? "Syncing with ESPN..." : "Sync ESPN Records Now"}
-            </button>
+            {/* Auto-Advance / Publish Check */}
+            <div className="glass-card p-5 rounded-2xl border border-border/80 flex flex-col justify-between gap-4">
+              <div>
+                <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+                  <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span>Auto-Advance Expired Polls</span>
+                </h3>
+                <p className="text-xs text-muted mt-1">
+                  Check all deadlines and finalize consensus rankings for any voting window that has ended.
+                </p>
+              </div>
+
+              <button
+                onClick={handleAdvanceWeeks}
+                disabled={isSyncing}
+                className="px-4 py-2.5 rounded-xl bg-surface-elevated text-foreground hover:text-accent font-bold text-xs border border-border hover:border-accent/40 transition-all disabled:opacity-50 shrink-0 self-start shadow-md"
+              >
+                Check &amp; Advance Weeks
+              </button>
+            </div>
           </div>
+
+          {syncStatus && (
+            <div className="p-3.5 rounded-xl bg-accent/10 border border-accent/25 text-xs font-semibold text-accent flex items-center gap-2 animate-fade-in">
+              <svg className="w-4 h-4 shrink-0 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              <span>{syncStatus}</span>
+            </div>
+          )}
 
           {/* Weeks Table */}
           <div className="glass-card rounded-2xl border border-border/80 overflow-hidden shadow-xl">
-            <div className="p-4 border-b border-border">
+            <div className="p-4 border-b border-border flex items-center justify-between">
               <h3 className="text-sm font-bold text-foreground">Polling Season Schedule &amp; Activity</h3>
+              <span className="text-[11px] text-muted font-mono">15 Weeks Scheduled</span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs border-collapse">
@@ -776,6 +876,7 @@ export default function AdminDashboardPage() {
                     <th className="py-3 px-4">Status</th>
                     <th className="py-3 px-4 text-center">Total Ballots</th>
                     <th className="py-3 px-4 text-center">Total Comments</th>
+                    <th className="py-3 px-4 text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border/40">
@@ -801,6 +902,39 @@ export default function AdminDashboardPage() {
                       </td>
                       <td className="py-3.5 px-4 text-center font-bold tabular-nums text-foreground">
                         {w._count.comments}
+                      </td>
+                      <td className="py-3.5 px-4 text-right">
+                        <div className="flex items-center justify-end gap-1.5">
+                          {w.status !== "PUBLISHED" && (
+                            <button
+                              type="button"
+                              onClick={() => handleUpdateWeekStatus(w.id, "PUBLISHED")}
+                              disabled={weekActionLoading === w.id}
+                              className="px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25 border border-emerald-500/30 text-[10px] font-bold transition-all disabled:opacity-50"
+                            >
+                              Publish
+                            </button>
+                          )}
+                          {w.status !== "OPEN" && (
+                            <button
+                              type="button"
+                              onClick={() => handleUpdateWeekStatus(w.id, "OPEN")}
+                              disabled={weekActionLoading === w.id}
+                              className="px-2.5 py-1 rounded-lg bg-accent/15 text-accent hover:bg-accent/25 border border-accent/30 text-[10px] font-bold transition-all disabled:opacity-50"
+                            >
+                              Open
+                            </button>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => handleRecalculateConsensus(w.id)}
+                            disabled={weekActionLoading === w.id}
+                            className="px-2.5 py-1 rounded-lg bg-surface text-muted hover:text-foreground border border-border text-[10px] font-semibold transition-all disabled:opacity-50"
+                            title="Recalculate consensus scores from all submitted ballots"
+                          >
+                            Recalc
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}

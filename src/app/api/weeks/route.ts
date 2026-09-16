@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { autoAdvanceExpiredWeeks } from "@/lib/rankings-engine";
 
 export async function GET(request: Request) {
   try {
+    // Automatically advance any open week whose voting deadline has expired
+    await autoAdvanceExpiredWeeks();
+
     const { searchParams } = new URL(request.url);
     const includeAll = searchParams.get("all") === "true";
 
