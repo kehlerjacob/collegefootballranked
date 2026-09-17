@@ -49,6 +49,7 @@ export async function seedCommunityData() {
     throw new Error("No active season or weeks found.");
   }
 
+  const week0 = season.weeks.find((w) => w.weekNumber === 0);
   const week1 = season.weeks.find((w) => w.weekNumber === 1);
   const week2 = season.weeks.find((w) => w.weekNumber === 2);
   const week3 = season.weeks.find((w) => w.weekNumber === 3);
@@ -375,13 +376,22 @@ export async function seedCommunityData() {
   console.log(`Created ${allSeedUsers.length} verified seed users.`);
 
   // 5. Official Weekly AP Baselines (Clean, verified Top 25 programs)
-  // Week 1 AP Baseline (25 legitimate contenders)
-  const week1APNames = [
-    "Texas", "Georgia", "Ohio State", "Alabama", "Notre Dame",
-    "Ole Miss", "Oregon", "Penn State", "Miami (FL)", "Michigan",
+  // Week 0 (Preseason) AP Baseline
+  const week0APNames = [
+    "Georgia", "Ohio State", "Texas", "Alabama", "Notre Dame",
+    "Ole Miss", "Oregon", "Penn State", "Michigan", "Florida State",
     "Missouri", "Utah", "LSU", "Tennessee", "Oklahoma",
-    "Oklahoma State", "Kansas State", "Texas A&M", "Arizona", "Clemson",
-    "Iowa", "Louisville", "Indiana", "BYU", "USC"
+    "Clemson", "Oklahoma State", "Kansas State", "Miami (FL)", "Texas A&M",
+    "Arizona", "Iowa", "USC", "Louisville", "Indiana"
+  ];
+
+  // Week 1 AP Baseline (Post-Week 1: teams with losses like Clemson/FSU/Arizona drop out, unbeaten risers BYU/Texas Tech/SMU/Houston/Virginia enter!)
+  const week1APNames = [
+    "Texas", "Georgia", "Notre Dame", "Alabama", "Ohio State",
+    "Ole Miss", "Penn State", "Miami (FL)", "LSU", "Michigan",
+    "Tennessee", "Texas A&M", "USC", "Utah", "Missouri",
+    "BYU", "Oregon", "Indiana", "Texas Tech", "Iowa",
+    "SMU", "Oklahoma", "Louisville", "Houston", "Virginia"
   ];
 
   // Week 2 AP Baseline
@@ -401,6 +411,27 @@ export async function seedCommunityData() {
     "SMU", "Utah", "Iowa", "Michigan", "Missouri",
     "Oregon", "Houston", "Louisville", "Oklahoma", "Virginia"
   ];
+
+  // Populate clean Preseason (Week 0) AP consensus rankings
+  if (week0) {
+    await prisma.consensusRanking.deleteMany({ where: { weekId: week0.id } });
+    const week0Entries = week0APNames.map((name, index) => {
+      const team = getTeam(name);
+      const rank = index + 1;
+      return {
+        weekId: week0.id,
+        teamId: team.id,
+        rank,
+        points: (26 - rank) * 60,
+        firstPlaceVotes: rank === 1 ? 46 : rank === 2 ? 14 : rank === 3 ? 2 : 0,
+        trend: "same",
+        trendValue: 0,
+        totalBallots: 62,
+      };
+    });
+    await prisma.consensusRanking.createMany({ data: week0Entries });
+    console.log("Populated clean Preseason (Week 0) AP baseline");
+  }
 
   const week1APIds = week1APNames.map((name) => getTeam(name).id);
   const week2APIds = week2APNames.map((name) => getTeam(name).id);
@@ -562,7 +593,7 @@ export async function seedCommunityData() {
     {
       team: "Indiana",
       handleSub: "Cignetti",
-      content: "Indiana starting at #23 in the national poll! The turnaround under this coaching staff is unbelievable. Offensive tempo and turnover margin were elite in the opener.",
+      content: "Indiana jumping up to #18 in the national poll after that blowout win! The turnaround under this coaching staff is unbelievable. Offensive tempo and turnover margin were elite in the opener.",
       likes: 95,
       hoursAgo: 170,
       replies: [
