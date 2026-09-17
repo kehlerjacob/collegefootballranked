@@ -26,6 +26,15 @@ export const metadata: Metadata = {
     "top 25",
     "football poll",
   ],
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    apple: [
+      { url: "/apple-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
   openGraph: {
     title: "College Football Ranked",
     description: "Community-driven consensus college football rankings.",
