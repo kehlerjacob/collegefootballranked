@@ -10,6 +10,7 @@
     "lint": "eslint",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
+    "community:seed": "tsx src/scripts/seed-community.ts",
     "records:sync": "tsx src/scripts/sync-records.ts",
     "ap:sync": "tsx src/scripts/sync-ap-poll.ts"
   },

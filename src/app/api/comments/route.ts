@@ -54,8 +54,18 @@ export async function GET(request: Request) {
       );
     }
 
+    const sortBy = searchParams.get("sortBy") || "likes";
+
     const currentUser = await getCurrentUser();
     const currentUserId = currentUser?.userId;
+
+    const orderByClause =
+      sortBy === "recent"
+        ? { createdAt: "desc" as const }
+        : [
+            { likes: { _count: "desc" as const } },
+            { createdAt: "desc" as const },
+          ];
 
     // Fetch top-level comments with replies and like status
     const rawComments = await prisma.comment.findMany({
@@ -63,7 +73,7 @@ export async function GET(request: Request) {
         weekId: targetWeekId,
         parentId: null,
       },
-      orderBy: { createdAt: "desc" },
+      orderBy: orderByClause,
       include: {
         user: {
           select: userSelectFields,
