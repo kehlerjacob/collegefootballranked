@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { TeamLogo } from "./TeamLogo";
+import { CFRLogo } from "./CFRLogo";
 import { toPng, toBlob } from "html-to-image";
 
 export interface RankedTeamInfo {
@@ -339,14 +340,10 @@ export function BallotShareModal({
               >
                 {/* Graphic Top Header */}
                 <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-white/10">
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg bg-accent flex items-center justify-center text-background font-black text-xs shadow-md">
-                      <svg className="w-4 h-4 text-background" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-                      </svg>
-                    </div>
-                    <div>
-                      <div className="text-[10px] font-black tracking-widest text-accent uppercase leading-tight">
+                  <div className="flex items-center gap-2.5">
+                    <CFRLogo height={28} />
+                    <div className="border-l border-white/15 pl-2.5 py-0.5">
+                      <div className="text-[9.5px] font-black tracking-widest text-accent uppercase leading-tight">
                         COLLEGE FOOTBALL RANKED
                       </div>
                       <div className="text-xs font-extrabold text-white tracking-tight leading-tight">
