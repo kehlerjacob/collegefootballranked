@@ -13,10 +13,24 @@ interface HeaderProps {
 
 export function Header({ hideBanner = false }: HeaderProps) {
   const { user, isLoading } = useAuth();
+  const primaryColor = user?.favoriteTeam?.primaryColor;
+  const hasTeamColor = Boolean(primaryColor && primaryColor.startsWith("#"));
+
+  const headerStyle = hasTeamColor
+    ? {
+        background: `linear-gradient(135deg, ${primaryColor}40 0%, rgba(14,18,26,0.96) 65%, ${primaryColor}22 100%)`,
+        borderColor: `${primaryColor}55`,
+      }
+    : undefined;
 
   return (
     <div className="sticky top-0 z-50">
-      <header className="glass-card border-b border-border bg-[#0e121a]/95 backdrop-blur-md relative z-20">
+      <header
+        className={`glass-card border-b backdrop-blur-md relative z-20 transition-all duration-500 ${
+          hasTeamColor ? "shadow-lg shadow-black/40" : "border-border bg-[#0e121a]/95"
+        }`}
+        style={headerStyle}
+      >
         <div className="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
           {/* Logo / brand */}
           <Link href="/" className="flex items-center group py-1">
