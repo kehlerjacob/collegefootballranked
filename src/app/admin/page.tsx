@@ -87,6 +87,16 @@ interface AdminData {
     totalBallots: number;
     totalComments: number;
     totalLikes: number;
+    usersWithBallots?: number;
+    conversionRate?: number;
+    avgBallotsPerUser?: number;
+    avgBallotsPerActiveUser?: number;
+    cohorts?: {
+      zeroBallots: number;
+      oneBallot: number;
+      twoToThreeBallots: number;
+      fourPlusBallots: number;
+    };
   };
   users: UserData[];
   weeks: WeekData[];
@@ -105,6 +115,7 @@ export default function AdminDashboardPage() {
 
   // Search & filter states
   const [userSearch, setUserSearch] = useState("");
+  const [userSortBy, setUserSortBy] = useState<"ballots_desc" | "ballots_asc" | "newest" | "oldest">("ballots_desc");
   const [commentSearch, setCommentSearch] = useState("");
   const [selectedWeekFilter, setSelectedWeekFilter] = useState("ALL");
   const [deletingCommentId, setDeletingCommentId] = useState<string | null>(null);
@@ -271,19 +282,29 @@ export default function AdminDashboardPage() {
     }
   };
 
-  // Filtered Users
+  // Filtered & Sorted Users
   const filteredUsers = useMemo(() => {
     if (!adminData?.users) return [];
-    if (!userSearch.trim()) return adminData.users;
-    const query = userSearch.toLowerCase();
-    return adminData.users.filter(
-      (u) =>
-        u.username.toLowerCase().includes(query) ||
-        u.email.toLowerCase().includes(query) ||
-        u.favoriteTeam?.name.toLowerCase().includes(query) ||
-        u.favoriteTeam?.shortName.toLowerCase().includes(query)
-    );
-  }, [adminData?.users, userSearch]);
+    let list = adminData.users;
+    if (userSearch.trim()) {
+      const query = userSearch.toLowerCase();
+      list = list.filter(
+        (u) =>
+          u.username.toLowerCase().includes(query) ||
+          u.email.toLowerCase().includes(query) ||
+          u.favoriteTeam?.name.toLowerCase().includes(query) ||
+          u.favoriteTeam?.shortName.toLowerCase().includes(query)
+      );
+    }
+
+    return [...list].sort((a, b) => {
+      if (userSortBy === "ballots_desc") return b._count.ballots - a._count.ballots;
+      if (userSortBy === "ballots_asc") return a._count.ballots - b._count.ballots;
+      if (userSortBy === "newest") return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      if (userSortBy === "oldest") return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      return 0;
+    });
+  }, [adminData?.users, userSearch, userSortBy]);
 
   // Filtered Comments
   const filteredComments = useMemo(() => {
@@ -482,6 +503,161 @@ export default function AdminDashboardPage() {
       {/* TAB 1: USERS & FANBASE */}
       {activeTab === "users" && (
         <div className="space-y-6 animate-fade-in">
+          {/* User Engagement & Conversion Cohorts */}
+          <div className="glass-card p-5 sm:p-6 rounded-lg border border-border/80 bg-surface/30 shadow-lg">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-3 border-b border-border/60">
+              <div>
+                <h3 className="text-sm font-bold text-foreground uppercase tracking-wider flex items-center gap-2">
+                  <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                  </svg>
+                  <span>User Engagement &amp; Ballot Conversion</span>
+                </h3>
+                <p className="text-xs text-muted mt-0.5">
+                  Track how effectively registered accounts convert into active poll voters.
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[11px] font-semibold text-muted">Conversion Rate:</span>
+                <span className="px-2.5 py-1 rounded-md bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-black text-sm tabular-nums">
+                  {adminData?.stats.conversionRate ?? 0}%
+                </span>
+              </div>
+            </div>
+
+            {/* Metric KPI Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
+              <div className="bg-surface/80 p-3.5 rounded-md border border-border">
+                <div className="text-[10px] font-semibold uppercase tracking-wider text-muted mb-1">
+                  Active Voters (≥1 Ballot)
+                </div>
+                <div className="text-xl font-black text-foreground tabular-nums">
+                  {adminData?.stats.usersWithBallots ?? 0}{" "}
+                  <span className="text-xs font-medium text-muted">
+                    / {adminData?.stats.totalUsers ?? 0}
+                  </span>
+                </div>
+                <div className="w-full bg-surface-elevated h-1.5 rounded-full mt-2 overflow-hidden border border-border/50">
+                  <div
+                    className="bg-emerald-400 h-full rounded-full transition-all duration-500"
+                    style={{ width: `${Math.min(100, adminData?.stats.conversionRate ?? 0)}%` }}
+                  />
+                </div>
+              </div>
+
+              <div className="bg-surface/80 p-3.5 rounded-md border border-border">
+                <div className="text-[10px] font-semibold uppercase tracking-wider text-muted mb-1">
+                  Avg Ballots / User
+                </div>
+                <div className="text-xl font-black text-accent tabular-nums">
+                  {adminData?.stats.avgBallotsPerUser ?? 0}
+                </div>
+                <p className="text-[10px] text-muted mt-1">Across all registered accounts</p>
+              </div>
+
+              <div className="bg-surface/80 p-3.5 rounded-md border border-border">
+                <div className="text-[10px] font-semibold uppercase tracking-wider text-muted mb-1">
+                  Avg Ballots / Active Voter
+                </div>
+                <div className="text-xl font-black text-emerald-400 tabular-nums">
+                  {adminData?.stats.avgBallotsPerActiveUser ?? 0}
+                </div>
+                <p className="text-[10px] text-muted mt-1">For users with ≥1 ballot</p>
+              </div>
+
+              <div className="bg-surface/80 p-3.5 rounded-md border border-border">
+                <div className="text-[10px] font-semibold uppercase tracking-wider text-muted mb-1">
+                  Zero-Ballot Users
+                </div>
+                <div className="text-xl font-black text-amber-400 tabular-nums">
+                  {adminData?.stats.cohorts?.zeroBallots ?? 0}
+                </div>
+                <p className="text-[10px] text-muted mt-1">Signed up, pending first vote</p>
+              </div>
+            </div>
+
+            {/* Engagement Cohort Breakdown */}
+            <div>
+              <div className="text-xs font-bold text-foreground mb-2.5 flex items-center justify-between">
+                <span>Voter Retention &amp; Activity Cohorts</span>
+                <span className="text-[11px] font-normal text-muted">Distribution by ballots cast</span>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                <div className="p-2.5 rounded-md bg-surface border border-border/70 flex items-center justify-between">
+                  <div>
+                    <div className="text-[11px] font-semibold text-muted">0 Ballots</div>
+                    <div className="text-xs font-bold text-foreground">Signed Up Only</div>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-sm font-black text-amber-400 tabular-nums">
+                      {adminData?.stats.cohorts?.zeroBallots ?? 0}
+                    </span>
+                    <div className="text-[10px] text-muted">
+                      {adminData?.stats.totalUsers
+                        ? Math.round(((adminData.stats.cohorts?.zeroBallots ?? 0) / adminData.stats.totalUsers) * 100)
+                        : 0}
+                      %
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-2.5 rounded-md bg-surface border border-border/70 flex items-center justify-between">
+                  <div>
+                    <div className="text-[11px] font-semibold text-muted">1 Ballot</div>
+                    <div className="text-xs font-bold text-foreground">1st-Time Voters</div>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-sm font-black text-blue-400 tabular-nums">
+                      {adminData?.stats.cohorts?.oneBallot ?? 0}
+                    </span>
+                    <div className="text-[10px] text-muted">
+                      {adminData?.stats.totalUsers
+                        ? Math.round(((adminData.stats.cohorts?.oneBallot ?? 0) / adminData.stats.totalUsers) * 100)
+                        : 0}
+                      %
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-2.5 rounded-md bg-surface border border-border/70 flex items-center justify-between">
+                  <div>
+                    <div className="text-[11px] font-semibold text-muted">2–3 Ballots</div>
+                    <div className="text-xs font-bold text-foreground">Returning Voters</div>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-sm font-black text-accent tabular-nums">
+                      {adminData?.stats.cohorts?.twoToThreeBallots ?? 0}
+                    </span>
+                    <div className="text-[10px] text-muted">
+                      {adminData?.stats.totalUsers
+                        ? Math.round(((adminData.stats.cohorts?.twoToThreeBallots ?? 0) / adminData.stats.totalUsers) * 100)
+                        : 0}
+                      %
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-2.5 rounded-md bg-surface border border-border/70 flex items-center justify-between">
+                  <div>
+                    <div className="text-[11px] font-semibold text-muted">4+ Ballots</div>
+                    <div className="text-xs font-bold text-foreground">Super Voters</div>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-sm font-black text-emerald-400 tabular-nums">
+                      {adminData?.stats.cohorts?.fourPlusBallots ?? 0}
+                    </span>
+                    <div className="text-[10px] text-muted">
+                      {adminData?.stats.totalUsers
+                        ? Math.round(((adminData.stats.cohorts?.fourPlusBallots ?? 0) / adminData.stats.totalUsers) * 100)
+                        : 0}
+                      %
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Top Favorite Teams Breakdown */}
           {adminData?.favoriteTeams && adminData.favoriteTeams.length > 0 && (
             <div className="glass-card p-5 sm:p-6 rounded-lg border border-border/80">
@@ -534,22 +710,35 @@ export default function AdminDashboardPage() {
                   {filteredUsers.length} shown
                 </span>
               </div>
-              <div className="relative w-full sm:w-72">
-                <input
-                  type="text"
-                  placeholder="Search by username, email, or team..."
-                  value={userSearch}
-                  onChange={(e) => setUserSearch(e.target.value)}
-                  className="w-full px-3.5 py-1.5 rounded-md bg-surface border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
-                />
-                {userSearch && (
-                  <button
-                    onClick={() => setUserSearch("")}
-                    className="absolute right-2.5 top-2 text-muted hover:text-foreground text-xs"
-                  >
-                    ✕
-                  </button>
-                )}
+              <div className="flex items-center gap-2.5 flex-wrap sm:flex-nowrap">
+                <select
+                  value={userSortBy}
+                  onChange={(e) => setUserSortBy(e.target.value as any)}
+                  className="px-3 py-1.5 rounded-md bg-surface border border-border text-foreground text-xs font-semibold focus:outline-none focus:border-accent"
+                >
+                  <option value="ballots_desc">Sort: Most Ballots</option>
+                  <option value="ballots_asc">Sort: Least / 0 Ballots</option>
+                  <option value="newest">Sort: Newest Signups</option>
+                  <option value="oldest">Sort: Oldest Signups</option>
+                </select>
+
+                <div className="relative w-full sm:w-64">
+                  <input
+                    type="text"
+                    placeholder="Search username, email, team..."
+                    value={userSearch}
+                    onChange={(e) => setUserSearch(e.target.value)}
+                    className="w-full px-3.5 py-1.5 rounded-md bg-surface border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
+                  />
+                  {userSearch && (
+                    <button
+                      onClick={() => setUserSearch("")}
+                      className="absolute right-2.5 top-2 text-muted hover:text-foreground text-xs"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -559,7 +748,7 @@ export default function AdminDashboardPage() {
                   <tr className="border-b border-border/80 bg-surface/80 text-muted font-semibold uppercase tracking-wider text-[10px]">
                     <th className="py-3 px-4">User</th>
                     <th className="py-3 px-4">Favorite Team</th>
-                    <th className="py-3 px-4 text-center">Ballots</th>
+                    <th className="py-3 px-4 text-center">Engagement</th>
                     <th className="py-3 px-4 text-center">Comments</th>
                     <th className="py-3 px-4 text-right">Joined Date</th>
                   </tr>
@@ -614,19 +803,19 @@ export default function AdminDashboardPage() {
                           )}
                         </td>
                         <td className="py-3.5 px-4 text-center">
-                          <span
-                            className={`px-2 py-0.5 rounded font-bold text-[11px] ${
-                              u._count.ballots > 0
-                                ? "bg-accent/15 text-accent border border-accent/30"
-                                : "text-muted"
-                            }`}
-                          >
-                            {u._count.ballots}
-                          </span>
+                          {u._count.ballots === 0 ? (
+                            <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/10 border border-amber-500/20 text-amber-400">
+                              0 ballots (Pending)
+                            </span>
+                          ) : (
+                            <span className="px-2.5 py-0.5 rounded text-[11px] font-bold bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 tabular-nums">
+                              {u._count.ballots} {u._count.ballots === 1 ? "ballot" : "ballots"}
+                            </span>
+                          )}
                         </td>
                         <td className="py-3.5 px-4 text-center">
                           <span
-                            className={`px-2 py-0.5 rounded font-bold text-[11px] ${
+                            className={`px-2 py-0.5 rounded font-bold text-[11px] tabular-nums ${
                               u._count.comments > 0
                                 ? "bg-surface-elevated text-foreground border border-border"
                                 : "text-muted"

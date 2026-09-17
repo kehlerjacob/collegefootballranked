@@ -6,6 +6,7 @@ import { useAuth } from "@/components/AuthProvider";
 import { Header } from "@/components/Header";
 import { TeamLogo } from "@/components/TeamLogo";
 import { BallotShareModal, RankedTeamInfo } from "@/components/BallotShareModal";
+import { trackBallotSubmission } from "@/components/GoogleAnalytics";
 import Link from "next/link";
 
 interface Team {
@@ -501,6 +502,7 @@ export default function BallotPage() {
 
       setSuccessMsg(data.message || "Ballot submitted successfully!");
       setExistingBallotId(data.ballotId);
+      trackBallotSubmission(selectedWeek.weekNumber, ranksPayload.length, !!existingBallotId);
       setIsShareModalOpen(true);
     } catch {
       setErrorMsg("An unexpected network error occurred");

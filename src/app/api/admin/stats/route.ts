@@ -138,9 +138,29 @@ export async function GET() {
             _count: "desc",
           },
         },
-        take: 15,
+        take: 10,
       }),
     ]);
+
+    // Calculate user engagement and conversion cohorts
+    let usersWithBallots = 0;
+    let zeroBallotsCount = 0;
+    let oneBallotCount = 0;
+    let twoToThreeBallotsCount = 0;
+    let fourPlusBallotsCount = 0;
+
+    users.forEach((u) => {
+      const bCount = u._count.ballots;
+      if (bCount > 0) usersWithBallots++;
+      if (bCount === 0) zeroBallotsCount++;
+      else if (bCount === 1) oneBallotCount++;
+      else if (bCount >= 2 && bCount <= 3) twoToThreeBallotsCount++;
+      else fourPlusBallotsCount++;
+    });
+
+    const conversionRate = totalUsers > 0 ? Number(((usersWithBallots / totalUsers) * 100).toFixed(1)) : 0;
+    const avgBallotsPerUser = totalUsers > 0 ? Number((totalBallots / totalUsers).toFixed(2)) : 0;
+    const avgBallotsPerActiveUser = usersWithBallots > 0 ? Number((totalBallots / usersWithBallots).toFixed(2)) : 0;
 
     return NextResponse.json({
       success: true,
@@ -149,6 +169,16 @@ export async function GET() {
         totalBallots,
         totalComments,
         totalLikes,
+        usersWithBallots,
+        conversionRate,
+        avgBallotsPerUser,
+        avgBallotsPerActiveUser,
+        cohorts: {
+          zeroBallots: zeroBallotsCount,
+          oneBallot: oneBallotCount,
+          twoToThreeBallots: twoToThreeBallotsCount,
+          fourPlusBallots: fourPlusBallotsCount,
+        },
       },
       users,
       weeks: weeksWithBallots,

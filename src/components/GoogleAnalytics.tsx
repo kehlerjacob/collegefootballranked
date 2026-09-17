@@ -30,13 +30,37 @@ export function trackEvent(
   action: string,
   category: string,
   label?: string,
-  value?: number
+  value?: number,
+  params?: Record<string, any>
 ) {
   if (typeof window !== "undefined" && (window as any).gtag) {
     (window as any).gtag("event", action, {
       event_category: category,
       event_label: label,
       value: value,
+      ...params,
+    });
+  }
+}
+
+// Track sign up conversions in GA4
+export function trackSignUp(method: string = "credentials", favoriteTeam?: string) {
+  if (typeof window !== "undefined" && (window as any).gtag) {
+    (window as any).gtag("event", "sign_up", {
+      method,
+      favorite_team: favoriteTeam,
+    });
+  }
+}
+
+// Track weekly ballot submissions in GA4
+export function trackBallotSubmission(weekNumber: number, teamCount: number = 25, isUpdate: boolean = false) {
+  if (typeof window !== "undefined" && (window as any).gtag) {
+    (window as any).gtag("event", isUpdate ? "ballot_updated" : "ballot_submitted", {
+      event_category: "Engagement",
+      week_number: weekNumber,
+      team_count: teamCount,
+      value: 1,
     });
   }
 }

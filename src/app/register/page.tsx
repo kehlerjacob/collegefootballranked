@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/AuthProvider";
 import { Header } from "@/components/Header";
 import { TeamLogo } from "@/components/TeamLogo";
+import { trackSignUp } from "@/components/GoogleAnalytics";
 
 interface TeamOption {
   id: string;
@@ -206,6 +207,7 @@ export default function RegisterPage() {
       }
 
       login(data.user);
+      trackSignUp("credentials", selectedTeam?.name || formData.favoriteTeamId);
       router.push("/ballot");
     } catch {
       setError("An unexpected error occurred");
