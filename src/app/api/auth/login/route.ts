@@ -30,6 +30,18 @@ export async function POST(request: Request) {
           { username: login },
         ],
       },
+      include: {
+        favoriteTeam: {
+          select: {
+            id: true,
+            name: true,
+            shortName: true,
+            logoUrl: true,
+            primaryColor: true,
+            conference: true,
+          },
+        },
+      },
     });
 
     if (!user) {
@@ -73,6 +85,7 @@ export async function POST(request: Request) {
         email: user.email,
         username: user.username,
         role: userRole,
+        favoriteTeam: user.favoriteTeam,
       },
     });
   } catch (error) {
