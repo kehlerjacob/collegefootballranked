@@ -127,52 +127,53 @@ export function CommentsSection({ weekId, weekTitle }: CommentsSectionProps) {
   return (
     <div className="glass-card rounded-lg p-5 sm:p-6 mt-6 border border-border/70 shadow-xl">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-border/50 gap-3">
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between pb-4 border-b border-border/50 gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
           <h3 className="text-sm sm:text-base font-bold text-foreground">
             Comments
           </h3>
           <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-surface border border-border text-accent">
             {totalCount}
           </span>
-          {weekTitle && (
-            <span className="text-[11px] text-muted hidden md:inline ml-1">
-              • {weekTitle} Rankings Thread
-            </span>
-          )}
+
+          {/* Sort Switcher directly to the right of comment count */}
+          <div className="flex items-center gap-1 bg-surface/80 border border-border/70 rounded-lg p-0.5 text-xs ml-0.5 sm:ml-1">
+            <button
+              type="button"
+              onClick={() => setSortBy("likes")}
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all duration-150 cursor-pointer ${
+                sortBy === "likes"
+                  ? "bg-accent/15 text-accent border border-accent/30 shadow-xs"
+                  : "text-muted hover:text-foreground hover:bg-surface-elevated border border-transparent"
+              }`}
+            >
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+              </svg>
+              <span>Most Likes</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setSortBy("recent")}
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all duration-150 cursor-pointer ${
+                sortBy === "recent"
+                  ? "bg-accent/15 text-accent border border-accent/30 shadow-xs"
+                  : "text-muted hover:text-foreground hover:bg-surface-elevated border border-transparent"
+              }`}
+            >
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>Most Recent</span>
+            </button>
+          </div>
         </div>
 
-        {/* Sort Switcher */}
-        <div className="flex items-center gap-1 self-start sm:self-auto bg-surface/80 border border-border/70 rounded-lg p-0.5 text-xs">
-          <button
-            type="button"
-            onClick={() => setSortBy("likes")}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all duration-150 cursor-pointer ${
-              sortBy === "likes"
-                ? "bg-accent/15 text-accent border border-accent/30 shadow-xs"
-                : "text-muted hover:text-foreground hover:bg-surface-elevated border border-transparent"
-            }`}
-          >
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
-            </svg>
-            <span>Most Likes</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setSortBy("recent")}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all duration-150 cursor-pointer ${
-              sortBy === "recent"
-                ? "bg-accent/15 text-accent border border-accent/30 shadow-xs"
-                : "text-muted hover:text-foreground hover:bg-surface-elevated border border-transparent"
-            }`}
-          >
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span>Most Recent</span>
-          </button>
-        </div>
+        {weekTitle && (
+          <span className="text-[11px] text-muted hidden sm:inline">
+            {weekTitle} Rankings
+          </span>
+        )}
       </div>
 
       {/* Comment Input Composer */}
