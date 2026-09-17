@@ -14,18 +14,31 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "College Football Ranked — Consensus College Football Rankings",
+  metadataBase: new URL("https://collegefootballranked.com"),
+  title: {
+    default: "College Football Rankings 2026: Consensus Top 25 Poll | College Football Ranked",
+    template: "%s | College Football Ranked",
+  },
   description:
-    "Vote on your top 25 college football teams each week. See live community-driven college football rankings and compare your ballot to the consensus.",
+    "Explore the official 2026 College Football Rankings voted on by fans and analysts nationwide. Track live consensus Top 25 poll movements, points, first-place votes, and submit your weekly ballot.",
   keywords: [
-    "college football",
-    "rankings",
     "college football rankings",
-    "power rankings",
-    "CFB",
-    "top 25",
-    "football poll",
+    "cfb top 25",
+    "college football poll",
+    "ap poll alternative",
+    "ncaa football rankings",
+    "weekly college football rankings",
+    "college football power rankings",
+    "cfb rankings 2026",
+    "college football top 25",
+    "consensus football poll",
   ],
+  authors: [{ name: "College Football Ranked Team" }],
+  creator: "College Football Ranked",
+  publisher: "College Football Ranked",
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: [
       { url: "/icon.svg", type: "image/svg+xml" },
@@ -36,9 +49,31 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "College Football Ranked",
-    description: "Community-driven consensus college football rankings.",
+    title: "College Football Rankings 2026: Consensus Top 25 Poll",
+    description:
+      "Explore official live college football rankings voted on by fans and analysts. Track weekly Top 25 movements, first-place votes, and submit your ballot.",
+    url: "https://collegefootballranked.com",
+    siteName: "College Football Ranked",
+    locale: "en_US",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "College Football Rankings 2026: Consensus Top 25 Poll",
+    description:
+      "Live democratic consensus college football rankings. Track weekly Top 25 movements and submit your vote.",
+    creator: "@CFRanked",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 

@@ -6,6 +6,9 @@ import { Header } from "@/components/Header";
 import { WeekSelector, WeekItem } from "@/components/WeekSelector";
 import { PollCountdown } from "@/components/PollCountdown";
 import { CommentsSection } from "@/components/CommentsSection";
+import { MethodologyDropdown } from "@/components/MethodologyDropdown";
+import { FAQSection } from "@/components/FAQSection";
+import { RankingsJsonLd } from "@/components/RankingsJsonLd";
 import Link from "next/link";
 
 export default function Home() {
@@ -17,6 +20,10 @@ export default function Home() {
     totalBallots: 0,
     status: "PUBLISHED",
   });
+  const [weekDetails, setWeekDetails] = useState<{
+    createdAt?: string;
+    updatedAt?: string;
+  }>({});
   const [isLoading, setIsLoading] = useState(true);
 
   // Load weeks list & default to latest published consensus poll
@@ -66,6 +73,10 @@ export default function Home() {
             totalBallots: data.week?.totalBallots || 0,
             status: data.week?.status || "PUBLISHED",
           });
+          setWeekDetails({
+            createdAt: data.week?.createdAt,
+            updatedAt: data.week?.updatedAt,
+          });
         } else {
           setRankings([]);
           setStats({
@@ -73,6 +84,7 @@ export default function Home() {
             totalBallots: 0,
             status: "UPCOMING",
           });
+          setWeekDetails({});
         }
       } catch (e) {
         console.error("Failed to load rankings:", e);
@@ -90,9 +102,18 @@ export default function Home() {
 
   return (
     <>
+      {/* Schema.org Structured Data for SEO */}
+      <RankingsJsonLd
+        rankings={rankings}
+        weekTitle={selectedWeek?.title || `Week ${selectedWeekNumber}`}
+        weekNumber={selectedWeekNumber}
+        publishedDate={weekDetails.createdAt}
+        lastUpdatedDate={weekDetails.updatedAt}
+      />
+
       <Header />
       <main className="flex-1 w-full max-w-2xl mx-auto px-4 pb-8">
-        {/* Hero blurb */}
+        {/* Hero blurb with rich semantic headings */}
         <section className="pt-6 pb-4 animate-fade-in-up">
           <div className="flex items-center justify-between">
             <div>
@@ -100,7 +121,7 @@ export default function Home() {
                 College Football Rankings
               </h1>
               <p className="mt-1 text-sm text-muted">
-                Community-voted Top 25 · Updated weekly
+                Official 2026 Consensus Top 25 Poll · Updated weekly by fans & analysts
               </p>
             </div>
 
@@ -134,23 +155,31 @@ export default function Home() {
               votingDeadline={selectedWeek?.votingDeadline}
             />
           ) : (
-            <RankingsTable rankings={rankings} isLoading={isLoading} />
+            <>
+              <RankingsTable rankings={rankings} isLoading={isLoading} />
+              <MethodologyDropdown />
+            </>
           )}
         </div>
 
-        {/* Community Discussion & TikTok/Instagram Style Comments */}
+        {/* Community Discussion & Reactions */}
         <div className="animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
           <CommentsSection
             weekId={selectedWeek?.id}
             weekTitle={selectedWeek?.title}
           />
         </div>
+
+        {/* SEO FAQ Section */}
+        <div className="animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
+          <FAQSection />
+        </div>
       </main>
 
       {/* Footer */}
       <footer className="border-t border-border py-6 text-center text-xs text-muted">
         <p>
-          © {new Date().getFullYear()} College Football Ranked. Powered by the community.
+          © {new Date().getFullYear()} College Football Ranked. Democratic Consensus College Football Rankings.
         </p>
       </footer>
     </>

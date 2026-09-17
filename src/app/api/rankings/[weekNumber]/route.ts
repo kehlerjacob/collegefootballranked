@@ -70,6 +70,8 @@ export async function GET(
         votingDeadline: week.votingDeadline,
         totalBallots: week._count.ballots,
         totalPointsAwarded: totalVotes,
+        createdAt: week.createdAt,
+        updatedAt: week.updatedAt,
       },
       rankings,
     });
