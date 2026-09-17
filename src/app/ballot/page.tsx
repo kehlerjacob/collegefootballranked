@@ -583,8 +583,7 @@ export default function BallotPage() {
         team.conference.toLowerCase().includes(q)
       );
     })
-    .sort(compareTeams)
-    .slice(0, 8); // Top 8 matches for fast mobile dropdown
+    .sort(compareTeams);
 
   const filledCount = ballotRanks.filter(Boolean).length;
 
@@ -1072,12 +1071,13 @@ export default function BallotPage() {
 
                     {/* Inline Expanded Dropdown Search Results (pushes subsequent positions down) */}
                     {isEditing && (
-                      <div className="mt-2 mb-2 mx-2 p-1.5 glass-card bg-surface/95 border border-accent/40 rounded-md max-h-64 overflow-y-auto divide-y divide-border/30 animate-fade-in-up">
+                      <div className="mt-2 mb-2 mx-2 p-1.5 glass-card bg-surface/95 border border-accent/40 rounded-md max-h-72 sm:max-h-80 overflow-y-auto divide-y divide-border/30 animate-fade-in-up">
                         {inlineSlotSearchResults.length > 0 ? (
                           inlineSlotSearchResults.map((t) => {
                             const alreadyRankedAt = ballotRanks.findIndex(
                               (id) => id === t.id
                             );
+                            const apRank = apRanks.get(t.id);
 
                             return (
                               <button
@@ -1097,7 +1097,12 @@ export default function BallotPage() {
                                     size={26}
                                   />
                                   <div className="min-w-0">
-                                    <div className="flex items-center gap-1.5">
+                                    <div className="flex items-center gap-1.5 flex-wrap">
+                                      {apRank !== undefined && (
+                                        <span className="px-1.5 py-0.2 rounded bg-accent/15 border border-accent/30 text-accent font-black text-[9px]">
+                                          #{apRank}
+                                        </span>
+                                      )}
                                       <p className="text-xs font-semibold text-foreground truncate">
                                         {t.name}
                                       </p>
