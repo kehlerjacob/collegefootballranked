@@ -85,7 +85,7 @@ export function NavigationMenu() {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all duration-200 ${
+        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md border text-xs font-bold transition-all duration-200 ${
           isOpen
             ? "bg-accent/15 border-accent text-accent shadow-xs"
             : "bg-surface border-border hover:border-accent/40 text-foreground hover:text-accent"
@@ -120,7 +120,7 @@ export function NavigationMenu() {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-64 sm:w-72 rounded-2xl bg-[#141822] border border-[#2d3748] shadow-2xl shadow-black/80 p-2 z-[100] animate-fade-in origin-top-right">
+        <div className="absolute right-0 mt-2 w-64 sm:w-72 rounded-lg bg-[#141822] border border-[#2d3748] shadow-2xl shadow-black/80 p-2 z-[100] animate-fade-in origin-top-right">
           <div className="px-3 py-1.5 text-[10px] font-black uppercase tracking-wider text-muted/70">
             Navigation
           </div>
@@ -131,14 +131,14 @@ export function NavigationMenu() {
                 key={item.href}
                 href={item.href}
                 onClick={() => setIsOpen(false)}
-                className={`flex items-start gap-3 p-2.5 rounded-xl transition-all duration-150 ${
+                className={`flex items-start gap-3 p-2.5 rounded-md transition-all duration-150 ${
                   item.isActive
                     ? "bg-accent/15 border border-accent/40 text-accent font-bold shadow-xs"
                     : "hover:bg-surface-elevated text-foreground hover:text-accent border border-transparent"
                 }`}
               >
                 <div
-                  className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${
+                  className={`w-8 h-8 rounded flex items-center justify-center shrink-0 mt-0.5 ${
                     item.isActive
                       ? "bg-accent text-background font-bold shadow-sm"
                       : "bg-surface text-muted"

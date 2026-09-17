@@ -650,7 +650,7 @@ export default function BallotPage() {
 
           {/* Current Active Voting Week Badge */}
           <div className="flex items-center gap-2">
-            <div className="px-3.5 py-1.5 rounded-xl bg-surface border border-accent/40 flex items-center gap-2 text-xs">
+            <div className="px-3.5 py-1.5 rounded-md bg-surface border border-accent/40 flex items-center gap-2 text-xs">
               <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
               <span className="font-bold text-foreground">
                 {selectedWeek?.title || "Current Week"}
@@ -666,14 +666,14 @@ export default function BallotPage() {
 
         {/* Auth Notice if not logged in */}
         {!user && (
-          <div className="mt-4 p-3.5 sm:p-4 rounded-xl bg-accent-dim border border-accent/30 text-xs text-foreground flex items-center justify-between gap-3">
+          <div className="mt-4 p-3.5 sm:p-4 rounded-md bg-accent-dim border border-accent/30 text-xs text-foreground flex items-center justify-between gap-3">
             <div className="leading-relaxed">
               <span className="font-bold text-accent">Sign in required:</span>{" "}
               You must be logged in to submit your official ballot.
             </div>
             <Link
               href="/login"
-              className="px-4 py-2 rounded-lg bg-accent text-background font-bold hover:bg-accent-glow transition-all whitespace-nowrap shrink-0 text-center min-w-[5rem]"
+              className="px-4 py-2 rounded-md bg-accent text-background font-bold hover:bg-accent-glow transition-all whitespace-nowrap shrink-0 text-center min-w-[5rem]"
             >
               Log In
             </Link>
@@ -682,7 +682,7 @@ export default function BallotPage() {
 
         {/* Existing Ballot Banner */}
         {user && existingBallotId && (
-          <div className="mt-4 p-3.5 rounded-xl bg-surface border border-accent/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-foreground">
+          <div className="mt-4 p-3.5 rounded-md bg-surface border border-accent/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-foreground">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-success shrink-0"></span>
               <span>
@@ -695,7 +695,7 @@ export default function BallotPage() {
               <button
                 type="button"
                 onClick={() => setIsShareModalOpen(true)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent/15 border border-accent/40 text-accent hover:bg-accent hover:text-background font-bold text-xs transition-all active:scale-95 shrink-0 self-start sm:self-auto"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-accent/15 border border-accent/40 text-accent hover:bg-accent hover:text-background font-bold text-xs transition-all active:scale-95 shrink-0 self-start sm:self-auto"
               >
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
@@ -708,12 +708,12 @@ export default function BallotPage() {
 
         {/* Status Alerts */}
         {errorMsg && (
-          <div className="mt-4 p-3 rounded-lg bg-danger/10 border border-danger/30 text-danger text-xs font-medium">
+          <div className="mt-4 p-3 rounded-md bg-danger/10 border border-danger/30 text-danger text-xs font-medium">
             {errorMsg}
           </div>
         )}
         {successMsg && (
-          <div className="mt-4 p-3 rounded-lg bg-success/10 border border-success/30 text-success text-xs font-medium">
+          <div className="mt-4 p-3 rounded-md bg-success/10 border border-success/30 text-success text-xs font-medium">
             {successMsg}
           </div>
         )}
@@ -725,7 +725,7 @@ export default function BallotPage() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <h2 className="text-base font-bold text-foreground">Your Top 25</h2>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-surface border border-border text-accent">
+                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-surface border border-border text-accent">
                   {filledCount} / 25 Ranked
                 </span>
               </div>
@@ -736,7 +736,7 @@ export default function BallotPage() {
                     type="button"
                     onClick={() => setIsQuickFillOpen(!isQuickFillOpen)}
                     disabled={quickFillLoading !== null}
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-surface border border-accent/40 text-accent hover:bg-accent/10 hover:border-accent transition-all shadow-sm active:scale-95 disabled:opacity-50"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-surface border border-accent/40 text-accent hover:bg-accent/10 hover:border-accent transition-all shadow-sm active:scale-95 disabled:opacity-50"
                   >
                     {quickFillLoading ? (
                       <span className="inline-block w-3 h-3 border-2 border-accent border-t-transparent rounded-full animate-spin"></span>
@@ -778,7 +778,7 @@ export default function BallotPage() {
 
                 {/* Dropdown Menu */}
                 {isQuickFillOpen && (
-                  <div className="absolute right-0 mt-2 w-72 rounded-2xl bg-surface border border-border/80 shadow-2xl p-1.5 z-50 animate-fade-in-up backdrop-blur-xl">
+                  <div className="absolute right-0 mt-2 w-72 rounded-lg bg-surface border border-border/80 shadow-2xl p-1.5 z-50 animate-fade-in-up backdrop-blur-xl">
                     <div className="px-3 py-2 border-b border-border/40">
                       <p className="text-[11px] font-bold text-foreground uppercase tracking-wider">
                         Auto-fill Options
@@ -793,9 +793,9 @@ export default function BallotPage() {
                       <button
                         type="button"
                         onClick={handleFillConsensus}
-                        className="w-full text-left p-2 rounded-xl hover:bg-surface-elevated border border-transparent hover:border-border transition-all flex items-start gap-2.5 group"
+                        className="w-full text-left p-2 rounded-md hover:bg-surface-elevated border border-transparent hover:border-border transition-all flex items-start gap-2.5 group"
                       >
-                        <div className="w-7 h-7 rounded-lg bg-accent-dim text-accent flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                        <div className="w-7 h-7 rounded bg-accent-dim text-accent flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                           <svg className="w-3.5 h-3.5 text-accent" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
                           </svg>
@@ -814,9 +814,9 @@ export default function BallotPage() {
                       <button
                         type="button"
                         onClick={handleFillPreviousSubmission}
-                        className="w-full text-left p-2 rounded-xl hover:bg-surface-elevated border border-transparent hover:border-border transition-all flex items-start gap-2.5 group"
+                        className="w-full text-left p-2 rounded-md hover:bg-surface-elevated border border-transparent hover:border-border transition-all flex items-start gap-2.5 group"
                       >
-                        <div className="w-7 h-7 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                        <div className="w-7 h-7 rounded bg-purple-500/10 text-purple-400 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                           <svg className="w-3.5 h-3.5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                           </svg>
@@ -835,9 +835,9 @@ export default function BallotPage() {
                       <button
                         type="button"
                         onClick={handleFillAPPoll}
-                        className="w-full text-left p-2 rounded-xl hover:bg-surface-elevated border border-transparent hover:border-border transition-all flex items-start gap-2.5 group"
+                        className="w-full text-left p-2 rounded-md hover:bg-surface-elevated border border-transparent hover:border-border transition-all flex items-start gap-2.5 group"
                       >
-                        <div className="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                        <div className="w-7 h-7 rounded bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                           <svg className="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                           </svg>
@@ -862,7 +862,7 @@ export default function BallotPage() {
                           setErrorMsg("");
                           setSuccessMsg("");
                         }}
-                        className="w-full text-left px-2.5 py-1.5 rounded-xl hover:bg-danger/10 text-muted hover:text-danger transition-colors flex items-center gap-2 text-xs font-medium"
+                        className="w-full text-left px-2.5 py-1.5 rounded-md hover:bg-danger/10 text-muted hover:text-danger transition-colors flex items-center gap-2 text-xs font-medium"
                       >
                         <svg className="w-3.5 h-3.5 text-danger" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -883,7 +883,7 @@ export default function BallotPage() {
             </p>
 
             {/* Ballot List with Inline Accordion Search Dropdowns */}
-            <div className="glass-card rounded-2xl overflow-hidden divide-y divide-border/40">
+            <div className="glass-card rounded-lg overflow-hidden divide-y divide-border/40">
               {ballotRanks.map((teamId, index) => {
                 const team = teamById(teamId);
                 const rankNum = index + 1;
@@ -901,7 +901,7 @@ export default function BallotPage() {
                     swappingState.direction === "up" ? "-100%" : "100%";
                   transformStyle = `translateY(${yShift}) scale(1.02)`;
                   extraClasses =
-                    "z-30 relative shadow-[0_12px_28px_-4px_rgba(201,168,76,0.35),0_8px_10px_-6px_rgba(0,0,0,0.5)] border-accent/80 bg-surface-elevated ring-1 ring-accent/60 rounded-xl";
+                    "z-30 relative shadow-[0_12px_28px_-4px_rgba(201,168,76,0.35),0_8px_10px_-6px_rgba(0,0,0,0.5)] border-accent/80 bg-surface-elevated ring-1 ring-accent/60 rounded-md";
                 } else if (isTargetSwap) {
                   const yShift =
                     swappingState.direction === "up" ? "100%" : "-100%";
@@ -909,10 +909,10 @@ export default function BallotPage() {
                   extraClasses = "z-10 relative opacity-70 bg-surface/40";
                 } else if (isEditing) {
                   extraClasses =
-                    "bg-surface-hover/90 ring-1 ring-accent/60 z-30 rounded-lg shadow-lg";
+                    "bg-surface-hover/90 ring-1 ring-accent/60 z-30 rounded-md shadow-lg";
                 } else if (isJustSwapped) {
                   extraClasses =
-                    "ring-1 ring-accent/50 bg-accent/10 transition-colors duration-500 rounded-lg";
+                    "ring-1 ring-accent/50 bg-accent/10 transition-colors duration-500 rounded-md";
                 } else if (team) {
                   extraClasses = "hover:bg-surface-hover/60";
                 } else {
@@ -943,7 +943,7 @@ export default function BallotPage() {
                       {/* Left: Rank badge & Team or Search Input */}
                       <div className="flex items-center gap-2.5 min-w-0 flex-1">
                         <span
-                          className={`w-6 h-6 rounded-md flex items-center justify-center font-bold text-[11px] tabular-nums shrink-0 ${
+                          className={`w-6 h-6 rounded flex items-center justify-center font-bold text-[11px] tabular-nums shrink-0 ${
                             rankNum === 1
                               ? "bg-rank-gold/20 text-rank-gold border border-rank-gold/40"
                               : rankNum === 2
@@ -983,7 +983,7 @@ export default function BallotPage() {
                                 }
                               }}
                               placeholder="Type team name (e.g. Georgia, OSU, Miami)..."
-                              className="w-full bg-background border border-accent/50 rounded-lg px-2.5 py-1 text-base sm:text-xs text-foreground placeholder:text-muted focus:outline-none"
+                              className="w-full bg-background border border-accent/50 rounded-md px-2.5 py-1 text-base sm:text-xs text-foreground placeholder:text-muted focus:outline-none"
                             />
                             <button
                               type="button"
@@ -1072,7 +1072,7 @@ export default function BallotPage() {
 
                     {/* Inline Expanded Dropdown Search Results (pushes subsequent positions down) */}
                     {isEditing && (
-                      <div className="mt-2 mb-2 mx-2 p-1.5 glass-card bg-surface/95 border border-accent/40 rounded-xl max-h-64 overflow-y-auto divide-y divide-border/30 animate-fade-in-up">
+                      <div className="mt-2 mb-2 mx-2 p-1.5 glass-card bg-surface/95 border border-accent/40 rounded-md max-h-64 overflow-y-auto divide-y divide-border/30 animate-fade-in-up">
                         {inlineSlotSearchResults.length > 0 ? (
                           inlineSlotSearchResults.map((t) => {
                             const alreadyRankedAt = ballotRanks.findIndex(
@@ -1086,7 +1086,7 @@ export default function BallotPage() {
                                 onClick={() =>
                                   handleAssignTeamToSlot(index, t.id)
                                 }
-                                className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-accent/15 text-left transition-colors"
+                                className="w-full flex items-center justify-between p-2 rounded-md hover:bg-accent/15 text-left transition-colors"
                               >
                                 <div className="flex items-center gap-2.5 min-w-0">
                                   <TeamLogo
@@ -1132,7 +1132,7 @@ export default function BallotPage() {
             </div>
 
             {/* Submit Action Bar */}
-            <div className="mt-2 flex items-center justify-between p-4 glass-card rounded-xl">
+            <div className="mt-2 flex items-center justify-between p-4 glass-card rounded-lg">
               <div className="text-xs text-muted">
                 {filledCount === 25 ? (
                   <span className="text-success font-semibold">
@@ -1148,7 +1148,7 @@ export default function BallotPage() {
                   <button
                     type="button"
                     onClick={() => setIsShareModalOpen(true)}
-                    className="px-4 py-2.5 rounded-xl bg-surface-elevated border border-accent/40 text-accent font-bold text-xs hover:bg-accent/15 transition-all flex items-center gap-1.5 active:scale-95 shadow-sm"
+                    className="px-4 py-2.5 rounded-md bg-surface-elevated border border-accent/40 text-accent font-bold text-xs hover:bg-accent/15 transition-all flex items-center gap-1.5 active:scale-95 shadow-sm"
                   >
                     <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
@@ -1165,7 +1165,7 @@ export default function BallotPage() {
                     selectedWeek?.status !== "OPEN"
                   }
                   onClick={handleSubmitBallot}
-                  className="px-6 py-2.5 rounded-xl bg-accent text-background font-bold text-xs hover:bg-accent-glow transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(201,168,76,0.3)] active:scale-95"
+                  className="px-6 py-2.5 rounded-md bg-accent text-background font-bold text-xs hover:bg-accent-glow transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(201,168,76,0.3)] active:scale-95"
                 >
                   {isSubmitting
                     ? "Submitting..."
@@ -1195,7 +1195,7 @@ export default function BallotPage() {
                 placeholder="Filter directory..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-surface border border-border text-foreground text-base sm:text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
+                className="w-full px-3 py-2 rounded-md bg-surface border border-border text-foreground text-base sm:text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
               />
 
               {/* Conference Pills Filter */}
@@ -1205,7 +1205,7 @@ export default function BallotPage() {
                     key={conf}
                     type="button"
                     onClick={() => setSelectedConference(conf)}
-                    className={`shrink-0 px-2.5 py-1 rounded-lg text-[10px] font-semibold border transition-all ${
+                    className={`shrink-0 px-2.5 py-1 rounded-md text-[10px] font-semibold border transition-all ${
                       selectedConference === conf
                         ? "bg-accent/20 border-accent text-accent"
                         : "border-border text-muted hover:text-foreground"
@@ -1218,7 +1218,7 @@ export default function BallotPage() {
             </div>
 
             {/* Available Teams Grid / List */}
-            <div className="glass-card rounded-2xl p-2 max-h-[620px] overflow-y-auto space-y-1">
+            <div className="glass-card rounded-lg p-2 max-h-[620px] overflow-y-auto space-y-1">
               {filteredPanelTeams.map((team) => {
                 const selected = isTeamSelected(team.id);
                 const rankIndex = ballotRanks.findIndex((id) => id === team.id);
@@ -1228,7 +1228,7 @@ export default function BallotPage() {
                     key={team.id}
                     type="button"
                     onClick={() => handleSelectTeamFromPanel(team.id)}
-                    className={`w-full flex items-center justify-between p-2 rounded-xl text-left transition-all ${
+                    className={`w-full flex items-center justify-between p-2 rounded-md text-left transition-all ${
                       selected
                         ? "bg-accent/15 border border-accent/40"
                         : "hover:bg-surface-hover border border-transparent"

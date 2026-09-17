@@ -28,7 +28,7 @@ export function SubmitBallotBanner() {
 
         <Link
           href="/ballot"
-          className="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-accent text-background hover:bg-accent-glow transition-all duration-200 shadow-md active:scale-95 whitespace-nowrap shrink-0 flex items-center gap-1.5"
+          className="px-3.5 py-1.5 text-xs font-bold rounded-md bg-accent text-background hover:bg-accent-glow transition-all duration-200 shadow-md active:scale-95 whitespace-nowrap shrink-0 flex items-center gap-1.5"
         >
           <span>Submit Ballot</span>
           <span className="text-sm leading-none">→</span>

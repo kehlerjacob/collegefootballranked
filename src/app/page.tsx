@@ -106,7 +106,7 @@ export default function Home() {
 
             <Link
               href="/ballot"
-              className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-accent/15 border border-accent/40 text-accent hover:bg-accent hover:text-background text-xs font-bold transition-all duration-200"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md bg-accent/15 border border-accent/40 text-accent hover:bg-accent hover:text-background text-xs font-bold transition-all duration-200"
             >
               <span>Vote This Week →</span>
             </Link>

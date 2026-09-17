@@ -218,7 +218,7 @@ export default function RegisterPage() {
     <>
       <Header />
       <main className="flex-1 flex items-center justify-center px-4 py-10">
-        <div className="w-full max-w-md glass-card rounded-2xl p-6 sm:p-8 animate-fade-in-up">
+        <div className="w-full max-w-md glass-card rounded-lg p-6 sm:p-8 animate-fade-in-up">
           <div className="text-center mb-6">
             <h1 className="text-2xl font-bold tracking-tight text-foreground">
               Join CFR
@@ -229,7 +229,7 @@ export default function RegisterPage() {
           </div>
 
           {error && (
-            <div className="mb-4 p-3 rounded-lg bg-danger/10 border border-danger/30 text-danger text-xs font-medium">
+            <div className="mb-4 p-3 rounded-md bg-danger/10 border border-danger/30 text-danger text-xs font-medium">
               {error}
             </div>
           )}
@@ -247,7 +247,7 @@ export default function RegisterPage() {
                   setFormData({ ...formData, email: e.target.value })
                 }
                 placeholder="you@example.com"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-border text-foreground text-base sm:text-sm placeholder:text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                className="w-full px-3.5 py-2.5 rounded-md bg-surface border border-border text-foreground text-base sm:text-sm placeholder:text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
               />
             </div>
 
@@ -263,7 +263,7 @@ export default function RegisterPage() {
                   setFormData({ ...formData, username: e.target.value })
                 }
                 placeholder="sec_fanatic"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-border text-foreground text-base sm:text-sm placeholder:text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                className="w-full px-3.5 py-2.5 rounded-md bg-surface border border-border text-foreground text-base sm:text-sm placeholder:text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
               />
             </div>
 
@@ -280,7 +280,7 @@ export default function RegisterPage() {
                   setFormData({ ...formData, password: e.target.value })
                 }
                 placeholder="At least 6 characters"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-border text-foreground text-base sm:text-sm placeholder:text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                className="w-full px-3.5 py-2.5 rounded-md bg-surface border border-border text-foreground text-base sm:text-sm placeholder:text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
               />
             </div>
 
@@ -293,7 +293,7 @@ export default function RegisterPage() {
 
               {selectedTeam ? (
                 /* Selected Team Card View */
-                <div className="flex items-center justify-between p-2.5 px-3 rounded-xl bg-surface-elevated border border-accent/60 ring-1 ring-accent/30 transition-all shadow-sm">
+                <div className="flex items-center justify-between p-2.5 px-3 rounded-md bg-surface-elevated border border-accent/60 ring-1 ring-accent/30 transition-all shadow-sm">
                   <div className="flex items-center gap-2.5 min-w-0">
                     <TeamLogo
                       logoUrl={selectedTeam.logoUrl}
@@ -320,7 +320,7 @@ export default function RegisterPage() {
                   <button
                     type="button"
                     onClick={handleClearSelectedTeam}
-                    className="p-1 px-2 rounded-lg text-xs font-semibold text-muted hover:text-foreground hover:bg-surface border border-border/60 transition-colors ml-2 shrink-0"
+                    className="p-1 px-2 rounded-md text-xs font-semibold text-muted hover:text-foreground hover:bg-surface border border-border/60 transition-colors ml-2 shrink-0"
                     title="Change Team"
                   >
                     Change
@@ -352,7 +352,7 @@ export default function RegisterPage() {
                         ? "Loading teams..."
                         : "Type team name (e.g. Georgia, OSU, Texas)..."
                     }
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-border text-foreground text-base sm:text-sm placeholder:text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                    className="w-full px-3.5 py-2.5 rounded-md bg-surface border border-border text-foreground text-base sm:text-sm placeholder:text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
                   />
 
                   {teamSearch && (
@@ -369,14 +369,14 @@ export default function RegisterPage() {
 
               {/* Suggestions Dropdown (Identical to Ballot Builder slot search) */}
               {!selectedTeam && isDropdownOpen && (
-                <div className="absolute left-0 right-0 mt-1.5 rounded-2xl bg-[#161a22] border border-accent/40 shadow-2xl z-50 p-1.5 max-h-64 overflow-y-auto divide-y divide-border/30 animate-fade-in backdrop-blur-xl">
+                <div className="absolute left-0 right-0 mt-1.5 rounded-lg bg-[#161a22] border border-accent/40 shadow-2xl z-50 p-1.5 max-h-64 overflow-y-auto divide-y divide-border/30 animate-fade-in backdrop-blur-xl">
                   {searchResults.length > 0 ? (
                     searchResults.map((t) => (
                       <button
                         key={t.id}
                         type="button"
                         onClick={() => handleSelectTeam(t.id)}
-                        className="w-full flex items-center justify-between p-2 rounded-xl hover:bg-accent/15 text-left transition-colors group"
+                        className="w-full flex items-center justify-between p-2 rounded-md hover:bg-accent/15 text-left transition-colors group"
                       >
                         <div className="flex items-center gap-2.5 min-w-0">
                           <TeamLogo
@@ -418,7 +418,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={isSubmitting || !formData.favoriteTeamId}
-              className="w-full py-3 rounded-xl bg-accent text-background font-bold text-sm hover:bg-accent-glow transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+              className="w-full py-3 rounded-md bg-accent text-background font-bold text-sm hover:bg-accent-glow transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed mt-2"
             >
               {isSubmitting ? "Creating Account..." : "Create Account"}
             </button>

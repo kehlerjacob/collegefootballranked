@@ -257,7 +257,7 @@ export function CommentItem({
 
             {comment.favoriteTeam && (
               <span
-                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-surface border border-border/70 hover:border-accent/50 transition-colors shadow-xs shrink-0"
+                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface border border-border/70 hover:border-accent/50 transition-colors shadow-xs shrink-0"
                 title={`Fan of ${comment.favoriteTeam.name}`}
               >
                 <TeamLogo
@@ -368,12 +368,12 @@ export function CommentItem({
               onChange={(e) => setReplyContent(e.target.value)}
               placeholder={`Reply to @${comment.username}...`}
               maxLength={500}
-              className="flex-1 px-3 py-1.5 rounded-lg bg-surface-elevated border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
+              className="flex-1 px-3 py-1.5 rounded-md bg-surface-elevated border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
             />
             <button
               type="submit"
               disabled={!replyContent.trim() || isSubmittingReply}
-              className="px-3 py-1.5 rounded-lg bg-accent text-background font-bold text-xs hover:bg-accent-glow transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+              className="px-3 py-1.5 rounded-md bg-accent text-background font-bold text-xs hover:bg-accent-glow transition-all disabled:opacity-40 disabled:cursor-not-allowed"
             >
               {isSubmittingReply ? "..." : "Reply"}
             </button>

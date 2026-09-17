@@ -45,7 +45,7 @@ export default function LoginPage() {
     <>
       <Header />
       <main className="flex-1 flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-md glass-card rounded-2xl p-6 sm:p-8 animate-fade-in-up">
+        <div className="w-full max-w-md glass-card rounded-lg p-6 sm:p-8 animate-fade-in-up">
           <div className="text-center mb-6">
             <h1 className="text-2xl font-bold tracking-tight text-foreground">
               Welcome Back
@@ -56,7 +56,7 @@ export default function LoginPage() {
           </div>
 
           {error && (
-            <div className="mb-4 p-3 rounded-lg bg-danger/10 border border-danger/30 text-danger text-xs">
+            <div className="mb-4 p-3 rounded-md bg-danger/10 border border-danger/30 text-danger text-xs">
               {error}
             </div>
           )}
@@ -74,7 +74,7 @@ export default function LoginPage() {
                   setFormData({ ...formData, login: e.target.value })
                 }
                 placeholder="gridiron_guru or name@example.com"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-border text-foreground text-base sm:text-sm placeholder:text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                className="w-full px-3.5 py-2.5 rounded-md bg-surface border border-border text-foreground text-base sm:text-sm placeholder:text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
               />
             </div>
 
@@ -90,14 +90,14 @@ export default function LoginPage() {
                   setFormData({ ...formData, password: e.target.value })
                 }
                 placeholder="••••••••"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-border text-foreground text-base sm:text-sm placeholder:text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                className="w-full px-3.5 py-2.5 rounded-md bg-surface border border-border text-foreground text-base sm:text-sm placeholder:text-muted/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
               />
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-2.5 px-4 rounded-xl bg-accent text-background font-bold text-sm hover:bg-accent-glow transition-all duration-200 disabled:opacity-50"
+              className="w-full py-2.5 px-4 rounded-md bg-accent text-background font-bold text-sm hover:bg-accent-glow transition-all duration-200 disabled:opacity-50"
             >
               {isSubmitting ? "Signing In..." : "Sign In"}
             </button>

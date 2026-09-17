@@ -28,7 +28,7 @@ export function StatsBar({
       {stats.map((stat) => (
         <div
           key={stat.label}
-          className="glass-card rounded-xl px-3 py-2.5 text-center"
+          className="glass-card rounded-lg px-3 py-2.5 text-center"
         >
           <p className="text-base font-bold text-foreground tabular-nums truncate">
             {stat.value}

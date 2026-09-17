@@ -30,7 +30,7 @@ export function WeekSelector({
           <button
             key={week.id}
             onClick={() => onSelectWeek(week.weekNumber)}
-            className={`shrink-0 px-3 py-1.5 text-xs font-medium rounded-full border transition-all duration-200 flex items-center gap-1.5 ${
+            className={`shrink-0 px-3 py-1.5 text-xs font-medium rounded-md border transition-all duration-200 flex items-center gap-1.5 ${
               isSelected
                 ? "bg-accent text-background border-accent shadow-[0_0_12px_rgba(201,168,76,0.25)] font-bold"
                 : "border-border text-muted hover:text-foreground hover:border-border-light"

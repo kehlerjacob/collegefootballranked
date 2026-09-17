@@ -54,7 +54,7 @@ export function Header({ hideBanner = false }: HeaderProps) {
             ) : !isLoading ? (
               <Link
                 href="/login"
-                className="px-3.5 py-1.5 text-xs font-medium rounded-xl border border-border text-muted hover:text-foreground hover:border-accent/40 transition-all duration-200 whitespace-nowrap shrink-0 bg-surface"
+                className="px-3.5 py-1.5 text-xs font-medium rounded-md border border-border text-muted hover:text-foreground hover:border-accent/40 transition-all duration-200 whitespace-nowrap shrink-0 bg-surface"
               >
                 Log in
               </Link>

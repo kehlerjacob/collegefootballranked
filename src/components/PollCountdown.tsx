@@ -91,12 +91,12 @@ export function PollCountdown({
   const displayTime = hasMounted ? timeLeft : calculateTimeLeft(votingDeadline);
 
   return (
-    <div className="glass-card rounded-2xl p-6 sm:p-8 text-center relative overflow-hidden border border-accent/40 shadow-[0_0_30px_rgba(201,168,76,0.12)]">
+    <div className="glass-card rounded-lg p-6 sm:p-8 text-center relative overflow-hidden border border-accent/40 shadow-[0_0_30px_rgba(201,168,76,0.12)]">
       {/* Background glow accent */}
       <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-accent/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Header status badge */}
-      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/15 border border-accent/30 text-accent text-xs font-bold mb-4">
+      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-accent/15 border border-accent/30 text-accent text-xs font-bold mb-4">
         <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
         <span>{weekTitle} · Polling Currently Live</span>
       </div>
@@ -111,7 +111,7 @@ export function PollCountdown({
 
       {/* Countdown Digits */}
       <div className="grid grid-cols-4 gap-2 sm:gap-4 max-w-sm sm:max-w-md mx-auto my-6">
-        <div className="flex flex-col items-center justify-center p-3 rounded-xl bg-surface-elevated border border-border">
+        <div className="flex flex-col items-center justify-center p-3 rounded-md bg-surface-elevated border border-border">
           <span className="text-2xl sm:text-3xl font-black text-accent tabular-nums">
             {String(displayTime.days).padStart(2, "0")}
           </span>
@@ -120,7 +120,7 @@ export function PollCountdown({
           </span>
         </div>
 
-        <div className="flex flex-col items-center justify-center p-3 rounded-xl bg-surface-elevated border border-border">
+        <div className="flex flex-col items-center justify-center p-3 rounded-md bg-surface-elevated border border-border">
           <span className="text-2xl sm:text-3xl font-black text-accent tabular-nums">
             {String(displayTime.hours).padStart(2, "0")}
           </span>
@@ -129,7 +129,7 @@ export function PollCountdown({
           </span>
         </div>
 
-        <div className="flex flex-col items-center justify-center p-3 rounded-xl bg-surface-elevated border border-border">
+        <div className="flex flex-col items-center justify-center p-3 rounded-md bg-surface-elevated border border-border">
           <span className="text-2xl sm:text-3xl font-black text-accent tabular-nums">
             {String(displayTime.minutes).padStart(2, "0")}
           </span>
@@ -138,7 +138,7 @@ export function PollCountdown({
           </span>
         </div>
 
-        <div className="flex flex-col items-center justify-center p-3 rounded-xl bg-surface-elevated border border-border">
+        <div className="flex flex-col items-center justify-center p-3 rounded-md bg-surface-elevated border border-border">
           <span className="text-2xl sm:text-3xl font-black text-accent tabular-nums">
             {String(displayTime.seconds).padStart(2, "0")}
           </span>
@@ -152,7 +152,7 @@ export function PollCountdown({
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-2">
         <Link
           href="/ballot"
-          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-accent text-background font-bold text-sm hover:bg-accent-glow transition-all duration-200 shadow-[0_0_20px_rgba(201,168,76,0.3)] active:scale-95"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md bg-accent text-background font-bold text-sm hover:bg-accent-glow transition-all duration-200 shadow-[0_0_20px_rgba(201,168,76,0.3)] active:scale-95"
         >
           <span>Submit Official Ballot</span>
           <span>→</span>

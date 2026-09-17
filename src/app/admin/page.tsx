@@ -315,8 +315,8 @@ export default function AdminDashboardPage() {
       <>
         <Header />
         <div className="min-h-[60vh] flex flex-col items-center justify-center px-4">
-          <div className="glass-card max-w-md w-full p-8 rounded-2xl border border-danger/30 text-center">
-            <div className="w-14 h-14 bg-danger/10 text-danger rounded-2xl flex items-center justify-center mx-auto mb-4 font-bold">
+          <div className="glass-card max-w-md w-full p-8 rounded-lg border border-danger/30 text-center">
+            <div className="w-14 h-14 bg-danger/10 text-danger rounded-md flex items-center justify-center mx-auto mb-4 font-bold">
               <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
@@ -325,7 +325,7 @@ export default function AdminDashboardPage() {
             <p className="text-sm text-muted mb-6 leading-relaxed">{errorMsg}</p>
             <Link
               href="/"
-              className="inline-block px-5 py-2.5 rounded-xl bg-surface border border-border text-foreground text-sm font-bold hover:bg-surface-elevated transition-colors"
+              className="inline-block px-5 py-2.5 rounded-md bg-surface border border-border text-foreground text-sm font-bold hover:bg-surface-elevated transition-colors"
             >
               ← Back to Polls
             </Link>
@@ -350,7 +350,7 @@ export default function AdminDashboardPage() {
               <span className="text-accent font-semibold">Admin Dashboard</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground flex items-center gap-2.5">
-            <span className="px-2.5 py-0.5 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-400 text-sm font-bold uppercase tracking-wider">
+            <span className="px-2.5 py-0.5 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-400 text-sm font-bold uppercase tracking-wider">
               Admin
             </span>
             <span>Platform Overview &amp; Moderation</span>
@@ -361,7 +361,7 @@ export default function AdminDashboardPage() {
           <button
             onClick={loadAdminData}
             disabled={isLoading}
-            className="px-3.5 py-2 rounded-xl bg-surface border border-border text-xs font-semibold text-muted hover:text-foreground hover:bg-surface-elevated transition-all flex items-center gap-1.5"
+            className="px-3.5 py-2 rounded-md bg-surface border border-border text-xs font-semibold text-muted hover:text-foreground hover:bg-surface-elevated transition-all flex items-center gap-1.5"
           >
             <svg
               className={`w-3.5 h-3.5 ${isLoading ? "animate-spin" : ""}`}
@@ -381,7 +381,7 @@ export default function AdminDashboardPage() {
 
           <Link
             href="/"
-            className="px-3.5 py-2 rounded-xl bg-accent text-background text-xs font-bold hover:bg-accent-glow transition-all"
+            className="px-3.5 py-2 rounded-md bg-accent text-background text-xs font-bold hover:bg-accent-glow transition-all"
           >
             View Live Site →
           </Link>
@@ -390,7 +390,7 @@ export default function AdminDashboardPage() {
 
       {/* Overview Stat Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-6">
-        <div className="glass-card p-5 rounded-2xl border border-border/80 shadow-md">
+        <div className="glass-card p-5 rounded-lg border border-border/80 shadow-md">
           <div className="flex items-center justify-between text-muted mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider">Total Users</span>
             <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -403,7 +403,7 @@ export default function AdminDashboardPage() {
           <p className="text-[11px] text-muted/70 mt-1">Registered voter accounts</p>
         </div>
 
-        <div className="glass-card p-5 rounded-2xl border border-border/80 shadow-md">
+        <div className="glass-card p-5 rounded-lg border border-border/80 shadow-md">
           <div className="flex items-center justify-between text-muted mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider">Ballots Submitted</span>
             <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -416,7 +416,7 @@ export default function AdminDashboardPage() {
           <p className="text-[11px] text-muted/70 mt-1">Total rankings cast</p>
         </div>
 
-        <div className="glass-card p-5 rounded-2xl border border-border/80 shadow-md">
+        <div className="glass-card p-5 rounded-lg border border-border/80 shadow-md">
           <div className="flex items-center justify-between text-muted mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider">Comments</span>
             <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -429,7 +429,7 @@ export default function AdminDashboardPage() {
           <p className="text-[11px] text-muted/70 mt-1">Total thread discussions</p>
         </div>
 
-        <div className="glass-card p-5 rounded-2xl border border-border/80 shadow-md">
+        <div className="glass-card p-5 rounded-lg border border-border/80 shadow-md">
           <div className="flex items-center justify-between text-muted mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider">Comment Likes</span>
             <svg className="w-4 h-4 text-rose-500 fill-rose-500" viewBox="0 0 24 24">
@@ -447,7 +447,7 @@ export default function AdminDashboardPage() {
       <div className="flex items-center gap-2 border-b border-border/60 pb-3 mb-6">
         <button
           onClick={() => setActiveTab("users")}
-          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+          className={`px-4 py-2 rounded-md text-xs sm:text-sm font-bold transition-all ${
             activeTab === "users"
               ? "bg-accent text-background shadow-md shadow-accent/20"
               : "text-muted hover:text-foreground bg-surface border border-border"
@@ -458,7 +458,7 @@ export default function AdminDashboardPage() {
 
         <button
           onClick={() => setActiveTab("comments")}
-          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+          className={`px-4 py-2 rounded-md text-xs sm:text-sm font-bold transition-all ${
             activeTab === "comments"
               ? "bg-accent text-background shadow-md shadow-accent/20"
               : "text-muted hover:text-foreground bg-surface border border-border"
@@ -469,7 +469,7 @@ export default function AdminDashboardPage() {
 
         <button
           onClick={() => setActiveTab("weeks")}
-          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+          className={`px-4 py-2 rounded-md text-xs sm:text-sm font-bold transition-all ${
             activeTab === "weeks"
               ? "bg-accent text-background shadow-md shadow-accent/20"
               : "text-muted hover:text-foreground bg-surface border border-border"
@@ -484,7 +484,7 @@ export default function AdminDashboardPage() {
         <div className="space-y-6 animate-fade-in">
           {/* Top Favorite Teams Breakdown */}
           {adminData?.favoriteTeams && adminData.favoriteTeams.length > 0 && (
-            <div className="glass-card p-5 sm:p-6 rounded-2xl border border-border/80">
+            <div className="glass-card p-5 sm:p-6 rounded-lg border border-border/80">
               <h3 className="text-sm font-bold text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
                 <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
@@ -500,7 +500,7 @@ export default function AdminDashboardPage() {
                   return (
                     <div
                       key={team.id}
-                      className="bg-surface p-3 rounded-xl border border-border flex items-center gap-3"
+                      className="bg-surface p-3 rounded-md border border-border flex items-center gap-3"
                     >
                       <div className="text-xs font-black text-muted/60 w-4">#{index + 1}</div>
                       <TeamLogo
@@ -526,11 +526,11 @@ export default function AdminDashboardPage() {
           )}
 
           {/* Users Table */}
-          <div className="glass-card rounded-2xl border border-border/80 overflow-hidden shadow-xl">
+          <div className="glass-card rounded-lg border border-border/80 overflow-hidden shadow-xl">
             <div className="p-4 sm:p-5 border-b border-border flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-surface/50">
               <div className="flex items-center gap-2">
                 <h3 className="text-sm font-bold text-foreground">Registered Users Directory</h3>
-                <span className="px-2 py-0.5 rounded-full bg-accent/15 text-accent text-[10px] font-bold">
+                <span className="px-2 py-0.5 rounded bg-accent/15 text-accent text-[10px] font-bold">
                   {filteredUsers.length} shown
                 </span>
               </div>
@@ -540,7 +540,7 @@ export default function AdminDashboardPage() {
                   placeholder="Search by username, email, or team..."
                   value={userSearch}
                   onChange={(e) => setUserSearch(e.target.value)}
-                  className="w-full px-3.5 py-1.5 rounded-xl bg-surface border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
+                  className="w-full px-3.5 py-1.5 rounded-md bg-surface border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
                 />
                 {userSearch && (
                   <button
@@ -615,7 +615,7 @@ export default function AdminDashboardPage() {
                         </td>
                         <td className="py-3.5 px-4 text-center">
                           <span
-                            className={`px-2 py-0.5 rounded-full font-bold text-[11px] ${
+                            className={`px-2 py-0.5 rounded font-bold text-[11px] ${
                               u._count.ballots > 0
                                 ? "bg-accent/15 text-accent border border-accent/30"
                                 : "text-muted"
@@ -626,7 +626,7 @@ export default function AdminDashboardPage() {
                         </td>
                         <td className="py-3.5 px-4 text-center">
                           <span
-                            className={`px-2 py-0.5 rounded-full font-bold text-[11px] ${
+                            className={`px-2 py-0.5 rounded font-bold text-[11px] ${
                               u._count.comments > 0
                                 ? "bg-surface-elevated text-foreground border border-border"
                                 : "text-muted"
@@ -656,13 +656,13 @@ export default function AdminDashboardPage() {
       {activeTab === "comments" && (
         <div className="space-y-6 animate-fade-in">
           {/* Controls Bar */}
-          <div className="glass-card p-4 rounded-2xl border border-border/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-surface/50">
+          <div className="glass-card p-4 rounded-lg border border-border/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-surface/50">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-xs font-bold text-muted">Filter by Week:</span>
               <select
                 value={selectedWeekFilter}
                 onChange={(e) => setSelectedWeekFilter(e.target.value)}
-                className="px-3 py-1.5 rounded-xl bg-surface border border-border text-foreground text-xs font-semibold focus:outline-none focus:border-accent"
+                className="px-3 py-1.5 rounded-md bg-surface border border-border text-foreground text-xs font-semibold focus:outline-none focus:border-accent"
               >
                 <option value="ALL">All Weeks</option>
                 {adminData?.weeks.map((w) => (
@@ -679,7 +679,7 @@ export default function AdminDashboardPage() {
                 placeholder="Search comment content, user..."
                 value={commentSearch}
                 onChange={(e) => setCommentSearch(e.target.value)}
-                className="w-full px-3.5 py-1.5 rounded-xl bg-surface border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
+                className="w-full px-3.5 py-1.5 rounded-md bg-surface border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
               />
               {commentSearch && (
                 <button
@@ -693,7 +693,7 @@ export default function AdminDashboardPage() {
           </div>
 
           {/* Comments List */}
-          <div className="glass-card rounded-2xl border border-border/80 overflow-hidden shadow-xl">
+          <div className="glass-card rounded-lg border border-border/80 overflow-hidden shadow-xl">
             <div className="p-4 border-b border-border flex items-center justify-between">
               <h3 className="text-sm font-bold text-foreground">
                 All Discussions &amp; Fan Replies ({filteredComments.length})
@@ -743,7 +743,7 @@ export default function AdminDashboardPage() {
                           </span>
                           <span className="text-[10px] text-muted font-mono">({c.user.email})</span>
                           {c.user.favoriteTeam && (
-                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-surface border border-border text-[10px] font-bold text-muted">
+                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface border border-border text-[10px] font-bold text-muted">
                               <TeamLogo
                                 logoUrl={c.user.favoriteTeam.logoUrl}
                                 name={c.user.favoriteTeam.name}
@@ -754,7 +754,7 @@ export default function AdminDashboardPage() {
                               {c.user.favoriteTeam.shortName}
                             </span>
                           )}
-                          <span className="px-2 py-0.2 rounded-md bg-accent/10 border border-accent/20 text-accent font-bold text-[10px]">
+                          <span className="px-2 py-0.2 rounded bg-accent/10 border border-accent/20 text-accent font-bold text-[10px]">
                             {c.week.title}
                           </span>
                           {c.parentId && (
@@ -765,7 +765,7 @@ export default function AdminDashboardPage() {
                           </span>
                         </div>
 
-                        <p className="text-xs sm:text-sm text-foreground/90 mt-2 bg-surface/60 p-3 rounded-xl border border-border/50 break-words font-sans">
+                        <p className="text-xs sm:text-sm text-foreground/90 mt-2 bg-surface/60 p-3 rounded-md border border-border/50 break-words font-sans">
                           {c.content}
                         </p>
 
@@ -790,7 +790,7 @@ export default function AdminDashboardPage() {
                       <button
                         onClick={() => handleDeleteComment(c.id)}
                         disabled={deletingCommentId === c.id}
-                        className="px-3 py-1.5 rounded-lg bg-danger/15 border border-danger/30 text-danger hover:bg-danger/25 text-xs font-bold transition-all disabled:opacity-50 flex items-center gap-1.5"
+                        className="px-3 py-1.5 rounded-md bg-danger/15 border border-danger/30 text-danger hover:bg-danger/25 text-xs font-bold transition-all disabled:opacity-50 flex items-center gap-1.5"
                       >
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -812,7 +812,7 @@ export default function AdminDashboardPage() {
           {/* Controls Bar */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* ESPN Sync Trigger Card */}
-            <div className="glass-card p-5 rounded-2xl border border-border/80 flex flex-col justify-between gap-4">
+            <div className="glass-card p-5 rounded-lg border border-border/80 flex flex-col justify-between gap-4">
               <div>
                 <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
                   <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -828,14 +828,14 @@ export default function AdminDashboardPage() {
               <button
                 onClick={handleSyncRecords}
                 disabled={isSyncing}
-                className="px-4 py-2.5 rounded-xl bg-accent text-background font-bold text-xs hover:bg-accent-glow transition-all disabled:opacity-50 shrink-0 self-start shadow-md"
+                className="px-4 py-2.5 rounded-md bg-accent text-background font-bold text-xs hover:bg-accent-glow transition-all disabled:opacity-50 shrink-0 self-start shadow-md"
               >
                 {isSyncing ? "Syncing with ESPN..." : "Sync ESPN Records Now"}
               </button>
             </div>
 
             {/* Auto-Advance / Publish Check */}
-            <div className="glass-card p-5 rounded-2xl border border-border/80 flex flex-col justify-between gap-4">
+            <div className="glass-card p-5 rounded-lg border border-border/80 flex flex-col justify-between gap-4">
               <div>
                 <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
                   <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -851,7 +851,7 @@ export default function AdminDashboardPage() {
               <button
                 onClick={handleAdvanceWeeks}
                 disabled={isSyncing}
-                className="px-4 py-2.5 rounded-xl bg-surface-elevated text-foreground hover:text-accent font-bold text-xs border border-border hover:border-accent/40 transition-all disabled:opacity-50 shrink-0 self-start shadow-md"
+                className="px-4 py-2.5 rounded-md bg-surface-elevated text-foreground hover:text-accent font-bold text-xs border border-border hover:border-accent/40 transition-all disabled:opacity-50 shrink-0 self-start shadow-md"
               >
                 Check &amp; Advance Weeks
               </button>
@@ -859,7 +859,7 @@ export default function AdminDashboardPage() {
           </div>
 
           {syncStatus && (
-            <div className="p-3.5 rounded-xl bg-accent/10 border border-accent/25 text-xs font-semibold text-accent flex items-center gap-2 animate-fade-in">
+            <div className="p-3.5 rounded-md bg-accent/10 border border-accent/25 text-xs font-semibold text-accent flex items-center gap-2 animate-fade-in">
               <svg className="w-4 h-4 shrink-0 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
@@ -868,7 +868,7 @@ export default function AdminDashboardPage() {
           )}
 
           {/* Weeks Table */}
-          <div className="glass-card rounded-2xl border border-border/80 overflow-hidden shadow-xl">
+          <div className="glass-card rounded-lg border border-border/80 overflow-hidden shadow-xl">
             <div className="p-4 border-b border-border flex items-center justify-between">
               <h3 className="text-sm font-bold text-foreground">Polling Season Schedule &amp; Activity</h3>
               <span className="text-[11px] text-muted font-mono">15 Weeks Scheduled</span>
@@ -892,7 +892,7 @@ export default function AdminDashboardPage() {
                       <td className="py-3.5 px-4 font-mono text-muted">{w.weekNumber}</td>
                       <td className="py-3.5 px-4">
                         <span
-                          className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                          className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                             w.status === "PUBLISHED"
                               ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"
                               : w.status === "OPEN"
@@ -916,7 +916,7 @@ export default function AdminDashboardPage() {
                               type="button"
                               onClick={() => handleUpdateWeekStatus(w.id, "PUBLISHED")}
                               disabled={weekActionLoading === w.id}
-                              className="px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25 border border-emerald-500/30 text-[10px] font-bold transition-all disabled:opacity-50"
+                              className="px-2.5 py-1 rounded-md bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25 border border-emerald-500/30 text-[10px] font-bold transition-all disabled:opacity-50"
                             >
                               Publish
                             </button>
@@ -926,7 +926,7 @@ export default function AdminDashboardPage() {
                               type="button"
                               onClick={() => handleUpdateWeekStatus(w.id, "OPEN")}
                               disabled={weekActionLoading === w.id}
-                              className="px-2.5 py-1 rounded-lg bg-accent/15 text-accent hover:bg-accent/25 border border-accent/30 text-[10px] font-bold transition-all disabled:opacity-50"
+                              className="px-2.5 py-1 rounded-md bg-accent/15 text-accent hover:bg-accent/25 border border-accent/30 text-[10px] font-bold transition-all disabled:opacity-50"
                             >
                               Open
                             </button>
@@ -935,7 +935,7 @@ export default function AdminDashboardPage() {
                             type="button"
                             onClick={() => handleRecalculateConsensus(w.id)}
                             disabled={weekActionLoading === w.id}
-                            className="px-2.5 py-1 rounded-lg bg-surface text-muted hover:text-foreground border border-border text-[10px] font-semibold transition-all disabled:opacity-50"
+                            className="px-2.5 py-1 rounded-md bg-surface text-muted hover:text-foreground border border-border text-[10px] font-semibold transition-all disabled:opacity-50"
                             title="Recalculate consensus scores from all submitted ballots"
                           >
                             Recalc

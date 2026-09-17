@@ -268,9 +268,9 @@ export function UserAccountMenu() {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-72 rounded-2xl bg-[#141822] border border-[#2d3748] shadow-2xl shadow-black/80 p-2.5 z-[100] animate-fade-in origin-top-right">
+        <div className="absolute right-0 mt-2 w-72 rounded-lg bg-[#141822] border border-[#2d3748] shadow-2xl shadow-black/80 p-2.5 z-[100] animate-fade-in origin-top-right">
           {/* User Header Info Card */}
-          <div className="p-3 rounded-xl bg-[#1c2230] border border-border/80 mb-2">
+          <div className="p-3 rounded-md bg-[#1c2230] border border-border/80 mb-2">
             <div className="flex items-center gap-2.5">
               <div
                 className={`w-9 h-9 rounded-full ${hasTeamColor ? '' : `bg-gradient-to-tr ${avatarGrad}`} flex items-center justify-center text-white text-sm font-black shrink-0 shadow-sm`}
@@ -318,7 +318,7 @@ export function UserAccountMenu() {
               <Link
                 href="/admin"
                 onClick={() => setIsOpen(false)}
-                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-amber-400 hover:bg-amber-500/10 font-bold transition-colors"
+                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-amber-400 hover:bg-amber-500/10 font-bold transition-colors"
               >
                 <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -333,7 +333,7 @@ export function UserAccountMenu() {
                 setIsOpen(false);
                 setIsTeamModalOpen(true);
               }}
-              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-foreground hover:bg-surface-elevated hover:text-accent font-semibold transition-colors text-left"
+              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-foreground hover:bg-surface-elevated hover:text-accent font-semibold transition-colors text-left"
             >
               <svg className="w-4 h-4 text-muted group-hover:text-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
@@ -347,7 +347,7 @@ export function UserAccountMenu() {
                 setIsOpen(false);
                 setIsPasswordModalOpen(true);
               }}
-              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-foreground hover:bg-surface-elevated hover:text-accent font-semibold transition-colors text-left"
+              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-foreground hover:bg-surface-elevated hover:text-accent font-semibold transition-colors text-left"
             >
               <svg className="w-4 h-4 text-muted group-hover:text-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -359,7 +359,7 @@ export function UserAccountMenu() {
             <Link
               href="/ballot"
               onClick={() => setIsOpen(false)}
-              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-foreground hover:bg-surface-elevated hover:text-accent font-semibold transition-colors"
+              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-foreground hover:bg-surface-elevated hover:text-accent font-semibold transition-colors"
             >
               <svg className="w-4 h-4 text-muted group-hover:text-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
@@ -375,7 +375,7 @@ export function UserAccountMenu() {
                 setIsOpen(false);
                 logout();
               }}
-              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-danger hover:bg-danger/10 font-bold transition-colors text-left"
+              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-danger hover:bg-danger/10 font-bold transition-colors text-left"
             >
               <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -392,7 +392,7 @@ export function UserAccountMenu() {
           {/* Backdrop overlay click to close */}
           <div className="fixed inset-0" onClick={() => setIsTeamModalOpen(false)} />
 
-          <div className="relative bg-[#161a22] max-w-lg w-full max-h-[90vh] flex flex-col rounded-2xl border border-border shadow-2xl overflow-hidden animate-scale-up z-10 my-auto">
+          <div className="relative bg-[#161a22] max-w-lg w-full max-h-[90vh] flex flex-col rounded-lg border border-border shadow-2xl overflow-hidden animate-scale-up z-10 my-auto">
             {/* Modal Header */}
             <div className="p-4 sm:p-5 border-b border-border flex items-center justify-between shrink-0 bg-[#161a22]">
               <div>
@@ -406,7 +406,7 @@ export function UserAccountMenu() {
               <button
                 type="button"
                 onClick={() => setIsTeamModalOpen(false)}
-                className="p-1.5 rounded-lg text-muted hover:text-foreground hover:bg-surface-elevated text-sm transition-colors"
+                className="p-1.5 rounded-md text-muted hover:text-foreground hover:bg-surface-elevated text-sm transition-colors"
               >
                 ✕
               </button>
@@ -419,7 +419,7 @@ export function UserAccountMenu() {
                 placeholder="Search teams (e.g. Georgia, Michigan, Oregon)..."
                 value={teamSearch}
                 onChange={(e) => setTeamSearch(e.target.value)}
-                className="w-full px-3.5 py-2 rounded-xl bg-[#161a22] border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
+                className="w-full px-3.5 py-2 rounded-md bg-[#161a22] border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
                 autoFocus
               />
 
@@ -430,7 +430,7 @@ export function UserAccountMenu() {
                     key={conf}
                     type="button"
                     onClick={() => setSelectedConference(conf)}
-                    className={`px-2.5 py-1 rounded-lg font-semibold whitespace-nowrap transition-all ${
+                    className={`px-2.5 py-1 rounded-md font-semibold whitespace-nowrap transition-all ${
                       selectedConference === conf
                         ? "bg-accent text-background"
                         : "bg-[#161a22] text-muted hover:text-foreground border border-border"
@@ -456,7 +456,7 @@ export function UserAccountMenu() {
                       key={t.id}
                       type="button"
                       onClick={() => setSelectedTeamId(t.id)}
-                      className={`flex items-center gap-2.5 p-2.5 rounded-xl border text-left transition-all ${
+                      className={`flex items-center gap-2.5 p-2.5 rounded-md border text-left transition-all ${
                         isSelected
                           ? "bg-accent/15 border-accent text-foreground shadow-xs"
                           : "bg-[#161a22] border-border hover:border-accent/40 text-muted hover:text-foreground"
@@ -493,7 +493,7 @@ export function UserAccountMenu() {
                 <button
                   type="button"
                   onClick={() => setIsTeamModalOpen(false)}
-                  className="px-3.5 py-1.5 rounded-xl border border-border text-muted hover:text-foreground text-xs font-medium transition-colors"
+                  className="px-3.5 py-1.5 rounded-md border border-border text-muted hover:text-foreground text-xs font-medium transition-colors"
                 >
                   Cancel
                 </button>
@@ -501,7 +501,7 @@ export function UserAccountMenu() {
                   type="button"
                   onClick={handleSaveTeam}
                   disabled={!selectedTeamId || isSavingTeam}
-                  className="px-4 py-1.5 rounded-xl bg-accent text-background font-bold text-xs hover:bg-accent-glow transition-all disabled:opacity-50"
+                  className="px-4 py-1.5 rounded-md bg-accent text-background font-bold text-xs hover:bg-accent-glow transition-all disabled:opacity-50"
                 >
                   {isSavingTeam ? "Saving..." : "Save Favorite Team"}
                 </button>
@@ -518,7 +518,7 @@ export function UserAccountMenu() {
           {/* Backdrop overlay click to close */}
           <div className="fixed inset-0" onClick={() => setIsPasswordModalOpen(false)} />
 
-          <div className="relative bg-[#161a22] max-w-md w-full max-h-[90vh] flex flex-col rounded-2xl border border-border shadow-2xl overflow-hidden animate-scale-up z-10 my-auto">
+          <div className="relative bg-[#161a22] max-w-md w-full max-h-[90vh] flex flex-col rounded-lg border border-border shadow-2xl overflow-hidden animate-scale-up z-10 my-auto">
             <div className="p-4 sm:p-5 border-b border-border flex items-center justify-between shrink-0 bg-[#161a22]">
               <h2 className="text-base font-bold text-foreground">
                 Change Password
@@ -526,7 +526,7 @@ export function UserAccountMenu() {
               <button
                 type="button"
                 onClick={() => setIsPasswordModalOpen(false)}
-                className="p-1.5 rounded-lg text-muted hover:text-foreground hover:bg-surface-elevated text-sm transition-colors"
+                className="p-1.5 rounded-md text-muted hover:text-foreground hover:bg-surface-elevated text-sm transition-colors"
               >
                 ✕
               </button>
@@ -543,7 +543,7 @@ export function UserAccountMenu() {
                   onChange={(e) => setCurrentPassword(e.target.value)}
                   placeholder="Enter your current password"
                   required
-                  className="w-full px-3.5 py-2 rounded-xl bg-[#1c2029] border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
+                  className="w-full px-3.5 py-2 rounded-md bg-[#1c2029] border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
                 />
               </div>
 
@@ -558,7 +558,7 @@ export function UserAccountMenu() {
                   placeholder="Enter new password"
                   required
                   minLength={6}
-                  className="w-full px-3.5 py-2 rounded-xl bg-[#1c2029] border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
+                  className="w-full px-3.5 py-2 rounded-md bg-[#1c2029] border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
                 />
               </div>
 
@@ -573,7 +573,7 @@ export function UserAccountMenu() {
                   placeholder="Confirm new password"
                   required
                   minLength={6}
-                  className="w-full px-3.5 py-2 rounded-xl bg-[#1c2029] border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
+                  className="w-full px-3.5 py-2 rounded-md bg-[#1c2029] border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent"
                 />
               </div>
 
@@ -588,14 +588,14 @@ export function UserAccountMenu() {
                 <button
                   type="button"
                   onClick={() => setIsPasswordModalOpen(false)}
-                  className="px-3.5 py-1.5 rounded-xl border border-border text-muted hover:text-foreground text-xs font-medium transition-colors"
+                  className="px-3.5 py-1.5 rounded-md border border-border text-muted hover:text-foreground text-xs font-medium transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSavingPassword}
-                  className="px-4 py-1.5 rounded-xl bg-accent text-background font-bold text-xs hover:bg-accent-glow transition-all disabled:opacity-50"
+                  className="px-4 py-1.5 rounded-md bg-accent text-background font-bold text-xs hover:bg-accent-glow transition-all disabled:opacity-50"
                 >
                   {isSavingPassword ? "Updating..." : "Update Password"}
                 </button>

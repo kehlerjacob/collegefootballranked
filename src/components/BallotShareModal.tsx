@@ -268,7 +268,7 @@ export function BallotShareModal({
       {/* Backdrop */}
       <div className="fixed inset-0" onClick={onClose} />
 
-      <div className="relative bg-[#11141a] max-w-lg w-full max-h-[96vh] flex flex-col rounded-2xl border border-border shadow-2xl overflow-hidden animate-scale-up z-10 my-auto">
+      <div className="relative bg-[#11141a] max-w-lg w-full max-h-[96vh] flex flex-col rounded-xl border border-border shadow-2xl overflow-hidden animate-scale-up z-10 my-auto">
         {/* Modal Header */}
         <div className="p-3.5 sm:px-5 sm:py-3.5 border-b border-border/80 flex items-center justify-between shrink-0 bg-[#151922]">
           <div>
@@ -282,7 +282,7 @@ export function BallotShareModal({
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-lg text-muted hover:text-foreground hover:bg-surface-elevated text-sm transition-colors"
+            className="p-1.5 rounded-md text-muted hover:text-foreground hover:bg-surface-elevated text-sm transition-colors"
           >
             ✕
           </button>
@@ -292,7 +292,7 @@ export function BallotShareModal({
         <div className="flex-1 overflow-y-auto p-3 sm:p-4 flex flex-col items-center justify-center bg-[#0d1017]">
           {/* Action notification toast */}
           {copiedNotification && (
-            <div className="mb-2 px-3.5 py-1 rounded-full bg-accent text-background font-bold text-xs shadow-lg animate-bounce">
+            <div className="mb-2 px-3.5 py-1 rounded-md bg-accent text-background font-bold text-xs shadow-lg animate-bounce">
               ✓ {copiedNotification}
             </div>
           )}
@@ -304,7 +304,7 @@ export function BallotShareModal({
                 <img
                   src={previewDataUrl}
                   alt="My Top 25 Ballot Graphic"
-                  className="w-full h-full object-contain rounded-2xl drop-shadow-2xl animate-fade-in"
+                  className="w-full h-full object-contain rounded-lg drop-shadow-2xl animate-fade-in"
                 />
               ) : (
                 <div className="flex flex-col items-center justify-center gap-3 p-6 text-center text-muted">
@@ -331,7 +331,7 @@ export function BallotShareModal({
             <div className="fixed -left-[9999px] top-0 pointer-events-none opacity-0 select-none">
               <div
                 ref={graphicRef}
-                className="w-[440px] rounded-2xl p-4 border border-[#2d3748] shadow-2xl text-white relative overflow-hidden"
+                className="w-[440px] rounded-xl p-4 border border-[#2d3748] shadow-2xl text-white relative overflow-hidden"
                 style={{
                   backgroundColor: "#0d1117",
                   backgroundImage:
@@ -353,7 +353,7 @@ export function BallotShareModal({
                   </div>
 
                   <div className="text-right">
-                    <div className="px-2 py-0.5 rounded-full bg-white/10 border border-white/15 text-[10px] font-bold text-white uppercase inline-block">
+                    <div className="px-2 py-0.5 rounded bg-white/10 border border-white/15 text-[10px] font-bold text-white uppercase inline-block">
                       {weekTitle}
                     </div>
                     <div className="text-[9px] text-white/60 font-mono mt-0.5">
@@ -365,7 +365,7 @@ export function BallotShareModal({
                 {/* #1 TEAM FEATURED HERO BANNER */}
                 {team1 && (
                   <div
-                    className="mb-2.5 p-2.5 rounded-xl border border-accent/60 shadow-lg relative overflow-hidden flex items-center justify-between gap-3"
+                    className="mb-2.5 p-2.5 rounded-lg border border-accent/60 shadow-lg relative overflow-hidden flex items-center justify-between gap-3"
                     style={{
                       background: team1.primaryColor
                         ? `linear-gradient(135deg, ${team1.primaryColor}40 0%, rgba(20,24,33,0.96) 65%, ${team1.primaryColor}22 100%)`
@@ -374,7 +374,7 @@ export function BallotShareModal({
                   >
                     {/* Left Side: Rank 1 Badge + Primary Logo + Team Info */}
                     <div className="flex items-center gap-2.5 z-10 min-w-0 flex-1">
-                      <div className="flex flex-col items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-b from-amber-300 to-amber-500 text-background font-black shadow-md shrink-0">
+                      <div className="flex flex-col items-center justify-center w-9 h-9 rounded bg-gradient-to-b from-amber-300 to-amber-500 text-background font-black shadow-md shrink-0">
                         <span className="text-[8px] uppercase tracking-wider font-extrabold opacity-80 leading-none">
                           NO.
                         </span>
@@ -412,7 +412,7 @@ export function BallotShareModal({
                     {/* Right Side: Mascot Logo Accent */}
                     <div className="flex items-center gap-2 shrink-0 z-10 pr-0.5">
                       {(team1.secondaryLogoUrl || team1.logoUrl) && (
-                        <div className="relative flex items-center justify-center w-12 h-12 rounded-xl bg-white/[0.06] border border-white/10 p-1">
+                        <div className="relative flex items-center justify-center w-12 h-12 rounded-md bg-white/[0.06] border border-white/10 p-1">
                           <img
                             src={team1.secondaryLogoUrl || team1.logoUrl!}
                             alt={team1.mascot || `${team1.name} Mascot`}
@@ -432,10 +432,10 @@ export function BallotShareModal({
                   {teams2to25.map((team) => (
                     <div
                       key={team.rank}
-                      className="flex items-center gap-1.5 p-1.5 rounded-lg bg-white/[0.04] border border-white/[0.08] shadow-xs"
+                      className="flex items-center gap-1.5 p-1.5 rounded bg-white/[0.04] border border-white/[0.08] shadow-xs"
                     >
                       {/* Rank Badge */}
-                      <div className="w-4 h-4 rounded-md bg-white/10 border border-white/15 flex items-center justify-center text-[9px] font-black text-white shrink-0 font-mono">
+                      <div className="w-4 h-4 rounded bg-white/10 border border-white/15 flex items-center justify-center text-[9px] font-black text-white shrink-0 font-mono">
                         {team.rank}
                       </div>
 
@@ -484,7 +484,7 @@ export function BallotShareModal({
               type="button"
               onClick={handleShare}
               disabled={isGenerating}
-              className="px-4 py-2 rounded-xl bg-accent text-background font-bold text-xs hover:bg-accent-glow transition-all flex items-center gap-1.5 shadow-md active:scale-95 disabled:opacity-50"
+              className="px-4 py-2 rounded-md bg-accent text-background font-bold text-xs hover:bg-accent-glow transition-all flex items-center gap-1.5 shadow-md active:scale-95 disabled:opacity-50"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
@@ -498,7 +498,7 @@ export function BallotShareModal({
                 type="button"
                 onClick={handleDownload}
                 disabled={isGenerating}
-                className="px-3.5 py-2 rounded-xl bg-surface-elevated hover:bg-white/15 text-foreground border border-border font-semibold text-xs transition-all flex items-center gap-1.5 active:scale-95 disabled:opacity-50"
+                className="px-3.5 py-2 rounded-md bg-surface-elevated hover:bg-white/15 text-foreground border border-border font-semibold text-xs transition-all flex items-center gap-1.5 active:scale-95 disabled:opacity-50"
               >
                 <svg className="w-3.5 h-3.5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -512,7 +512,7 @@ export function BallotShareModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-3 py-2 rounded-xl border border-border text-muted hover:text-foreground text-xs font-medium transition-colors"
+              className="px-3 py-2 rounded-md border border-border text-muted hover:text-foreground text-xs font-medium transition-colors"
             >
               Close
             </button>
@@ -521,7 +521,7 @@ export function BallotShareModal({
               <button
                 type="button"
                 onClick={onContinueToRankings}
-                className="px-3.5 py-2 rounded-xl bg-surface-elevated hover:bg-white/10 text-accent font-bold text-xs border border-accent/40 transition-all flex items-center gap-1"
+                className="px-3.5 py-2 rounded-md bg-surface-elevated hover:bg-white/10 text-accent font-bold text-xs border border-accent/40 transition-all flex items-center gap-1"
               >
                 <span>Rankings</span>
                 <span>→</span>

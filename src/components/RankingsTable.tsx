@@ -22,7 +22,7 @@ interface RankingsTableProps {
 export function RankingsTable({ rankings, isLoading }: RankingsTableProps) {
   if (isLoading) {
     return (
-      <div className="glass-card rounded-2xl p-12 text-center text-muted text-sm animate-pulse">
+      <div className="glass-card rounded-lg p-12 text-center text-muted text-sm animate-pulse">
         Loading consensus rankings...
       </div>
     );
@@ -30,14 +30,14 @@ export function RankingsTable({ rankings, isLoading }: RankingsTableProps) {
 
   if (!rankings || rankings.length === 0) {
     return (
-      <div className="glass-card rounded-2xl p-12 text-center text-muted text-sm">
+      <div className="glass-card rounded-lg p-12 text-center text-muted text-sm">
         No rankings available for this week yet. Be the first to submit a ballot!
       </div>
     );
   }
 
   return (
-    <div className="glass-card rounded-2xl overflow-hidden">
+    <div className="glass-card rounded-lg overflow-hidden">
       {/* Table header */}
       <div className="grid grid-cols-[2.5rem_1fr_3.5rem_4rem] sm:grid-cols-[2.5rem_1fr_4.5rem_3.5rem_4.5rem] items-center px-4 py-2.5 border-b border-border text-[10px] uppercase tracking-wider text-muted font-semibold">
         <span>#</span>

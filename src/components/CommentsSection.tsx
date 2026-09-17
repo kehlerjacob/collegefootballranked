@@ -124,14 +124,14 @@ export function CommentsSection({ weekId, weekTitle }: CommentsSectionProps) {
   if (!weekId) return null;
 
   return (
-    <div className="glass-card rounded-2xl p-5 sm:p-6 mt-6 border border-border/70 shadow-xl">
+    <div className="glass-card rounded-lg p-5 sm:p-6 mt-6 border border-border/70 shadow-xl">
       {/* Header */}
       <div className="flex items-center justify-between pb-4 border-b border-border/50">
         <div className="flex items-center gap-2">
           <h3 className="text-sm sm:text-base font-bold text-foreground">
             Comments
           </h3>
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-surface border border-border text-accent">
+          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-surface border border-border text-accent">
             {totalCount}
           </span>
         </div>
@@ -183,12 +183,12 @@ export function CommentsSection({ weekId, weekTitle }: CommentsSectionProps) {
                   onChange={(e) => setInputContent(e.target.value)}
                   placeholder={`Add a comment on ${weekTitle || "rankings"}...`}
                   maxLength={500}
-                  className="w-full px-3.5 py-2 rounded-xl bg-surface border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent transition-colors pr-16"
+                  className="w-full px-3.5 py-2 rounded-md bg-surface border border-border text-foreground text-xs placeholder:text-muted/60 focus:outline-none focus:border-accent transition-colors pr-16"
                 />
                 <button
                   type="submit"
                   disabled={!inputContent.trim() || isSubmitting}
-                  className="absolute right-1.5 top-1/2 -translate-y-1/2 px-3 py-1 rounded-lg bg-accent text-background font-bold text-[11px] hover:bg-accent-glow transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-sm"
+                  className="absolute right-1.5 top-1/2 -translate-y-1/2 px-3 py-1 rounded-md bg-accent text-background font-bold text-[11px] hover:bg-accent-glow transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-sm"
                 >
                   {isSubmitting ? "..." : "Post"}
                 </button>
@@ -202,7 +202,7 @@ export function CommentsSection({ weekId, weekTitle }: CommentsSectionProps) {
             )}
           </form>
         ) : (
-          <div className="p-3.5 rounded-xl bg-surface/60 border border-accent/20 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-foreground">
+          <div className="p-3.5 rounded-md bg-surface/60 border border-accent/20 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-foreground">
             <div className="flex items-center gap-2 text-center sm:text-left">
               <svg className="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -214,13 +214,13 @@ export function CommentsSection({ weekId, weekTitle }: CommentsSectionProps) {
             <div className="flex items-center gap-2 shrink-0">
               <Link
                 href="/login"
-                className="px-4 py-2 rounded-lg bg-accent text-background font-bold hover:bg-accent-glow transition-all text-xs whitespace-nowrap min-w-[5rem] text-center"
+                className="px-4 py-2 rounded-md bg-accent text-background font-bold hover:bg-accent-glow transition-all text-xs whitespace-nowrap min-w-[5rem] text-center"
               >
                 Log In
               </Link>
               <Link
                 href="/register"
-                className="px-4 py-2 rounded-lg bg-surface border border-border text-muted hover:text-foreground font-semibold transition-all text-xs whitespace-nowrap min-w-[5rem] text-center"
+                className="px-4 py-2 rounded-md bg-surface border border-border text-muted hover:text-foreground font-semibold transition-all text-xs whitespace-nowrap min-w-[5rem] text-center"
               >
                 Sign Up
               </Link>
