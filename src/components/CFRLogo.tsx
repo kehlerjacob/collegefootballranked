@@ -63,7 +63,7 @@ export function CFRLogo({
 
   return (
     <svg
-      viewBox="42 22 730 398"
+      viewBox="46.5 27 720.5 388"
       height={height}
       width={width}
       className={`inline-block select-none transition-all duration-300 ${className}`}

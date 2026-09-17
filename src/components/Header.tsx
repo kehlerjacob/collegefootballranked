@@ -19,10 +19,10 @@ export function Header({ hideBanner = false }: HeaderProps) {
       <header className="glass-card border-b border-border bg-[#0e121a]/95 backdrop-blur-md relative z-20">
         <div className="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
           {/* Logo / brand */}
-          <Link href="/" className="flex items-center gap-2.5 group py-1">
-            <div className="flex items-center gap-2.5">
-              <CFRLogo height={28} className="group-hover:scale-105 transition-transform duration-200" />
-              <span className="hidden sm:inline-block text-[9.5px] font-bold uppercase tracking-[0.16em] text-muted group-hover:text-accent/90 transition-colors duration-200 border-l border-border/80 pl-2.5 py-0.5 leading-tight">
+          <Link href="/" className="flex items-center group py-1">
+            <div className="flex items-center gap-2 sm:gap-2.5">
+              <CFRLogo height={27} className="group-hover:scale-105 transition-transform duration-200 shrink-0" />
+              <span className="inline-block text-[8.5px] sm:text-[9.5px] font-bold uppercase tracking-[0.14em] sm:tracking-[0.16em] text-muted group-hover:text-accent/90 transition-colors duration-200 border-l border-border/80 pl-2 sm:pl-2.5 py-0.5 leading-tight select-none">
                 College Football Ranked
               </span>
             </div>
