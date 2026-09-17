@@ -1077,7 +1077,6 @@ export default function BallotPage() {
                             const alreadyRankedAt = ballotRanks.findIndex(
                               (id) => id === t.id
                             );
-                            const apRank = apRanks.get(t.id);
 
                             return (
                               <button
@@ -1098,11 +1097,6 @@ export default function BallotPage() {
                                   />
                                   <div className="min-w-0">
                                     <div className="flex items-center gap-1.5 flex-wrap">
-                                      {apRank !== undefined && (
-                                        <span className="px-1.5 py-0.2 rounded bg-accent/15 border border-accent/30 text-accent font-black text-[9px]">
-                                          #{apRank}
-                                        </span>
-                                      )}
                                       <p className="text-xs font-semibold text-foreground truncate">
                                         {t.name}
                                       </p>
