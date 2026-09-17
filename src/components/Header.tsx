@@ -21,9 +21,11 @@ export function Header({ hideBanner = false }: HeaderProps) {
           {/* Logo / brand */}
           <Link href="/" className="flex items-center group py-1">
             <div className="flex items-center gap-2 sm:gap-2.5">
-              <CFRLogo height={27} className="group-hover:scale-105 transition-transform duration-200 shrink-0" />
-              <span className="inline-block text-[8.5px] sm:text-[9.5px] font-bold uppercase tracking-[0.14em] sm:tracking-[0.16em] text-muted group-hover:text-accent/90 transition-colors duration-200 border-l border-border/80 pl-2 sm:pl-2.5 py-0.5 leading-tight select-none">
-                College Football Ranked
+              <CFRLogo height={28} className="group-hover:scale-105 transition-transform duration-200 shrink-0" />
+              <span className="flex flex-col text-[7.5px] sm:text-[8.5px] font-black uppercase tracking-[0.16em] sm:tracking-[0.18em] text-muted group-hover:text-accent/90 transition-colors duration-200 border-l border-border/80 pl-2 sm:pl-2.5 py-0.5 leading-[1.1] select-none">
+                <span>College</span>
+                <span>Football</span>
+                <span>Ranked</span>
               </span>
             </div>
           </Link>
